@@ -1,6 +1,6 @@
-import { Link, Tabs } from 'expo-router'
-import { Button, useTheme } from 'tamagui'
-import { Atom, AudioWaveform } from '@tamagui/lucide-icons'
+import {Tabs} from "expo-router";
+import {useTheme} from "tamagui";
+import {BookOpen, Heart, Home, Search, Settings2} from "@tamagui/lucide-icons";
 
 export default function TabLayout() {
   const theme = useTheme()
@@ -8,36 +8,43 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: theme.red10.val,
+        tabBarActiveTintColor: theme.white2.val
       }}
     >
       <Tabs.Screen
+        name="wishlist"
+        options={{
+          title: 'Wishlist',
+          tabBarIcon: ({ color }) => <Heart color={color} />,
+        }}
+      />
+      <Tabs.Screen
+          name="collection"
+          options={{
+          title: 'Collection',
+          tabBarIcon: ({ color }) => <BookOpen color={color} />,
+          }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <Atom color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Button mr="$4" bg="$purple8" color="$purple12">
-                Hello!
-              </Button>
-            </Link>
-          ),
+          title: 'Home',
+          tabBarIcon: ({ color }) => <Home color={color} />
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="browse"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <AudioWaveform color={color} />,
+          title: 'Browse',
+          tabBarIcon: ({ color }) => <Search color={color} />,
         }}
       />
       <Tabs.Screen
-        name="three"
-        options={{
-          title: 'Tab Three',
-          tabBarIcon: ({ color }) => <Atom color={color} />,
-        }}
+          name="more"
+          options={{
+          title: 'More',
+          tabBarIcon: ({ color }) => <Settings2 color={color} />,
+          }}
       />
     </Tabs>
   )
