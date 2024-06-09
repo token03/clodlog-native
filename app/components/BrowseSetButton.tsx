@@ -9,14 +9,17 @@ const buttonProps = {
   chromeless: true,
   size: "$4",
   width: "100vw",
-  style: { borderRadius: 0 }
+  borderRadius: 0,
+  borderBottomColor: "$black3",
 }
 export const BrowseSetButton = ({setId}: BrowseSetButtonProps) => {
   return (
     <Button {...buttonProps} onPress={() => {}}>
       <XStack justifyContent={"space-between"} width={"100%"}>
         <Image
-          source={{uri: 'https://images.pokemontcg.io/sv5/logo.png',}}
+          source={{
+            uri: 'https://images.pokemontcg.io/sv5/logo.png',
+        }}
           width={"15%"}
         />
         <ButtonText>{"Temporal Forces"}</ButtonText>

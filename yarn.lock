@@ -2474,6 +2474,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-navigation/material-top-tabs@npm:^6.6.13":
+  version: 6.6.13
+  resolution: "@react-navigation/material-top-tabs@npm:6.6.13"
+  dependencies:
+    color: "npm:^4.2.3"
+    warn-once: "npm:^0.1.0"
+  peerDependencies:
+    "@react-navigation/native": ^6.0.0
+    react: "*"
+    react-native: "*"
+    react-native-pager-view: ">= 4.0.0"
+    react-native-tab-view: ">= 3.0.0"
+  checksum: 012ca50032780df7096b251ff364509605afed288b1e0acb2af24d6c1e191dd3552ee2966a5ad045eb18489d128179a1d52bf2856cd93de3ac01454694449830
+  languageName: node
+  linkType: hard
+
 "@react-navigation/native-stack@npm:~6.9.12":
   version: 6.9.26
   resolution: "@react-navigation/native-stack@npm:6.9.26"
@@ -5299,6 +5315,7 @@ __metadata:
     "@babel/core": "npm:^7.24.6"
     "@expo/metro-config": "npm:~0.18.4"
     "@expo/metro-runtime": "npm:~3.2.1"
+    "@react-navigation/material-top-tabs": "npm:^6.6.13"
     "@react-navigation/native": "npm:^6.1.17"
     "@tamagui/babel-plugin": "npm:^1.100.0"
     "@tamagui/config": "npm:^1.100.0"
@@ -5320,10 +5337,12 @@ __metadata:
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-native: "npm:0.74.1"
+    react-native-pager-view: "npm:6.3.0"
     react-native-reanimated: "npm:~3.10.1"
     react-native-safe-area-context: "npm:4.10.1"
-    react-native-screens: "npm:~3.31.1"
+    react-native-screens: "npm:3.31.1"
     react-native-svg: "npm:15.2.0"
+    react-native-tab-view: "npm:^3.5.2"
     react-native-web: "npm:^0.19.12"
     tamagui: "npm:^1.100.0"
     typescript: "npm:~5.3.3"
@@ -10134,6 +10153,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-pager-view@npm:6.3.0":
+  version: 6.3.0
+  resolution: "react-native-pager-view@npm:6.3.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 1e89986ad5e603a1d9eb76de5d2945eb681758f553082cd811d82cb05036a47af1a1da3bfdce1d0b0ce74156945d8dca1a940a648851fa4cfa4dc721d0322b44
+  languageName: node
+  linkType: hard
+
 "react-native-reanimated@npm:~3.10.1":
   version: 3.10.1
   resolution: "react-native-reanimated@npm:3.10.1"
@@ -10164,7 +10193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-screens@npm:~3.31.1":
+"react-native-screens@npm:3.31.1":
   version: 3.31.1
   resolution: "react-native-screens@npm:3.31.1"
   dependencies:
@@ -10187,6 +10216,19 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 5042e1377b9d66679898ce812760691d01602efac27a32eed0914b518652c66d575dc7eb1493d3315a7db043d4974796d9107fe17f4b331b6bbbff16906016e9
+  languageName: node
+  linkType: hard
+
+"react-native-tab-view@npm:^3.5.2":
+  version: 3.5.2
+  resolution: "react-native-tab-view@npm:3.5.2"
+  dependencies:
+    use-latest-callback: "npm:^0.1.5"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-pager-view: "*"
+  checksum: 417e608dab14c23277e48e583e0573e90b136fa87ccf3907d104da3717e7b2d0889d699b2341f35e2bbaad9dea89255398ac60f4380d84a042ba77759409a550
   languageName: node
   linkType: hard
 
@@ -12103,7 +12145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-latest-callback@npm:^0.1.9":
+"use-latest-callback@npm:^0.1.5, use-latest-callback@npm:^0.1.9":
   version: 0.1.9
   resolution: "use-latest-callback@npm:0.1.9"
   peerDependencies:
