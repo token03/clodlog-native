@@ -43,11 +43,9 @@ export function GenerationAccordion() {
           )}
         </Accordion.Trigger>
         <Accordion.HeightAnimator animation="medium">
-          <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }}>
-            <Paragraph>
-              Eggs have been a dietary staple since time immemorial and there’s good
-              reason for their continued presence in our menus and meals.
-            </Paragraph>
+          <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }} padding={0}>
+            <BrowseSetButton setId={"sv4"}/>
+            <BrowseSetButton setId={"sv4pt5"}/>
           </Accordion.Content>
         </Accordion.HeightAnimator>
       </Accordion.Item>

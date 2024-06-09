@@ -70,13 +70,15 @@ export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => 
             </Label>
             <SelectDemoItem size={"$3"} width={"80%"}/>
           </XStack>
+          {/*Artist*/}
+        </YStack>
+        <YStack>
           {/*Format*/}
           <FilterAccordion name={"Rarities"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
           {/*Series*/}
           <FilterAccordion name={"Rarities"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
           {/*Set*/}
           <FilterAccordion name={"Rarities"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
-          {/*Artist*/}
         </YStack>
       </YStack>
     </Form>

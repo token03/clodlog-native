@@ -1,4 +1,4 @@
-# Clod-Log
+# Clodlog
 
 This is a wishlist / collection manager for the Pokemon TCG built with React Native, Expo, and Tamagui. 
 

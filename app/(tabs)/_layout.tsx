@@ -1,6 +1,13 @@
 import {Tabs} from "expo-router";
-import {useTheme} from "tamagui";
-import {BookOpen, Heart, Home, Search, Settings2} from "@tamagui/lucide-icons";
+import {H6, useTheme, XStack} from "tamagui";
+import {BookOpen, Filter, Heart, Home, MoreVertical, Search, Settings2} from "@tamagui/lucide-icons";
+import {StackStyleBase, WithThemeValues} from "@tamagui/web";
+
+const headerXStackProps: WithThemeValues<StackStyleBase> = {
+  alignContent: "center",
+  justifyContent: "space-between",
+  width: "93vw",
+}
 
 export default function TabLayout() {
   const theme = useTheme()
@@ -19,6 +26,16 @@ export default function TabLayout() {
       <Tabs.Screen
         name="wishlist"
         options={{
+          headerTitle: () => (
+            <XStack {...headerXStackProps}>
+              <H6>Wishlist</H6>
+              <XStack gap={"$3"}>
+                  <Search />
+                  <Filter />
+                  <MoreVertical />
+              </XStack>
+            </XStack>
+          ),
           title: 'Wishlist',
           tabBarIcon: ({ color }) => <Heart color={color} />,
         }}
@@ -26,6 +43,16 @@ export default function TabLayout() {
       <Tabs.Screen
           name="collection"
           options={{
+            headerTitle: () => (
+              <XStack {...headerXStackProps}>
+                <H6>Collection</H6>
+                <XStack gap={"$3"}>
+                  <Search />
+                  <Filter />
+                  <MoreVertical />
+                </XStack>
+              </XStack>
+            ),
           title: 'Collection',
           tabBarIcon: ({ color }) => <BookOpen color={color} />,
           }}
@@ -33,6 +60,16 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
+          headerTitle: () => (
+            <XStack {...headerXStackProps}>
+              <H6>Home</H6>
+              <XStack gap={"$3"}>
+                <Search />
+                <Filter />
+                <MoreVertical />
+              </XStack>
+            </XStack>
+          ),
           title: 'Home',
           tabBarIcon: ({ color }) => <Home color={color} />
         }}
@@ -40,6 +77,16 @@ export default function TabLayout() {
       <Tabs.Screen
         name="browse"
         options={{
+          headerTitle: () => (
+            <XStack {...headerXStackProps}>
+              <H6>Browse</H6>
+              <XStack gap={"$3"}>
+                <Search />
+                <Filter />
+                <MoreVertical />
+              </XStack>
+            </XStack>
+          ),
           title: 'Browse',
           tabBarIcon: ({ color }) => <Search color={color} />,
         }}

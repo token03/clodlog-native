@@ -20,6 +20,7 @@ export const DisplayCard = ({ url, multiplier }: GridCardProps) => {
         width: newWidth,
         height: newHeight,
       }}
+      pointerEvents={"none"}
     />
   );
 }

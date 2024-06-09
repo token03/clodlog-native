@@ -20,9 +20,18 @@ export default function WishlistTabScreen() {
         swipeEnabled: true,
       }}
     >
-        <Tab.Screen name="Home" children={(props) => <WishlistScreen {...props} displayText={"Home Screen"} numColumns={3}/>} />
-        <Tab.Screen name="Settings" children={(props) => <WishlistScreen {...props} displayText={"Settings Screen"} numColumns={3} />} />
-        <Tab.Screen name="basdasdsadasd" children={(props) => <WishlistScreen {...props} displayText={"Settings Screen"} numColumns={3} />} />
+        <Tab.Screen 
+          name="Home" 
+          children={
+            (props) => <WishlistScreen {...props} displayText={"Home Screen"} numColumns={3}/>
+          } 
+        />
+        <Tab.Screen 
+          name="Settings" 
+          children={
+            (props) => <WishlistScreen {...props} displayText={"Settings Screen"} numColumns={3} />
+          } 
+        />
       </Tab.Navigator>
   )
 }
@@ -46,7 +55,7 @@ function WishlistScreen({ displayText, numColumns }) {
 
   return (
     <ScrollView>
-      <YStack flex={1} alignContent={"center"} padding={"$3"} gap={"$3"} width={"100%"}>
+      <YStack flex={1} alignContent={"center"} padding={"$2"} gap={"$3"} width={"100%"}>
         {rows.map((rowItems, rowIndex) => (
           <XStack flex={1} justifyContent={"center"} key={rowIndex} gap={"$3"} width={"100%"}>
             {rowItems.map((item, columnIndex) => {
