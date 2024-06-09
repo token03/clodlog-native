@@ -14,7 +14,7 @@ Before you begin, ensure you have met the following requirements:
 
 To set up the Pokemon Wishlist Application, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-repo/pokemon-wishlist.git`
+1. Clone the repository: `git clone https://github.com/token03/clodlog.git`
 2. Navigate into the project directory: `cd pokemon-wishlist`
 3. Install the dependencies: `yarn install`
 4. Start the Expo server: `yarn start`
@@ -42,4 +42,3 @@ If you want to contact me, you can reach me on Discord at `@t.ken`.
 ## License
 
 This project uses the following license: [MIT](https://opensource.org/licenses/MIT).
-```
