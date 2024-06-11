@@ -1,4 +1,4 @@
-enum Color {
+export enum Color {
   Grass,
   Fire,
   Water,

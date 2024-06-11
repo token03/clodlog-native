@@ -1,4 +1,4 @@
-enum CardType {
+export enum CardType {
   Pokemon,
   Trainer,
   Supporter,

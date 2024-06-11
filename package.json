@@ -20,6 +20,8 @@
     "@tamagui/config": "^1.100.0",
     "@tamagui/lucide-icons": "^1.100.0",
     "@tamagui/toast": "^1.100.0",
+    "@tcgdex/sdk": "^2.5.1",
+    "axios": "^1.7.2",
     "babel-preset-expo": "^11.0.6",
     "burnt": "^0.12.2",
     "expo": "~51.0.9",
