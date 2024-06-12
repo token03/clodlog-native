@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {API_URL} from "../../constants/API";
+import {API_URL} from "../constants/API";
 import {Serie, SerieList, SetList} from "@tcgdex/sdk";
-import {Series} from "../enums/Series";
+import {Series} from "../constants/enums/Series";
 
 export const getAllSeries = async () : Promise<SerieList> => {
     const response = await axios.get(`${API_URL}/en/series`);

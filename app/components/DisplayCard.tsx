@@ -1,26 +1,21 @@
-import {Image} from "tamagui";
+import {Image } from "expo-image"
 import React from "react";
 
 type GridCardProps = {
   url: string;
-  multiplier: number;
 };
 
-export const DisplayCard = ({ url, multiplier }: GridCardProps) => {
-  const currentWidth = 63;
-  const currentHeight = 88;
-
-  const newWidth = currentWidth * multiplier;
-  const newHeight = currentHeight * multiplier;
-
+export const DisplayCard = ({ url }: GridCardProps) => {
   return (
-    <Image
-      source={{
-        uri: url,
-        width: newWidth,
-        height: newHeight,
-      }}
-      pointerEvents={"none"}
-    />
+      <Image
+        source={{
+          uri: url,
+        }}
+        style={{
+          flex: 1,
+        }}
+        pointerEvents={"none"}
+        contentFit={"contain"}
+      />
   );
 }

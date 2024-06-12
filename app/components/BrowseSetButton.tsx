@@ -1,7 +1,9 @@
-import {Button, ButtonText, Image, XStack} from "tamagui";
+import {Button, ButtonText, XStack} from "tamagui";
+import { Image } from "expo-image"
 import React from "react";
 import {SetResume} from "@tcgdex/sdk";
-import {createSetLogoUrl} from "../services/imageService";
+import {createSetLogoUrl} from "../../services/imageService";
+import {useNavigation, useRouter} from "expo-router";
 
 interface BrowseSetButtonProps {
   set: SetResume;
@@ -16,16 +18,26 @@ const buttonProps = {
 }
 
 export const BrowseSetButton = ({set}: BrowseSetButtonProps) => {
+  const navigation = useNavigation();
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.push(`/browse/set/`);
+    router.setParams({ setId: set.id });
+  };
+
   return (
-    <Button {...buttonProps} onPress={() => {}}>
+    <Button {...buttonProps} onPress={handlePress}>
       <XStack justifyContent={"space-between"} width={"100%"}>
           <Image
+            style={{
+              flex: 1,
+              maxWidth: 70,
+            }}
             source={{
               uri: createSetLogoUrl(set.id),
             }}
-            width={"$6"}
-            // resizeMethod={"resize"}
-            resizeMode={"stretch"}
+            contentFit={"contain"}
           />
 
         <ButtonText>{set.name}</ButtonText>

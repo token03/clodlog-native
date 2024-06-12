@@ -1,8 +1,8 @@
-import {Image, ScrollView, Text, View, XStack, YStack} from 'tamagui'
+import {ButtonText, Paragraph, ScrollView, Text, View, XStack, YStack} from 'tamagui'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from "react";
-import {Box} from "@tamagui/lucide-icons";
 import {DisplayCard} from "../components/DisplayCard";
+import {Image} from "expo-image";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,22 +21,22 @@ export default function WishlistTabScreen() {
       }}
     >
         <Tab.Screen 
-          name="Home" 
+          name="Main" 
           children={
-            (props) => <WishlistScreen {...props} displayText={"Home Screen"} numColumns={3}/>
+            (props) => <WishlistScreen {...props} numColumns={2}/>
           } 
         />
         <Tab.Screen 
-          name="Settings" 
+          name="Ooga Booga" 
           children={
-            (props) => <WishlistScreen {...props} displayText={"Settings Screen"} numColumns={3} />
+            (props) => <WishlistScreen {...props} numColumns={2} />
           } 
         />
       </Tab.Navigator>
   )
 }
 
-function WishlistScreen({ displayText, numColumns }) {
+function WishlistScreen({ numColumns }) {
   // This is just a placeholder array. Replace it with your actual data.
   const items = new Array(20).fill(0);
 
@@ -55,16 +55,15 @@ function WishlistScreen({ displayText, numColumns }) {
 
   return (
     <ScrollView>
-      <YStack flex={1} alignContent={"center"} padding={"$2"} gap={"$3"} width={"100%"}>
-        {rows.map((rowItems, rowIndex) => (
-          <XStack flex={1} justifyContent={"center"} key={rowIndex} gap={"$3"} width={"100%"}>
+      <YStack padding={"$2"} gap={"$3"} width={"100%"}>
+        {rows.map((rowItems: Array<number> , rowIndex: number) => (
+          <XStack key={rowIndex} gap={"$`1"} width={"100%"} height={230}>
             {rowItems.map((item, columnIndex) => {
               const uniqueKey = `${rowIndex}-${columnIndex}`;
               return (
                 <DisplayCard
                   key={uniqueKey}
                   url="https://images.pokemontcg.io/sv4pt5/233.png"
-                  multiplier={1.7}
                 />
               );
             })}

@@ -53,7 +53,6 @@ function RootLayoutNav() {
               headerShown: false,
             }}
           />
-
           <Stack.Screen
             name="modal"
             options={{
@@ -62,6 +61,12 @@ function RootLayoutNav() {
               animation: 'slide_from_right',
               gestureEnabled: true,
               gestureDirection: 'horizontal',
+            }}
+          />
+          <Stack.Screen
+            name={"browse"}
+            options={{
+              headerShown: false,
             }}
           />
         </Stack>

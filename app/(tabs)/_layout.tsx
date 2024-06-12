@@ -94,8 +94,13 @@ export default function TabLayout() {
       <Tabs.Screen
           name="more"
           options={{
-          title: 'More',
-          tabBarIcon: ({ color }) => <Settings2 color={color} />,
+            headerTitle: () => (
+              <XStack {...headerXStackProps}>
+                <H6>More</H6>
+              </XStack>
+            ),
+            title: 'More',
+            tabBarIcon: ({ color }) => <Settings2 color={color} />,
           }}
       />
     </Tabs>
