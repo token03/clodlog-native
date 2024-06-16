@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {API_URL} from "../constants/API";
-import {Serie, SerieList, SetList} from "@tcgdex/sdk";
+import {Serie, SerieList, Set, SetList} from "@tcgdex/sdk";
 import {Series} from "../constants/enums/Series";
 
 export const getAllSeries = async () : Promise<SerieList> => {
@@ -15,6 +15,11 @@ export const getAllSeriesDetailed = async () : Promise<Array<Serie>> => {
         seriesList.push(response.data);
     }
     return seriesList;
+}
+
+export const getSet = async (setId: string) : Promise<Set> => {
+    const response = await axios.get(`${API_URL}/en/sets/${setId}`);
+    return response.data as SetList;
 }
 
 export const getAllSetsFromSeries = async (seriesId: string) : Promise<SetList>=> {

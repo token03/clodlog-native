@@ -1,18 +1,35 @@
-import {Button, ButtonText, Image, Paragraph, Separator, Text, View, XStack, YStack} from 'tamagui'
+import {
+  Button,
+  ButtonProps,
+  ButtonText,
+  Image,
+  Paragraph,
+  Separator,
+  Text,
+  View,
+  XStack,
+  XStackProps,
+  YStack
+} from 'tamagui'
 import {ChevronRight} from "@tamagui/lucide-icons";
 
-const buttonProps = {
+const buttonProps : ButtonProps = {
   chromeless: true,
   size: "$4",
   width: "100vw",
   borderRadius: 0,
 }
 
-const seperatorProps = {
+const separatorProps  = {
   marginVertical: 20,
   width: "90%",
   borderColor: "$black7",
 }
+
+const xStackProps : XStackProps = {
+  justifyContent: "space-between",
+  width: "90%",
+};
 
 export default function MoreTabScreen() {
   return (
@@ -25,26 +42,32 @@ export default function MoreTabScreen() {
           height: 150,
         }}
       />
-        <Separator {...seperatorProps}/>
+        <Separator {...separatorProps}/>
         <Button {...buttonProps} onPress={() => {}}>
-          <XStack justifyContent={"space-between"} width={"90%"}>
+          <XStack {...xStackProps}>
             <ButtonText>{"General"}</ButtonText>
             <ChevronRight/>
           </XStack>
         </Button>
         <Button {...buttonProps} onPress={() => {}}>
-          <XStack justifyContent={"space-between"} width={"90%"}>
+          <XStack {...xStackProps}>
             <ButtonText>{"Theme"}</ButtonText>
             <ChevronRight/>
           </XStack>
         </Button>
         <Button {...buttonProps} onPress={() => {}}>
-          <XStack justifyContent={"space-between"} width={"90%"}>
+          <XStack {...xStackProps}>
             <ButtonText>{"Layout"}</ButtonText>
             <ChevronRight/>
           </XStack>
         </Button>
-        <Separator {...seperatorProps}/>
+        <Button {...buttonProps} onPress={() => {}}>
+          <XStack {...xStackProps}>
+            <ButtonText>{"Backup"}</ButtonText>
+            <ChevronRight/>
+          </XStack>
+        </Button>
+        <Separator {...separatorProps}/>
         <Paragraph size={"$1"}>1.0.0  • 20240608</Paragraph>
       </YStack>
     </View>

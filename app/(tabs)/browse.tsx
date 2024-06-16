@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Button, Input, ScrollView, Sheet, View, XStack, YStack} from "tamagui";
 import {Filter, Search} from "@tamagui/lucide-icons";
-import {GenerationAccordion} from "../components/GenerationAccordion";
-import {BrowseFilterForm} from "../components/BrowseFilterForm";
+import {GenerationAccordion} from "../browse/components/GenerationAccordion";
+import {BrowseFilterForm} from "../browse/components/BrowseFilterForm";
 
 export default function BrowseTabScreen() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);

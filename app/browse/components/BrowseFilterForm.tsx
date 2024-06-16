@@ -1,7 +1,7 @@
 import {Button, Form, Input, Label, Select, XStack, YStack} from "tamagui";
 import React from "react";
-import {FilterAccordion} from "./FilterAccordion";
-import {SelectDemoItem} from "./Select";
+import {FilterAccordion} from "../../components/FilterAccordion";
+import {SelectDemoItem} from "../../components/Select";
 
 export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => {
   const [rarities, setRarities] = React.useState([""]);
@@ -52,15 +52,15 @@ export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => 
             <Label>
               HP:
             </Label>
-            <SelectDemoItem size={"$3"} width={"20%"}/>
-            <SelectDemoItem size={"$3"} width={"60%"}/>
+            {/*<SelectDemoItem size={"$3"} width={"20%"}/>*/}
+            {/*<SelectDemoItem size={"$3"} width={"60%"}/>*/}
           </XStack>
           {/*Rarities*/}
           <XStack alignItems={"center"} justifyContent={"space-between"} gap={"$4"} paddingLeft={"$4"}>
             <Label>
               Rarity:
             </Label>
-            <SelectDemoItem size={"$3"} width={"80%"}/>
+            {/*<SelectDemoItem size={"$3"} width={"80%"}/>*/}
           </XStack>
           {/*Card Type*/}
           {/*Is*/}
@@ -68,7 +68,7 @@ export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => 
             <Label>
               Is:
             </Label>
-            <SelectDemoItem size={"$3"} width={"80%"}/>
+            {/*<SelectDemoItem size={"$3"} width={"80%"}/>*/}
           </XStack>
           {/*Artist*/}
         </YStack>

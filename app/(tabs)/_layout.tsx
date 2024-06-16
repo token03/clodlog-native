@@ -81,8 +81,6 @@ export default function TabLayout() {
             <XStack {...headerXStackProps}>
               <H6>Browse</H6>
               <XStack gap={"$3"}>
-                <Search />
-                <Filter />
                 <MoreVertical />
               </XStack>
             </XStack>

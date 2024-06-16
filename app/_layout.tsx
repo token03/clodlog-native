@@ -1,11 +1,20 @@
 import '../tamagui-web.css'
-
 import { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { Provider } from './Provider'
+import {H6, XStack} from "tamagui";
+import {Filter, MoreVertical, Search} from "@tamagui/lucide-icons";
+import {StackStyleBase, WithThemeValues} from "@tamagui/web";
+import {WishlistProvider} from "../contexts/WishlistContext";
+
+const headerXStackProps: WithThemeValues<StackStyleBase> = {
+  alignContent: "center",
+  justifyContent: "space-between",
+  width: "78vw",
+}
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -63,12 +72,37 @@ function RootLayoutNav() {
               gestureDirection: 'horizontal',
             }}
           />
+
           <Stack.Screen
-            name={"browse"}
+            name={"wishlist/card"}
             options={{
-              headerShown: false,
+              title: 'Card',
+              presentation: 'modal',
+              animation: 'slide_from_right',
+              gestureEnabled: true,
+              gestureDirection: 'horizontal',
+              headerTitle: () => (
+                <XStack {...headerXStackProps}>
+                  <H6>Card</H6>
+                </XStack>
+              ),
             }}
           />
+          {/*<Stack.Screen*/}
+          {/*  name={"browse/card"}*/}
+          {/*  options={{*/}
+          {/*    title: 'Card',*/}
+          {/*    presentation: 'modal',*/}
+          {/*    animation: 'slide_from_right',*/}
+          {/*    gestureEnabled: true,*/}
+          {/*    gestureDirection: 'horizontal',*/}
+          {/*    headerTitle: () => (*/}
+          {/*      <XStack {...headerXStackProps}>*/}
+          {/*        <H6>Card</H6>*/}
+          {/*      </XStack>*/}
+          {/*    ),*/}
+          {/*  }}*/}
+          {/*/>*/}
         </Stack>
       </ThemeProvider>
     </Provider>

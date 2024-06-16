@@ -1,17 +1,23 @@
-import {ButtonText, Paragraph, ScrollView, Text, View, XStack, YStack} from 'tamagui'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import React from "react";
-import {DisplayCard} from "../components/DisplayCard";
-import {Image} from "expo-image";
+import React, {useState, useEffect } from "react";
+import { CardGrid } from "../components/CardGrid";
+import { CardResume } from "@tcgdex/sdk";
+import { ScrollView, Sheet,} from 'tamagui';
+import { BrowseFilterForm } from "../browse/components/BrowseFilterForm";
+import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
+import {ActivityIndicator} from "react-native";
+import {useIsFocused} from "@react-navigation/core";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function WishlistTabScreen() {
+  const { wishlists } = useWishlists();
+  
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarScrollEnabled: true,
-        tabBarIndicatorStyle: { backgroundColor:"grey" },
+        tabBarIndicatorStyle: { backgroundColor: "grey" },
         tabBarItemStyle: {
           flex: 1,
           minWidth: 'auto',
@@ -20,58 +26,62 @@ export default function WishlistTabScreen() {
         swipeEnabled: true,
       }}
     >
-        <Tab.Screen 
-          name="Main" 
-          children={
-            (props) => <WishlistScreen {...props} numColumns={2}/>
-          } 
+      {
+        wishlists.length === 0 && <Tab.Screen name="LOADING" children={() => <ActivityIndicator />} />
+      }
+      {wishlists.map(wishlist => (
+        <Tab.Screen
+          key={wishlist.id}
+          name={wishlist.name}
+          children={(props) => <WishlistScreen {...props} numColumns={2} cards={wishlist.cards} />}
         />
-        <Tab.Screen 
-          name="Ooga Booga" 
-          children={
-            (props) => <WishlistScreen {...props} numColumns={2} />
-          } 
-        />
-      </Tab.Navigator>
-  )
-}
-
-function WishlistScreen({ numColumns }) {
-  // This is just a placeholder array. Replace it with your actual data.
-  const items = new Array(20).fill(0);
-
-  // Split the items array into chunks of size numColumns.
-  const rows = items.reduce((resultArray, item, index) => { 
-    const chunkIndex = Math.floor(index/numColumns);
-
-    if(!resultArray[chunkIndex]) {
-      resultArray[chunkIndex] = [] // start a new chunk
-    }
-
-    resultArray[chunkIndex].push(item)
-
-    return resultArray
-  }, [])
-
-  return (
-    <ScrollView>
-      <YStack padding={"$2"} gap={"$3"} width={"100%"}>
-        {rows.map((rowItems: Array<number> , rowIndex: number) => (
-          <XStack key={rowIndex} gap={"$`1"} width={"100%"} height={230}>
-            {rowItems.map((item, columnIndex) => {
-              const uniqueKey = `${rowIndex}-${columnIndex}`;
-              return (
-                <DisplayCard
-                  key={uniqueKey}
-                  url="https://images.pokemontcg.io/sv4pt5/233.png"
-                />
-              );
-            })}
-          </XStack>
-        ))}
-      </YStack>
-    </ScrollView>
+      ))}
+    </Tab.Navigator>
   );
 }
 
+type WishlistScreenProps = {
+  numColumns: number;
+  cards: CardResume[];
+};
 
+function WishlistScreen({ numColumns, cards }: WishlistScreenProps) {
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+
+  const toggleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  const submitFilterRequest = () => {
+    setIsFilterOpen(false);
+  };
+
+  return (
+    <>
+      <ScrollView>
+        <CardGrid cards={cards} numColumns={numColumns} route={"wishlist"} />
+      </ScrollView>
+      <Sheet
+        forceRemoveScrollEnabled={isFilterOpen}
+        modal={true}
+        open={isFilterOpen}
+        onOpenChange={setIsFilterOpen}
+        dismissOnSnapToBottom
+        zIndex={100_000}
+        animation="medium"
+      >
+        <Sheet.Overlay
+          animation="medium"
+          enterStyle={{ opacity: 0 }}
+          exitStyle={{ opacity: 0 }}
+        />
+        <Sheet.Handle />
+        <Sheet.Frame padding="$4" alignItems="center" backgroundColor={"$black2"}>
+          <Sheet.ScrollView width={"100%"}>
+            <BrowseFilterForm submitFilter={submitFilterRequest} />
+          </Sheet.ScrollView>
+        </Sheet.Frame>
+      </Sheet>
+    </>
+  );
+}

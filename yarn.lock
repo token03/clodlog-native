@@ -5745,6 +5745,7 @@ __metadata:
     babel-preset-expo: "npm:^11.0.6"
     burnt: "npm:^0.12.2"
     expo: "npm:~51.0.9"
+    expo-blur: "npm:~13.0.2"
     expo-font: "npm:~12.0.6"
     expo-image: "npm:~1.12.11"
     expo-linking: "npm:~6.3.1"
@@ -6865,6 +6866,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: ea5eefb5c4daa9609d0fa8c6f6d8f85e4858554407c2188757b1f7ea98ea5913f3373fe65db473abaaa74ed70b656f49fba9ebcdb650a96e8b7af5818eba255e
+  languageName: node
+  linkType: hard
+
+"expo-blur@npm:~13.0.2":
+  version: 13.0.2
+  resolution: "expo-blur@npm:13.0.2"
+  peerDependencies:
+    expo: "*"
+  checksum: b98260d29abf6003ada13db2c7dac10ff896935baf0bc8a4d7fe1d5a3cfcf442b3c82f191b93e8c7f84476e9e4e57706fb940b87dfce1f94025503a0fb4fd65f
   languageName: node
   linkType: hard
 

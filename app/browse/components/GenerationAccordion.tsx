@@ -2,7 +2,7 @@ import {ChevronDown} from "@tamagui/lucide-icons";
 import {Accordion, Paragraph, ScrollView, Square} from "tamagui";
 import {BrowseSetButton} from "./BrowseSetButton";
 import {useEffect, useMemo, useState} from "react";
-import {getAllSeriesDetailed} from "../../services/browseService";
+import {getAllSeriesDetailed} from "../../../services/browseService";
 import {Serie} from "@tcgdex/sdk";
 
 export function GenerationAccordion() {
