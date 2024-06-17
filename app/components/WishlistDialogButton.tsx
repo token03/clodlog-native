@@ -32,7 +32,7 @@ export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProp
         <Button
           icon={
             <Heart
-              fill={isCardInWishlist ? "white" : undefined}
+              fill={isCardInWishlist ? "#e34439" : undefined}
               strokeWidth={isCardInWishlist ? 0 : 2}
             />
           }
