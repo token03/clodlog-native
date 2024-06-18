@@ -4,7 +4,7 @@ import {
   fetchWishlist,
   addPokemonCard,
   removePokemonCard,
-  deleteWishlistById
+  deleteWishlistById, createWishlist, updateWishlistById
 } from '../services/wishlistService';
 import { Wishlist } from "../types/WishlistTypes";
 import { CardResume } from "@tcgdex/sdk";
@@ -47,7 +47,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     await refreshWishlists(); 
   };
   
-  const createWishlist = async (wishlistName: string) => {
+  const addWishlist = async (wishlistName: string) => {
     await createWishlist(wishlistName);
     await refreshWishlists();
   }
@@ -57,7 +57,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     await refreshWishlists();
   }
   
-  const updateWishlistById = async (wishlistId: string, wishlist: Wishlist) => {
+  const updateWishlist = async (wishlistId: string, wishlist: Wishlist) => {
     await updateWishlistById(wishlistId, wishlist);
     await refreshWishlists();
   }
@@ -69,9 +69,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         refreshWishlists, 
         addCardToWishlist, 
         removeCardFromWishlist, 
-        createWishlist, 
+        createWishlist: addWishlist, 
         deleteWishlist, 
-        updateWishlistById
+        updateWishlistById: updateWishlist
       }}
     >
       {children}

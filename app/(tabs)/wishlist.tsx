@@ -6,7 +6,7 @@ import { ScrollView, Sheet,} from 'tamagui';
 import { BrowseFilterForm } from "../browse/components/BrowseFilterForm";
 import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
 import {ActivityIndicator} from "react-native";
-import {useIsFocused} from "@react-navigation/core";
+import {useRouter} from "expo-router";
 
 const Tab = createMaterialTopTabNavigator();
 

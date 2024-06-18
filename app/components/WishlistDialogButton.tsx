@@ -8,15 +8,23 @@ import {
   Paragraph,
   XStack,
   YStack,
-  Unspaced, PopoverProps,
+  Unspaced, PopoverProps, Input, Switch,
 } from "tamagui";
-import { Check, Heart, X } from "@tamagui/lucide-icons";
+import {Check, Edit3, Heart, Plus, Trash, Trash2, X} from "@tamagui/lucide-icons";
 import { CardResume } from "@tcgdex/sdk";
 import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
+import {useState} from "react";
+import {useRouter} from "expo-router";
 
 export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: CardResume }) {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const { wishlists, addCardToWishlist, removeCardFromWishlist} = useWishlists();
+  const router= useRouter();
   const isCardInWishlist = Object.values(wishlists).some(wishlist => wishlist.cards.some(card => card.id === Card?.id));
+  
+  const handlePressEdit = () => {
+    router.push(`/wishlist/manage/`);
+  };
 
   const handleCheckboxChange = async (id: string, checked: CheckedState) => {
     if (checked === true && Card !== undefined) {
@@ -70,10 +78,7 @@ export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProp
           <Dialog.Title size={"$7"}>Wishlists</Dialog.Title>
           <YStack>
             {Object.values(wishlists).map(wishlist => (
-              <Fieldset key={wishlist.id} horizontal justifyContent={"space-between"} borderWidth={0}>
-                <Label justifyContent="flex-start" htmlFor={wishlist.id} flex={1}>
-                  <Paragraph>{wishlist.name}</Paragraph>
-                </Label>
+              <Fieldset key={wishlist.id} horizontal borderWidth={0} gap={"$3"}>
                 <Checkbox
                   id={wishlist.id}
                   size={"$4"}
@@ -84,15 +89,28 @@ export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProp
                     <Check />
                   </Checkbox.Indicator>
                 </Checkbox>
+                <Label justifyContent="flex-start" htmlFor={wishlist.id} flex={1}>
+                  <Paragraph>{wishlist.name}</Paragraph>
+              </Label>
               </Fieldset>
             ))}
           </YStack>
-
-          <XStack alignSelf="flex-end" gap="$4">
+          
+          <XStack justifyContent={"space-between"} gap={"$3"}>
             <Dialog.Close displayWhenAdapted asChild>
-              <Button size={"$3"} theme="active" aria-label="Close">
-                Save
+              <Button size={"$3"} chromeless onPress={handlePressEdit}>
+                Edit
               </Button>
+            </Dialog.Close>
+            <Dialog.Close displayWhenAdapted asChild>
+              <XStack gap={"$3"}>
+                <Button size={"$3"} chromeless>
+                  Cancel
+                </Button>
+                <Button size={"$3"} theme="active" aria-label="Close">
+                  Save
+                </Button>
+              </XStack>
             </Dialog.Close>
           </XStack>
 
