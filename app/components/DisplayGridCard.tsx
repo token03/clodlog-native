@@ -5,13 +5,13 @@ import {createCardImageUrl} from "../../utils/imageUtils";
 import {ImageExtension, ImageQuality} from "../../constants/enums/Image";
 import {Pressable, TouchableOpacity} from "react-native";
 
-type DisplayCardProps = {
+type DisplayGridCardProps = {
   cardBrief: CardResume;
   route: string; 
   isHiRes?: boolean;
 };
 
-export const DisplayCard = ({ route, cardBrief, isHiRes = false }: DisplayCardProps) => {
+export const DisplayGridCard = ({ route, cardBrief, isHiRes = false }: DisplayGridCardProps) => {
   const router= useRouter();
   
   const handlePress = () => {

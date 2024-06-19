@@ -11,6 +11,7 @@ import {NavigationProp} from "@react-navigation/core";
 import {Card, CardResume} from "@tcgdex/sdk";
 import {WishlistDialogButton} from "../components/WishlistDialogButton";
 import {ArrowUp} from "@tamagui/lucide-icons";
+import {DisplayScreenCard} from "../components/DisplayScreenCard";
 
 const seperatorProps = {
   width: "80%",
@@ -22,7 +23,7 @@ type CardScreenProps = {
   navigation: NavigationProp<ReactNavigation.RootParamList>
 };
 
-const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
+export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
   const [card, setCard] = useState<Card | null>(null);
   
   useEffect(() => {
@@ -80,30 +81,8 @@ const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
           locations={[0, 0.35, 0.8]}
         />      
         <YStack gap={"$3"} padding={"$3"} height={"100%"}  alignItems={"center"}>
-          <XStack width={"100%"} height={"100vw"} overflow={"hidden"}>
-            <Image
-              placeholder={{
-                uri: '/assets/images/placeholder.png'
-              }}
-              source={
-                {
-                  uri: createCardImageUrl(card?.image, ImageQuality.HIGH, ImageExtension.WEBP),
-                }
-              }
-              style={{
-                flex: 1,
-                shadowColor: '#000', 
-                shadowOffset: { width: 0, height: 2 }, 
-                shadowOpacity: 1, 
-                shadowRadius: 5, 
-              }}
-              priority={"high"}
-              pointerEvents={"none"}
-              contentFit={"contain"}
-              placeholderContentFit={"contain"}
-              onTouchEndCapture={() => handlePress()}
-            />
-
+          <XStack width={"80%"} height={"100vw"} overflow={"hidden"}>
+            <DisplayScreenCard card={card} />
           </XStack>
           
           <XStack paddingTop={"$2"} gap={"$5"} justifyContent={"center"} width={"80%"}>
@@ -183,5 +162,3 @@ const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
     </ScrollView>
   );
 };
-
-export default CardScreen;

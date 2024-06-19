@@ -1,0 +1,3 @@
+export declare type Rarity = 'custom' | 'amazing rare' |  'common' | 'radiant rare' | 'rare holo' | 'rare holo galaxy' | 'rare holo v' | 'rare holo vmax' | 'rare holo vstar' | 'rare rainbow' | 'rare rainbow alt' | 'rare secret' | 'rare ultra' | 'uncommon';
+export declare type Subtype = 'basic' | 'basic v' | 'basic v fusion strike' | 'basic v rapid strike' | 'basic v single strike' | 'item' | 'pokémon tool' | 'stadium' | 'stage 1' | 'stage 2' | 'stage 2 rapid strike' | 'supporter' | 'vmax' | 'vmax rapid strike' | 'vmax single strike' | 'vstar';
+export declare type Supertype = 'pokémon' | 'trainer';

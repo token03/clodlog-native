@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRoute } from '@react-navigation/native';
-import CardScreen from "../screens/CardScreen";
+import {CardScreen} from "../screens/CardScreen";
 import {useNavigation} from "expo-router";
 
 type RouteParams = {

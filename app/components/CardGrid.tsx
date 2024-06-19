@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {ScrollView, View, XStack, YStack} from 'tamagui';
 import {CardResume} from "@tcgdex/sdk";
-import {DisplayCard} from "./DisplayCard";
+import {DisplayGridCard} from "./DisplayGridCard";
 import {FlatList} from "react-native";
 import {Sort, SortDirection} from "../../types/SortTypes";
 
@@ -44,7 +44,7 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : Car
       data={sortedCards}
       renderItem={({ item }) => (
         <View paddingVertical={"$2"} width={"50%"} height={"$17"} justifyContent={"center"}>
-          <DisplayCard
+          <DisplayGridCard
             route={route}
             cardBrief={item}
           />

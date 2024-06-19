@@ -27,18 +27,6 @@ const generateWishlistId = (name: string): string => {
   return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
 };
 
-const ensureMainWishlistExists = async () => {
-  try {
-    const keys = await AsyncStorage.getAllKeys();
-    const wishlistKeys = keys.filter(key => key.startsWith(WISHLIST_PREFIX));
-    if (wishlistKeys.length === 0) {
-      await createWishlist('Main');
-    }
-  } catch (e) {
-    console.error('Error ensuring main wishlist exists:', e);
-  }
-};
-
 const getWishlistByName = async (wishlistName: string): Promise<Wishlist | null> => {
   try {
     const wishlistId = generateWishlistId(wishlistName);
@@ -169,6 +157,3 @@ export const removePokemonCard = async (wishlistId: string, cardId: string) => {
     console.error('Error removing Pokémon card from wishlist:', e);
   }
 };
-
-// Ensure the main wishlist exists on initial load
-ensureMainWishlistExists();
