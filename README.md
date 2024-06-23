@@ -1,4 +1,4 @@
-``````# Clodlog
+# Clodlog
 
 This is a wishlist / collection manager for the Pokemon TCG built with React Native, Expo, and Tamagui. 
 
@@ -15,7 +15,7 @@ Before you begin, ensure you have met the following requirements:
 To set up the Pokemon Wishlist Application, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/token03/clodlog.git`
-2. Navigate into the project directory: `cd pokemon-wishlist`
+2. Navigate into the project directory: `cd clodlog`
 3. Install the dependencies: `yarn install`
 4. Start the Expo server: `yarn start`
 
@@ -48,7 +48,4 @@ Card data is sourced from [PokemonTCG](https://github.com/PokemonTCG/pokemon-tcg
 
 ## License
 
-## License
-
 This project uses the following license: [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
-``````
