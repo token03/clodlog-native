@@ -11,12 +11,12 @@ import {
   Unspaced, PopoverProps, Input, Switch,
 } from "tamagui";
 import {Check, Edit3, Heart, Plus, Trash, Trash2, X} from "@tamagui/lucide-icons";
-import { CardResume } from "@tcgdex/sdk";
 import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
 import {useState} from "react";
 import {useRouter} from "expo-router";
+import {Card} from "../../classes/card";
 
-export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: CardResume }) {
+export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const { wishlists, addCardToWishlist, removeCardFromWishlist} = useWishlists();
   const router= useRouter();

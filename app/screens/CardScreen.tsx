@@ -2,16 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {H4, H5, H6, Paragraph, ScrollView, Separator, XStack, YStack} from "tamagui";
 import {Image} from "expo-image";
-import {createCardImageUrl} from "../../utils/imageUtils";
-import {getCard} from "../../services/cardService";
-import {ImageExtension, ImageQuality} from "../../constants/enums/Image";
 import {LinearGradient} from "tamagui/linear-gradient";
 import {BlurView} from "expo-blur";
 import {NavigationProp} from "@react-navigation/core";
-import {Card, CardResume} from "@tcgdex/sdk";
 import {WishlistDialogButton} from "../components/WishlistDialogButton";
 import {ArrowUp} from "@tamagui/lucide-icons";
 import {DisplayScreenCard} from "../components/DisplayScreenCard";
+import {Card} from "../../classes/card";
 
 const seperatorProps = {
   width: "80%",
@@ -28,7 +25,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
   
   useEffect(() => {
     const fetchCard = async () => {
-      const card = await getCard(cardId);
+      const card = await Card.find(cardId);
       setCard(card);
     }
     fetchCard();
@@ -45,7 +42,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
             justifyContent={"space-between"}
             width={"78vw"}
           >
-            <H6>{card.set.name} - {card.localId}/{card.set.cardCount.official}</H6>
+            <H6>{card.set.name} - {card.number}/{card.set.printedTotal}</H6>
           </XStack>
         )
       });
@@ -62,7 +59,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
         <BlurView style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
           <Image
             source={{
-              uri: createCardImageUrl(card?.image, ImageQuality.LOW, ImageExtension.WEBP),
+              uri: card?.images?.small,
             }}
             style={{
               flex: 1,
@@ -81,13 +78,13 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
           locations={[0, 0.35, 0.8]}
         />      
         <YStack gap={"$3"} padding={"$3"} height={"100%"}  alignItems={"center"}>
-          <XStack width={"80%"} height={"100vw"} overflow={"hidden"}>
+          <XStack width={"80%"} overflow={"visible"}>
             <DisplayScreenCard card={card} />
           </XStack>
           
           <XStack paddingTop={"$2"} gap={"$5"} justifyContent={"center"} width={"80%"}>
             <XStack >
-              <WishlistDialogButton Card={card as CardResume} />
+              <WishlistDialogButton Card={card as Card} />
             </XStack>
           </XStack>
           
@@ -102,10 +99,10 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
             </XStack>
             <XStack justifyContent={"space-between"}>
               <Paragraph size={"$1"} alignContent={"center"}>
-                {card?.rarity} · {card?.category}
+                {card?.rarity} · {card?.supertype}
               </Paragraph>
               <Paragraph size={"$1"} alignContent={"center"}>
-                {card?.illustrator}
+                {card?.artist}
               </Paragraph>
             </XStack>
           </YStack>
@@ -113,10 +110,12 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
           <Separator {...seperatorProps}/>
 
           {
-            card?.effect &&
-            <Paragraph size={"$2"} width={"80%"}>
-              {card?.effect}
-            </Paragraph>
+            card?.rules &&
+            <YStack width={"80%"} gap={"$2"}>
+              {card?.rules?.map((rule, index) => (
+                <Paragraph key={index} size={"$2"}>{rule}</Paragraph>
+              ))}
+            </YStack>
           }
 
           {
@@ -127,7 +126,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
                   <XStack justifyContent={"space-between"}>
                     <Paragraph size={"$2"}>Ability - {ability.name}</Paragraph>
                   </XStack>
-                  <Paragraph size={"$1"}>{ability.effect}</Paragraph>
+                  <Paragraph size={"$1"}>{ability.text}</Paragraph>
                 </YStack>
               ))}
             </YStack>
@@ -142,7 +141,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
                     <Paragraph size={"$2"}>{attack.name}</Paragraph>
                     <Paragraph size={"$2"}>{attack.damage}</Paragraph>
                   </XStack>
-                  <Paragraph size={"$1"}>{attack.effect}</Paragraph>
+                  <Paragraph size={"$1"}>{attack.text}</Paragraph>
                 </YStack>
               ))}
             </YStack>

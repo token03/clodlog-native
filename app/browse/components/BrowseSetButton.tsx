@@ -1,13 +1,11 @@
 import {Button, ButtonText, XStack} from "tamagui";
 import {Image} from "expo-image"
 import React from "react";
-import {SetResume} from "@tcgdex/sdk";
 import {useRouter} from "expo-router";
-import {createSymbolLogoUrl} from "../../../utils/imageUtils";
-import {ImageExtension} from "../../../constants/enums/Image";
+import {Set} from "../../../classes/set";
 
 interface BrowseSetButtonProps {
-  set: SetResume;
+  set: Set;
 }
 
 const buttonProps = {
@@ -35,7 +33,7 @@ export const BrowseSetButton = ({set}: BrowseSetButtonProps) => {
               maxWidth: 70,
             }}
             source={{
-              uri: createSymbolLogoUrl(set.logo, ImageExtension.WEBP)
+              uri: set.images.logo,
             }}
             contentFit={"contain"}
           />
@@ -45,3 +43,5 @@ export const BrowseSetButton = ({set}: BrowseSetButtonProps) => {
     </Button>
   )
 }
+
+

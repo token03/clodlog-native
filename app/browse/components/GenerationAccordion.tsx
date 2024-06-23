@@ -2,25 +2,29 @@ import {ChevronDown} from "@tamagui/lucide-icons";
 import {Accordion, Paragraph, ScrollView, Square} from "tamagui";
 import {BrowseSetButton} from "./BrowseSetButton";
 import {useEffect, useMemo, useState} from "react";
-import {getAllSeriesDetailed} from "../../../services/browseService";
-import {Serie} from "@tcgdex/sdk";
+import {Set} from "../../../classes/set";
 
 export function GenerationAccordion() {
-  const [seriesList, setSeriesList] = useState<Array<Serie>>();
+  const [seriesRecord, setSeriesRecord] = useState<Record<string, Set[]>>({});
   useEffect(() => {
     const fetchAllSeries = async () => {
-      const seriesList = await getAllSeriesDetailed();
-      setSeriesList(seriesList);
+      const record = await Set.groupBySeries();
+      setSeriesRecord(record);
     };
 
     fetchAllSeries();
   }, []);  
   
+  const convertSeriesNameToId = (seriesName: string) => {
+    // lowercase, spaces to dashes
+    return seriesName.toLowerCase().replace(/ /g, '-');
+  }
+  
   const accordionItems = useMemo(() => {
-    return seriesList?.reverse().map((series) => (
+    return Object.keys(seriesRecord).reverse().map((seriesName) => (
       <Accordion.Item 
-        value={series.id} 
-        key={series.id}
+        value={seriesName} 
+        key={convertSeriesNameToId(seriesName)}
       >
         <Accordion.Trigger flexDirection="row" justifyContent="space-between">
           {({
@@ -29,7 +33,7 @@ export function GenerationAccordion() {
             open: boolean
           }) => (
             <>
-              <Paragraph>{series.name}</Paragraph>
+              <Paragraph>{seriesName}</Paragraph>
               <Square animation="quick" rotate={open ? '180deg' : '0deg'}>
                 <ChevronDown size="$1" />
               </Square>
@@ -38,14 +42,14 @@ export function GenerationAccordion() {
         </Accordion.Trigger>
         <Accordion.HeightAnimator animation="medium">
           <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }} padding={0}>
-            {series.sets.reverse().map((set) => (
+            {seriesRecord[seriesName].reverse().map((set) => (
               <BrowseSetButton key={set.id} set={set}/>
             ))}
           </Accordion.Content>
         </Accordion.HeightAnimator>
       </Accordion.Item>
     ));
-  }, [seriesList]);
+  }, [seriesRecord]);
 
   return (
     <Accordion type="multiple" defaultValue={["sv"]}>

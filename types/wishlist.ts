@@ -1,8 +1,8 @@
-import {CardResume} from "@tcgdex/sdk";
+import {Card} from "classes/card";
 
 export type Wishlist = {
   id: string;
   name: string;
-  cards: Array<CardResume>;
+  cards: Array<Card>;
   dateCreated: string;
 };

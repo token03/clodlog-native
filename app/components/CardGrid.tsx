@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
-import {ScrollView, View, XStack, YStack} from 'tamagui';
-import {CardResume} from "@tcgdex/sdk";
+import {ScrollView, View, XStack} from 'tamagui';
 import {DisplayGridCard} from "./DisplayGridCard";
 import {FlatList} from "react-native";
-import {Sort, SortDirection} from "../../types/SortTypes";
+import {Sort, SortDirection} from "../../types/sort";
+import {Card} from "../../classes/card";
 
 type CardGridProps = {
-  cards: Array<CardResume>;
+  cards: Array<Card>;
   numColumns: number;
   route: string;
   sort?: Sort;
   sortDirection?: SortDirection;
 };
 export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : CardGridProps) => {
-  const [sortedCards, setSortedCards] = React.useState<Array<CardResume>>(cards);
+  const [sortedCards, setSortedCards] = React.useState<Array<Card>>(cards);
   
   useEffect(() => {
     let sorted = [...cards]; // Create a new array
@@ -27,9 +27,9 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : Car
           }
         } else if (sort === Sort.Id) {
           if (sortDirection === SortDirection.Asc) {
-            return a.localId.localeCompare(b.localId);
+            return a.number.localeCompare(b.number);
           } else {
-            return b.localId.localeCompare(a.localId);
+            return b.number.localeCompare(a.number);
           }
         } else {
           return 0;
@@ -46,7 +46,7 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : Car
         <View paddingVertical={"$2"} width={"50%"} height={"$17"} justifyContent={"center"}>
           <DisplayGridCard
             route={route}
-            cardBrief={item}
+            card={item}
           />
         </View>
       )}

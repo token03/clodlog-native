@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CardResume } from '@tcgdex/sdk';
-import {Wishlist} from "../types/WishlistTypes";
+import {Wishlist} from "types/wishlist";
+import {Card} from "classes/card";
 
 const WISHLIST_PREFIX = '@pokemon_wishlist_';
 
@@ -130,7 +130,7 @@ export const fetchAllWishlists = async (): Promise<Wishlist[]> => {
   }
 }
 
-export const addPokemonCard = async (wishlistId: string, card: CardResume) => {
+export const addPokemonCard = async (wishlistId: string, card: Card) => {
   try {
     const wishlist = await getWishlist(wishlistId);
     if (wishlist) {
@@ -148,7 +148,7 @@ export const removePokemonCard = async (wishlistId: string, cardId: string) => {
   try {
     const wishlist = await getWishlist(wishlistId);
     if (wishlist) {
-      wishlist.cards = wishlist.cards.filter((card: CardResume) => card.id !== cardId);
+      wishlist.cards = wishlist.cards.filter((card: Card) => card.id !== cardId);
       await saveWishlist(wishlistId, wishlist);
     } else {
       console.warn('Wishlist not found.');

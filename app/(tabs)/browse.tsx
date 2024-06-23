@@ -3,9 +3,21 @@ import {Button, Input, ScrollView, Sheet, View, XStack, YStack} from "tamagui";
 import {Filter, Search} from "@tamagui/lucide-icons";
 import {GenerationAccordion} from "../browse/components/GenerationAccordion";
 import {BrowseFilterForm} from "../browse/components/BrowseFilterForm";
+import {useRouter} from "expo-router";
 
 export default function BrowseTabScreen() {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  
+  
+  const router = useRouter();
+
+  const handlePressSearch = () => {
+    if(searchQuery !== "") {
+      router.push(`/browse/search/`);
+      router.setParams({ name: searchQuery});
+    }
+  };
   
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -20,8 +32,12 @@ export default function BrowseTabScreen() {
       <View>
         <YStack flex={1} paddingTop={"$2"}>
           <XStack alignItems="center" padding={"$2"} columnGap={"$2"}>
-            <Input placeholder="Search..." flex={1} size={"$3"}/>
-            <Button onPress={() => {}}  size={"$3"}>
+            <Input onChangeText={setSearchQuery}
+                   value={searchQuery}
+                   placeholder="Search..." 
+                   flex={1} 
+                   size={"$3"}/>
+            <Button onPress={handlePressSearch}  size={"$3"}>
               <Search size={'$1'}/>
             </Button>
             <Button onPress={toggleFilter} size={"$3"}>

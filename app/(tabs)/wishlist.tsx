@@ -1,12 +1,12 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React, {useState, useEffect } from "react";
 import { CardGrid } from "../components/CardGrid";
-import { CardResume } from "@tcgdex/sdk";
 import { ScrollView, Sheet,} from 'tamagui';
 import { BrowseFilterForm } from "../browse/components/BrowseFilterForm";
 import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
 import {ActivityIndicator} from "react-native";
 import {useRouter} from "expo-router";
+import {Card} from "../../classes/card";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -42,7 +42,7 @@ export default function WishlistTabScreen() {
 
 type WishlistScreenProps = {
   numColumns: number;
-  cards: CardResume[];
+  cards: Card[];
 };
 
 function WishlistScreen({ numColumns, cards }: WishlistScreenProps) {

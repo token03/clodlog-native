@@ -1,21 +1,23 @@
-import React, { useRef, ReactNode } from "react";
+import React, {useRef, ReactNode, useEffect} from "react";
 import { useSpring } from "@react-spring/web";
-import {Rarity} from "../../types/CardTypes";
+import {clamp} from "../../utils/mathUtils";
 
 interface CardProps {
   supertype?: string;
   subtype?: string;
   rarity?: Rarity;
   image?: string;
-  dataGallery?: string;
+  mask?: string;
+  foil?: string
+  isTrainerGallery?: boolean;
   children?: ReactNode;
   style?: React.CSSProperties;
 }
 
 const springConfig = {
   mass: 1,
-  tension: 170,
-  friction: 18,
+  tension: 200, 
+  friction: 5, 
   velocity: 0,
   precision: 0.01
 };
@@ -25,12 +27,22 @@ const Card: React.FC<CardProps> = ({
                                      subtype = "basic",
                                      rarity = "common",
                                      image,
-                                     dataGallery = "false",
+                                     mask,
+                                     foil,
+                                     isTrainerGallery = false,
                                      children,
                                      style,
                                      ...restProps
                                    }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const cardFrontRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if ( cardFrontRef.current && (mask || foil)) {
+      cardFrontRef.current.style.setProperty("--mask", `url(${mask})`);
+      cardFrontRef.current.style.setProperty("--foil", `url(${foil})`);
+    }
+  }, []);
 
   const [, setSpringBackground] = useSpring(() => ({
     from: { x: 0, y: 0 },
@@ -39,8 +51,8 @@ const Card: React.FC<CardProps> = ({
     onChange: ({ value: { x, y } }) => {
       if (cardRef.current) {
         cardRef.current.style.setProperty("--pos", `${x}% ${y}%`);
-        cardRef.current.style.setProperty("--posx", `${x}%`);
-        cardRef.current.style.setProperty("--posy", `${y}%`);
+        cardRef.current.style.setProperty("--background-x", `${x}%`);
+        cardRef.current.style.setProperty("--background-y", `${y}%`);
       }
     }
   }));
@@ -51,24 +63,26 @@ const Card: React.FC<CardProps> = ({
     config: springConfig,
     onChange: ({ value: { x, y } }) => {
       if (cardRef.current) {
-        cardRef.current.style.setProperty("--rx", `${x}deg`);
-        cardRef.current.style.setProperty("--ry", `${y}deg`);
+        cardRef.current.style.setProperty("--rotate-x", `${x}deg`);
+        cardRef.current.style.setProperty("--rotate-y", `${y}deg`);
       }
     }
   }));
 
-
   const [, setSpringGlare] = useSpring(() => ({
-    from: { x: 0, y: 0, o: 1 },
-    to: { x: 0, y: 0, o: 1 },
+    from: { x: 0, y: 0, o: 0.8 },
+    to: { x: 0, y: 0, o: 0.9 },
     config: springConfig,
     onChange: ({ value: { x, y, o } }) => {
       const hyp = Math.min(Math.max(Math.sqrt((y - 50) ** 2 + (x - 50) ** 2) / 50, 0), 1);
+      const positionFromCenter = clamp(Math.sqrt((y - 50) ** 2 + (x - 50) ** 2) / 50, 0, 1);
       if (cardRef.current) {
-        cardRef.current.style.setProperty("--mx", `${x}%`);
-        cardRef.current.style.setProperty("--my", `${y}%`);
-        cardRef.current.style.setProperty("--o", `${o}`);
-        cardRef.current.style.setProperty("--hyp", `${hyp}`);
+        cardRef.current.style.setProperty("--pointer-x", `${x}%`);
+        cardRef.current.style.setProperty("--pointer-y", `${y}%`);
+        cardRef.current.style.setProperty("--pointer-from-center", `${positionFromCenter}`);
+        cardRef.current.style.setProperty("--card-opacity", `${o}`);
+        cardRef.current.style.setProperty("--pointer-from-top", `${y / 100}`);
+        cardRef.current.style.setProperty("--pointer-from-left", `${x / 100}`);
       }
     }
   }));
@@ -80,14 +94,22 @@ const Card: React.FC<CardProps> = ({
         data-supertype={supertype}
         data-subtypes={subtype}
         data-rarity={rarity}
-        data-gallery={dataGallery}
+        data-trainer-gallery={isTrainerGallery}
         style={style}
       >
-        <div className="card__translater"
-             style={style}>
+        <div 
+          className="card__translater"
+          style={style}>
           <div
             ref={cardRef}
             className="card__rotator"
+            onTouchEnd={() => {
+              setTimeout(() => {
+                setSpringRotate({ x: 0, y: 0 });
+                setSpringGlare({ x: 50, y: 50, o: 0 });
+                setSpringBackground({ x: 50, y: 50 });
+              }, 100);
+            }}
             onMouseEnter={() => {
               if (rarity === "custom" && typeof image === "string" && cardRef.current) {
                 cardRef.current.style.setProperty("--customimage", `url(${image})`);
@@ -102,9 +124,9 @@ const Card: React.FC<CardProps> = ({
               const offsetY = y - 50;
 
               if (cardRef.current) {
-                cardRef.current.style.setProperty("--s", "1");
-                cardRef.current.style.setProperty("--tx", "0px");
-                cardRef.current.style.setProperty("--ty", "0px");
+                cardRef.current.style.setProperty("--card-scale", "1");
+                cardRef.current.style.setProperty("--translate-x", "0px");
+                cardRef.current.style.setProperty("--translate-y", "0px");
               }
 
               setSpringBackground({ x: Math.round(50 + x / 4 - 12.5), y: Math.round(50 + y / 3 - 16.67) });
@@ -119,7 +141,11 @@ const Card: React.FC<CardProps> = ({
               }, 100);
             }}
           >
-            <div className="card__front" {...restProps}>
+            <div 
+              className="card__front" 
+              ref={cardFrontRef}
+              {...restProps}
+            >
               {children}
             </div>
             <div className={`card__shine ${subtype} ${supertype}`} />

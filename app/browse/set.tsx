@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {H6, Label, ScrollView, XStack} from "tamagui";
-import {Set} from "@tcgdex/sdk";
-import {getSet} from "../../services/browseService";
+import {Set} from "../../classes/set";
 import {CardGrid} from "../components/CardGrid";
 import {useNavigation} from "expo-router";
 import {Filter, MoreVertical} from "@tamagui/lucide-icons";
 import {SelectDemoItem} from "../components/Select";
-import {Sort, SortDirection, SortDirectionOptions, SortOptions} from "../../types/SortTypes";
+import {Sort, SortDirection, SortDirectionOptions, SortOptions} from "../../types/sort";
+import {Card} from "../../classes/card";
 
 type RouteParams = {
   setId: string; 
@@ -33,8 +33,8 @@ const SetScreen = () => {
 
   useEffect(() => {
     const fetchSet = async () => {
-      const card = await getSet(setId);
-      setSet(card);
+      const fetchedSet = await Set.find(setId);
+      setSet(fetchedSet);
     }
     fetchSet();
   }, [setId]);
@@ -49,7 +49,7 @@ const SetScreen = () => {
             justifyContent={"space-between"}
             width={"78vw"}
           >
-            <H6>{set.name}</H6>
+            <H6 width={"80%"} textOverflow={"ellipsis"} numberOfLines={1}>{set.name}</H6>
             <XStack gap={"$3"}>
               <Filter />
               <MoreVertical />

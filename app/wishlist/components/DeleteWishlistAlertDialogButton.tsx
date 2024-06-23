@@ -12,12 +12,11 @@ import {
   YStack,
 } from "tamagui";
 import {Edit3, Plus, Trash2, X} from "@tamagui/lucide-icons";
-import {CardResume} from "@tcgdex/sdk";
 import {useWishlists} from "../../../contexts/WishlistContext";
 import {useEffect, useState} from "react";
-import {createWishlist} from "../../../services/wishlistService";
+import {Card} from "../../../classes/card";
 
-export function DeleteWishlistAlertDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: CardResume }) {
+export function DeleteWishlistAlertDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
   const { wishlists, createWishlist } = useWishlists();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);

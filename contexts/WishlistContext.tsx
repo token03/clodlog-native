@@ -6,13 +6,13 @@ import {
   removePokemonCard,
   deleteWishlistById, createWishlist, updateWishlistById
 } from '../services/wishlistService';
-import { Wishlist } from "../types/WishlistTypes";
-import { CardResume } from "@tcgdex/sdk";
+import { Wishlist } from "../types/wishlist";
+import {Card} from "../classes/card";
 
 type WishlistContextType = {
   wishlists: Wishlist[];
   refreshWishlists: () => void;
-  addCardToWishlist: (wishlistId: string, card: CardResume) => void;
+  addCardToWishlist: (wishlistId: string, card: Card) => void;
   removeCardFromWishlist: (wishlistId: string, cardId: string) => void;
   createWishlist: (wishlistName: string) => void;
   deleteWishlist: (wishlistId: string) => void;
@@ -37,7 +37,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     await loadWishlists();
   };
 
-  const addCardToWishlist = async (wishlistId: string, card: CardResume) => {
+  const addCardToWishlist = async (wishlistId: string, card: Card) => {
     await addPokemonCard(wishlistId, card);
     await refreshWishlists();
   };

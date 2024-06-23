@@ -1,11 +1,9 @@
-import {Card} from "@tcgdex/sdk";
 import {Image} from "expo-image"
-import {createCardImageUrl} from "../../utils/imageUtils";
-import {ImageExtension, ImageQuality} from "../../constants/enums/Image";
 import {View} from "tamagui";
 import '../../styles/cards/cards.css'
-import {Supertype} from "../../types/CardTypes";
 import HolographicCard from "./HolographicCard";
+import {Card} from "../../classes/card";
+import {Supertype} from "../../types/supertype";
 
 type DisplayScreenCardProps = {
   card: Card | null;
@@ -14,13 +12,14 @@ type DisplayScreenCardProps = {
 
 export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps) => {
   return (
-    <View style={{height: '100%', flex: 1}}>
+    <View style={{flex: 1}}>
       <HolographicCard 
-        supertype={card?.category as Supertype} 
+        supertype={card?.supertype as Supertype} 
         // rarity={cardRarityMapper[card?.rarity as string]}
         rarity={"common"}
-        dataGallery={"false"} 
-        style={{height: "100%", flex: 1}}
+        // mask={"https://poke-holo.b-cdn.net/foils/swsh7/masks/upscaled/215_foil_etched_swsecret_2x.webp"}
+        // foil={"https://poke-holo.b-cdn.net/foils/swsh7/foils/upscaled/215_foil_etched_swsecret_2x.webp"}
+        isTrainerGallery={true} 
         children={
           <Image
             placeholder={{
@@ -28,12 +27,14 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
             }}
             source={
               {
-                uri: createCardImageUrl(card?.image, ImageQuality.HIGH, ImageExtension.WEBP),
+                uri: card?.images?.large,
+                width: 733,
+                height: 1024,
               }
             }
             style={{
               flex: 1,
-              height: '100%',
+              height: '100%'
             }}
             priority={"high"}
             pointerEvents={"none"}
