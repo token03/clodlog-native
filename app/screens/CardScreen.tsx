@@ -9,6 +9,7 @@ import {WishlistDialogButton} from "../components/WishlistDialogButton";
 import {ArrowUp} from "@tamagui/lucide-icons";
 import {DisplayScreenCard} from "../components/DisplayScreenCard";
 import {Card} from "../../classes/card";
+import {CreateWishlistDialogButton} from "../wishlist/components/CreateWishlistDialogButton";
 
 const seperatorProps = {
   width: "80%",
@@ -158,6 +159,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
 
         </YStack>
       </View>
+      <CreateWishlistDialogButton/>
     </ScrollView>
   );
 };

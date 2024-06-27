@@ -1,8 +1,8 @@
 
 .card {
 
-    --grain: url("../img/grain.webp");
-    --glitter: url("../img/glitter.png");
+    --grain: url("/assets/img/grain.webp");
+    --glitter: url("/assets/img/glitter.png");
     --glittersize: 25%;
 
     --space: 5%;
@@ -562,7 +562,7 @@ Shine & Glare Effects
     clip-path: var(--clip);
 
     background-image:
-            url("../img/cosmos-bottom.png"),
+            url("/assets/img/cosmos-bottom.png"),
             repeating-linear-gradient(
                     82deg,
                     hsl(53, 65%, 60%) calc(var(--space)*1),
@@ -610,7 +610,7 @@ Shine & Glare Effects
     z-index: 2;
 
     background-image:
-            url("../img/cosmos-middle-trans.png"),
+            url("/assets/img/cosmos-middle-trans.png"),
             repeating-linear-gradient(
                     82deg,
                     hsl(53, 65%, 60%) calc(var(--space)*1),
@@ -650,7 +650,7 @@ Shine & Glare Effects
     z-index: 3;
 
     background-image:
-            url("../img/cosmos-top-trans.png"),
+            url("/assets/img/cosmos-top-trans.png"),
             repeating-linear-gradient(
                     82deg,
                     hsl(53, 65%, 60%) calc(var(--space)*1),
@@ -918,7 +918,7 @@ Shine & Glare Effects
 .card:not(.masked)[data-rarity="radiant rare"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/trainerbg.png");
+    --foil: url("/assets/img/trainerbg.png");
     --imgsize: 25% auto;
 
 }
@@ -1123,7 +1123,7 @@ Shine & Glare Effects
 .card:not(.masked)[data-rarity="radiant rare"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/trainerbg.png");
+    --foil: url("/assets/img/trainerbg.png");
     --imgsize: 25% auto;
 
 }
@@ -1424,7 +1424,7 @@ Shine & Glare Effects
 
 .card:not(.masked)[data-rarity="rare rainbow"] .card__shine {
 
-    --foil: url("../img/illusion-mask.png");
+    --foil: url("/assets/img/illusion-mask.png");
     --imgsize: 33%;
 
 }
@@ -2028,7 +2028,7 @@ Shine & Glare Effects
 .card:not(.masked).card[data-rarity="rare shiny"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/illusion.png");
+    --foil: url("/assets/img/illusion.png");
     --imgsize: 33%;
 
     -webkit-mask-image: var(--mask);
@@ -2205,7 +2205,7 @@ Shine & Glare Effects
 .card:not(.masked)[data-rarity="rare shiny v"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/illusion.png");
+    --foil: url("/assets/img/illusion.png");
     --imgsize: 33%;
 
     -webkit-mask-image: var(--mask);
@@ -2524,7 +2524,7 @@ Shine & Glare Effects
 
 .card:not(.masked)[data-rarity="rare secret"][data-set="swsh12pt5"][data-number="160"] .card__shine {
 
-    --foil: url("../img/illusion-mask.png");
+    --foil: url("/assets/img/illusion-mask.png");
     --imgsize: 33%;
 
 }
@@ -2616,7 +2616,7 @@ Shine & Glare Effects
 .card:not(.masked)[data-subtypes*="supporter"][data-rarity="rare ultra"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/trainerbg.png");
+    --foil: url("/assets/img/trainerbg.png");
     --imgsize: 20%;
 
     background-blend-mode: color-burn, hue, hard-light;
@@ -2763,7 +2763,7 @@ Shine & Glare Effects
 
 .card:not(.masked)[data-rarity="rare secret"][data-trainer-gallery="true"] .card__shine {
 
-    --foil: url("../img/geometric.png");
+    --foil: url("/assets/img/geometric.png");
     --imgsize: 33%;
 
     filter: brightness(calc(var( --pointer-from-center ) * 0.3 + 0.2 ) ) contrast(2) saturate(0.75);
@@ -3142,7 +3142,7 @@ Shine & Glare Effects
 .card:not(.masked)[data-trainer-gallery="true"][data-rarity="rare holo v"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/illusion.png");
+    --foil: url("/assets/img/illusion.png");
     --imgsize: 33%;
 
     -webkit-mask-image: var(--mask);
@@ -3183,7 +3183,7 @@ Shine & Glare Effects
 .card:not(.masked)[data-rarity="rare holo vmax"][data-supertype="pokémon"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/vmaxbg.jpg");
+    --foil: url("/assets/img/vmaxbg.jpg");
     --imgsize: 60% 30%;
 
 }
@@ -3598,7 +3598,7 @@ Shine & Glare Effects
 .card:not(.masked)[data-rarity="rare holo vstar"] .card__shine:after {
 
     --mask: none;
-    --foil: url("../img/ancient.png");
+    --foil: url("/assets/img/ancient.png");
     --imgsize: 18% 15%;
 
     background-blend-mode: exclusion, hue, hard-light;

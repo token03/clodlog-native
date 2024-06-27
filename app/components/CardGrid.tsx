@@ -14,30 +14,29 @@ type CardGridProps = {
 };
 export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : CardGridProps) => {
   const [sortedCards, setSortedCards] = React.useState<Array<Card>>(cards);
-  
+
   useEffect(() => {
-    let sorted = [...cards]; // Create a new array
-    if (sort && sortDirection) {
-      sorted.sort((a, b) => {
-        if (sort === Sort.Name) {
-          if (sortDirection === SortDirection.Asc) {
-            return a.name.localeCompare(b.name);
-          } else {
-            return b.name.localeCompare(a.name);
-          }
-        } else if (sort === Sort.Id) {
-          if (sortDirection === SortDirection.Asc) {
-            return a.number.localeCompare(b.number);
-          } else {
-            return b.number.localeCompare(a.number);
-          }
-        } else {
-          return 0;
-        }
+    const sortCards = (data: Card[], sortField: Sort | undefined, sortOrder: SortDirection | undefined) : Card[] => {
+      if (!sortField || !sortOrder) return data;
+
+      return [...data].sort((a, b) => {
+        const sortFn = {
+          [Sort.Name]: (sortOrder === SortDirection.Asc)
+            ? (a, b) => a.name.localeCompare(b.name)
+            : (a, b) => b.name.localeCompare(a.name),
+          [Sort.Id]: (sortOrder === SortDirection.Asc)
+            ? (a, b) => parseInt(a.number, 10) - parseInt(b.number, 10)
+            : (a, b) => parseInt(b.number, 10) - parseInt(a.number, 10),
+        };
+
+        return sortFn[sortField](a, b);
       });
-    }
-    setSortedCards(sorted);
+    };
+
+    const sortedCards = sortCards(cards, sort, sortDirection);
+    setSortedCards(sortedCards);
   }, [cards, sort, sortDirection]);
+
     
   return (
     <FlatList

@@ -1,14 +1,16 @@
 import React, {useRef, ReactNode, useEffect} from "react";
 import { useSpring } from "@react-spring/web";
 import {clamp} from "../../utils/mathUtils";
+import {Rarity} from "../../types/rarity";
 
 interface CardProps {
   supertype?: string;
-  subtype?: string;
-  rarity?: Rarity;
+  subtypes?: string;
+  rarity?: string;
   image?: string;
   mask?: string;
   foil?: string
+  number?: string;
   isTrainerGallery?: boolean;
   children?: ReactNode;
   style?: React.CSSProperties;
@@ -23,12 +25,13 @@ const springConfig = {
 };
 
 const Card: React.FC<CardProps> = ({
-                                     supertype = "pokémon",
-                                     subtype = "basic",
-                                     rarity = "common",
+                                     supertype = "",
+                                     subtypes = "",
+                                     rarity = "",
                                      image,
                                      mask,
                                      foil,
+                                     number= "",
                                      isTrainerGallery = false,
                                      children,
                                      style,
@@ -36,13 +39,26 @@ const Card: React.FC<CardProps> = ({
                                    }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const cardFrontRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
+  
+useEffect(() => {
     if ( cardFrontRef.current && (mask || foil)) {
-      cardFrontRef.current.style.setProperty("--mask", `url(${mask})`);
-      cardFrontRef.current.style.setProperty("--foil", `url(${foil})`);
+
+      const randomSeed = {
+        x: Math.random(),
+        y: Math.random()
+      }
+
+      const cosmosPosition = {
+        x: Math.floor( randomSeed.x * 734 ),
+        y: Math.floor( randomSeed.y * 1280 )
+      };
+      
+      cardFrontRef.current.style.setProperty("--cosmosbg", `${cosmosPosition.x}px ${cosmosPosition.y}px`);
+      
+      cardFrontRef.current.style.setProperty("--mask", `url(${mask})`, "important");
+      cardFrontRef.current.style.setProperty("--foil", `url(${foil})`, "important");
     }
-  }, []);
+  }, [mask, foil]);
 
   const [, setSpringBackground] = useSpring(() => ({
     from: { x: 0, y: 0 },
@@ -90,11 +106,12 @@ const Card: React.FC<CardProps> = ({
   return (
     <React.Fragment>
       <div
-        className="card"
+        className={`card ${mask ? 'masked' : ''}`}
         data-supertype={supertype}
-        data-subtypes={subtype}
+        data-subtypes={subtypes}
         data-rarity={rarity}
-        data-trainer-gallery={isTrainerGallery}
+        data-trainer-gallery={isTrainerGallery ? "true" : "false"}
+        data-number={number}
         style={style}
       >
         <div 
@@ -147,9 +164,9 @@ const Card: React.FC<CardProps> = ({
               {...restProps}
             >
               {children}
+              <div className={`card__shine ${subtypes} ${supertype}`} />
+              <div className={`card__glare ${subtypes} ${rarity}`} />
             </div>
-            <div className={`card__shine ${subtype} ${supertype}`} />
-            <div className={`card__glare ${subtype} ${rarity}`} />
           </div>
         </div>
       </div>

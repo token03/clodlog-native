@@ -1,38 +1,20 @@
 import {
   AlertDialog,
   Button,
-  Dialog,
-  Fieldset,
-  Input,
-  Label,
   Paragraph,
   PopoverProps,
-  Unspaced,
   XStack,
   YStack,
 } from "tamagui";
 import {Edit3, Plus, Trash2, X} from "@tamagui/lucide-icons";
 import {useWishlists} from "../../../contexts/WishlistContext";
-import {useEffect, useState} from "react";
-import {Card} from "../../../classes/card";
+import {Wishlist} from "../../../types/interfaces/wishlist";
 
-export function DeleteWishlistAlertDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
-  const { wishlists, createWishlist } = useWishlists();
-  const [name, setName] = useState('');
-  const [isValid, setIsValid] = useState(true);
+export function DeleteWishlistAlertDialogButton({ Wishlist }: PopoverProps & { Wishlist: Wishlist }) {
+  const { deleteWishlist } = useWishlists();
 
-  const checkExistingNameInWishlist = (name: string) => {
-    return wishlists.some(wishlist => wishlist.name === name);
-  }
-
-  useEffect(() => {
-    setIsValid(!checkExistingNameInWishlist(name));
-  }, [name]);
-
-  const handleCreateWishlist = async (name: string) => {
-    if (isValid) {
-      createWishlist(name);
-    }
+  const handleDeleteWishlist = async () => {
+    deleteWishlist(Wishlist.id)
   }
 
 
@@ -86,7 +68,7 @@ export function DeleteWishlistAlertDialogButton({ Icon, Name, Card, ...props }: 
               <AlertDialog.Cancel asChild>
                 <Button size={"$3"}>Cancel</Button>
               </AlertDialog.Cancel>
-              <AlertDialog.Action asChild>
+              <AlertDialog.Action asChild onPress={handleDeleteWishlist}>
                 <Button size={"$3"} theme="active">Accept</Button>
               </AlertDialog.Action>
             </XStack>

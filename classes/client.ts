@@ -10,7 +10,6 @@ export class Client {
     const config: AxiosRequestConfig = {
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': API_URL
       }
     };
 

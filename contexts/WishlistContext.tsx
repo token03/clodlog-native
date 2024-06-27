@@ -4,29 +4,38 @@ import {
   fetchWishlist,
   addPokemonCard,
   removePokemonCard,
-  deleteWishlistById, createWishlist, updateWishlistById
+  deleteWishlistById, createWishlist, updateWishlistById, updateWishlistOrder, getWishlists, getWishlistOrder
 } from '../services/wishlistService';
-import { Wishlist } from "../types/wishlist";
 import {Card} from "../classes/card";
+import {Wishlist, WishlistRecord} from "../types/interfaces/wishlist";
 
 type WishlistContextType = {
   wishlists: Wishlist[];
+  wishlistRecord: WishlistRecord;
+  wishlistOrder: string[];
   refreshWishlists: () => void;
   addCardToWishlist: (wishlistId: string, card: Card) => void;
   removeCardFromWishlist: (wishlistId: string, cardId: string) => void;
   createWishlist: (wishlistName: string) => void;
   deleteWishlist: (wishlistId: string) => void;
   updateWishlistById: (wishlistId: string, wishlist: Wishlist) => void;
+  updateWishlistOrder: (orderedIds: string[]) => void;
 };
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
 export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [wishlists, setWishlists] = useState<Wishlist[]>([]);
+  const [wishlistRecord, setWishlistRecord] = useState<WishlistRecord>({});
+  const [wishlistOrder, setWishlistOrder] = useState<string[]>([]);
 
   const loadWishlists = async () => {
     const wishlists = await fetchAllWishlists();
-    setWishlists(new Array(...wishlists));
+    const wishlistRecord = await getWishlists();
+    const wishlistOrder = await getWishlistOrder();
+    setWishlists(wishlists);
+    setWishlistRecord(wishlistRecord);
+    setWishlistOrder(wishlistOrder);
   };
 
   useEffect(() => {
@@ -36,6 +45,11 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const refreshWishlists = async () => {
     await loadWishlists();
   };
+  
+  const refreshWishlistRecord = async () => {
+    const wishlistRecord = await getWishlists();
+    setWishlistRecord(wishlistRecord);
+  }
 
   const addCardToWishlist = async (wishlistId: string, card: Card) => {
     await addPokemonCard(wishlistId, card);
@@ -62,16 +76,24 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     await refreshWishlists();
   }
 
+  const updateOrder = async (orderedIds: string[]) => {
+    await updateWishlistOrder(orderedIds);
+    await refreshWishlists();
+  }
+
   return (
     <WishlistContext.Provider 
       value={{ 
         wishlists, 
+        wishlistRecord,
+        wishlistOrder,
         refreshWishlists, 
         addCardToWishlist, 
         removeCardFromWishlist, 
         createWishlist: addWishlist, 
         deleteWishlist, 
-        updateWishlistById: updateWishlist
+        updateWishlistById: updateWishlist,
+        updateWishlistOrder: updateOrder
       }}
     >
       {children}

@@ -1059,7 +1059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.16.7, @babel/preset-typescript@npm:^7.17.12, @babel/preset-typescript@npm:^7.23.0":
+"@babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.16.7, @babel/preset-typescript@npm:^7.23.0":
   version: 7.24.7
   resolution: "@babel/preset-typescript@npm:7.24.7"
   dependencies:
@@ -1952,6 +1952,19 @@ __metadata:
     "@jridgewell/resolve-uri": "npm:^3.1.0"
     "@jridgewell/sourcemap-codec": "npm:^1.4.14"
   checksum: dced32160a44b49d531b80a4a2159dceab6b3ddf0c8e95a0deae4b0e894b172defa63d5ac52a19c2068e1fe7d31ea4ba931fbeec103233ecb4208953967120fc
+  languageName: node
+  linkType: hard
+
+"@mgcrea/react-native-dnd@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@mgcrea/react-native-dnd@npm:2.2.0"
+  peerDependencies:
+    react: ">=17"
+    react-native: ">=0.70"
+    react-native-gesture-handler: ">=2"
+    react-native-haptic-feedback: ">=2"
+    react-native-reanimated: ">=3"
+  checksum: 555ceff44249fa443a62eb0e3a6727e0dff9d73231d075f190c75728455c6b49add7ce5937384128dca85c1555faba969a7d5e4fd412a882e30030b2e30c2cbe
   languageName: node
   linkType: hard
 
@@ -5764,6 +5777,7 @@ __metadata:
     "@babel/core": "npm:^7.24.6"
     "@expo/metro-config": "npm:~0.18.4"
     "@expo/metro-runtime": "npm:~3.2.1"
+    "@mgcrea/react-native-dnd": "npm:^2.2.0"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-navigation/material-top-tabs": "npm:^6.6.13"
     "@react-navigation/native": "npm:^6.1.17"
@@ -5792,8 +5806,8 @@ __metadata:
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-native: "npm:0.74.1"
-    react-native-draggable-flatlist: "npm:^4.0.1"
     react-native-gesture-handler: "npm:~2.16.1"
+    react-native-haptic-feedback: "npm:^2.2.0"
     react-native-pager-view: "npm:6.3.0"
     react-native-reanimated: "npm:~3.10.1"
     react-native-safe-area-context: "npm:4.10.1"
@@ -10675,19 +10689,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-draggable-flatlist@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "react-native-draggable-flatlist@npm:4.0.1"
-  dependencies:
-    "@babel/preset-typescript": "npm:^7.17.12"
-  peerDependencies:
-    react-native: ">=0.64.0"
-    react-native-gesture-handler: ">=2.0.0"
-    react-native-reanimated: ">=2.8.0"
-  checksum: 4d9c8bfef6185ab51ebef8d00a0a06f8fd57c96a5a9e60cb6e7cd56ec6222d37643c53fc998cc93efcb8be88d32c2e5e43788f1816d8cded4eb2b60076001749
-  languageName: node
-  linkType: hard
-
 "react-native-gesture-handler@npm:~2.16.1":
   version: 2.16.2
   resolution: "react-native-gesture-handler@npm:2.16.2"
@@ -10701,6 +10702,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 227799f5e16f9725d81db524fc06c1fbef226835a5ee989642d132748832f7543ebc750d4309e49bcaa0fb6d1e7dd6b74028785e4b755978ab7f66f05b414c18
+  languageName: node
+  linkType: hard
+
+"react-native-haptic-feedback@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "react-native-haptic-feedback@npm:2.2.0"
+  peerDependencies:
+    react-native: ">=0.60.0"
+  checksum: 70036be2123d0caf6ab475deb0f2ca46e422d7233e69b81d247e582f2972e34e0eba8da25adce09de6b30111482bab4dc71c47e43463ecff8707e06fca1a3037
   languageName: node
   linkType: hard
 
