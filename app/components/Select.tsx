@@ -4,36 +4,12 @@ import type { FontSizeTokens, SelectProps } from 'tamagui'
 import { Adapt, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
 import { LinearGradient } from 'tamagui/linear-gradient'
 
-export function SelectDemoItem(props: { width?: string, label?: string, items: {label: string, value: string}[] } & SelectProps) {
+export function SelectItem(props: { width?: string, label?: string, items: {label: string, value: string}[] } & SelectProps) {
   return (
     <Select disablePreventBodyScroll {...props}>
       <Select.Trigger width={props.width} iconAfter={ChevronDown}>
         <Select.Value placeholder="Something" />
       </Select.Trigger>
-      {/*<Adapt when="sm" platform="touch">*/}
-      {/*  <Sheet*/}
-      {/*    native={!!props.native}*/}
-      {/*    modal*/}
-      {/*    dismissOnSnapToBottom*/}
-      {/*    animationConfig={{*/}
-      {/*      type: 'spring',*/}
-      {/*      damping: 20,*/}
-      {/*      mass: 1.2,*/}
-      {/*      stiffness: 250,*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <Sheet.Frame>*/}
-      {/*      <Sheet.ScrollView>*/}
-      {/*        <Adapt.Contents />*/}
-      {/*      </Sheet.ScrollView>*/}
-      {/*    </Sheet.Frame>*/}
-      {/*    <Sheet.Overlay*/}
-      {/*      animation="lazy"*/}
-      {/*      enterStyle={{ opacity: 0 }}*/}
-      {/*      exitStyle={{ opacity: 0 }}*/}
-      {/*    />*/}
-      {/*  </Sheet>*/}
-      {/*</Adapt>*/}
       <Select.Content zIndex={200000}>
         <Select.ScrollUpButton
           alignItems="center"

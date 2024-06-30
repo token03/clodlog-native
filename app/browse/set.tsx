@@ -5,7 +5,7 @@ import {Set} from "../../classes/set";
 import {CardGrid} from "../components/CardGrid";
 import {useNavigation} from "expo-router";
 import {Filter, MoreVertical} from "@tamagui/lucide-icons";
-import {SelectDemoItem} from "../components/Select";
+import {SelectItem} from "../components/Select";
 import {Sort, SortDirection, SortDirectionOptions, SortOptions} from "../../types/sort";
 import {Card} from "../../classes/card";
 
@@ -66,8 +66,8 @@ const SetScreen = () => {
         <Label size={"$2"} width={"15%"}>
           Sort By:
         </Label>
-        <SelectDemoItem width={"40%"} size={"$2"} value={sort} onValueChange={handleSelectSort} items={SortOptions} label={"Sort By:"}/>
-        <SelectDemoItem width={"25%"} size={"$2"} value={sortDirection} onValueChange={handleSelectSortDirection} items={SortDirectionOptions} label={"Direction:"} />
+        <SelectItem width={"40%"} size={"$2"} value={sort} onValueChange={handleSelectSort} items={SortOptions} label={"Sort By:"}/>
+        <SelectItem width={"25%"} size={"$2"} value={sortDirection} onValueChange={handleSelectSortDirection} items={SortDirectionOptions} label={"Direction:"} />
       </XStack>
       <CardGrid 
         cards={set?.cards ?? []} 

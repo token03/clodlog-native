@@ -36,6 +36,7 @@ export class Card implements ICard{
   legalities: ILegality;
   regulationMark?: string;
   images: ICardImage;
+  prices?: Record<string, Record<string, string>>;
 
   constructor(id: string, name: string, supertype: string, subtypes: string[], set: ISet, number: string, rarity: string, legalities: ILegality, images: ICardImage) {
     this.id = id;

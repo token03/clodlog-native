@@ -19,13 +19,11 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
   const server = process.env.EXPO_PUBLIC_IMAGE_CDN;
 
   useEffect(() => {
+    // TODO: move this logic to backend. instead, have the Card class contain the mask and foil urls
     if(card) {
       const paddingRequiredSetIds = [/^swsh/, /^pgo/];
       if (card.set.id != "cel25c") {
         paddingRequiredSetIds.push(/^cel25/);
-      }
-      if (card.set.id != "sv3pt5") {
-        paddingRequiredSetIds.push(/^sv/);
       }
       
       let number = paddingRequiredSetIds.some(regex => regex.test(card.set.id)) ? card.number.padStart(3, '0').toLowerCase() : card.number.toLowerCase()
@@ -59,13 +57,14 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
     const rarityMap = {
       "rare": "rare holo",
       "rare holo gx": "rare holo v",
-      "illustration rare": "rare holo v",
-      "special illustration rare": "rare rainbow alt",
+      "double rare": "rare holo v",
       "rare holo ex": "rare holo v",
+      "illustration rare": "rare holo v",
       "ultra rare": "rare ultra",
+      "shiny ultra rare": "rare ultra",
       "rare break": "rare secret",
       "hyper rare": "rare secret",
-      "double rare": "rare holo v",
+      "legend": "rare secret",
       "promo": mapPromoRarity(rarity)
     };
 
@@ -77,14 +76,18 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
       return "rare holo vmax";
     } else if(card?.subtypes.includes("V")) {
       return "rare holo v";
-    } else if(card?.subtypes.includes("V-UNION")) {
-      return "rare holo vunion";
     } else if(card?.subtypes.includes("GX")) {
-      return "rare holo gx";
+      return "rare holo v";
     } else if(card?.subtypes.includes("VSTAR")) {
       return "rare holo vstar";
+    } else if(card?.subtypes.includes("EX") || card?.subtypes.includes("ex")) {
+      return "rare holo v";
     }
     return ""
+  }
+  
+  const isTrainerGallery = () => {
+    return !!card?.number.match(/^[tg]g/i) || card?.rarity.toLowerCase() === "special illustration rare";
   }
 
   return (
@@ -98,7 +101,7 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
         mask={maskUrl}
         foil={foilUrl}
         number={card?.number}
-        isTrainerGallery={!!card?.number.match(/^[tg]g/i)}
+        isTrainerGallery={isTrainerGallery()}
         // isTrainerGallery={"true"} 
         children={
           <Image

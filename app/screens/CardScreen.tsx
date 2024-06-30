@@ -55,9 +55,9 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
   }
 
   return (
-    <ScrollView>
-      <View style={{flex: 1, overflow: 'hidden'}}>
-        <BlurView style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <View style={{flex: 1, overflow: 'hidden'}}>
+      <ScrollView>
+        <BlurView style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, overflow: "hidden" }}>
           <Image
             source={{
               uri: card?.images?.small,
@@ -150,16 +150,17 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
 
           <Separator {...seperatorProps}/>
           
-            <XStack gap={"$2"} justifyContent={"flex-start"} width="80%">
+            <XStack gap={"$2"} justifyContent={"space-between"} width="80%" paddingBottom={"$2"}>
               <H6 size={"$1"}>
-                Price: $0.00 / 50%
+                Ungraded: {card?.prices?.["normal"]?.["ungraded"] || "N/A"}
               </H6>
-              <ArrowUp size={"$1"}/>
+              <H6 size={"$1"}>
+                PSA 10: {card?.prices?.["normal"]?.["psa10"] || "N/A"}
+              </H6>
             </XStack>
 
         </YStack>
-      </View>
-      <CreateWishlistDialogButton/>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };

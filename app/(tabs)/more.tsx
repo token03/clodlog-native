@@ -37,7 +37,7 @@ export default function MoreTabScreen() {
       <YStack width={"80%"} alignItems={"center"} justifyContent={"center"}>
       <Image
         source={{
-          uri: "https://www.serebii.net/scarletviolet/pokemon/new/980.png",
+          uri: "/assets/images/favicon.png",
           width: 200,
           height: 150,
         }}

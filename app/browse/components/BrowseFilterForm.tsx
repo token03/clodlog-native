@@ -1,7 +1,7 @@
 import {Button, Form, Input, Label, Select, XStack, YStack} from "tamagui";
 import React from "react";
 import {FilterAccordion} from "../../components/FilterAccordion";
-import {SelectDemoItem} from "../../components/Select";
+import {SelectItem} from "../../components/Select";
 
 export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => {
   const [rarities, setRarities] = React.useState([""]);
