@@ -82,6 +82,8 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
       return "rare holo vstar";
     } else if(card?.subtypes.includes("EX") || card?.subtypes.includes("ex")) {
       return "rare holo v";
+    } else if (maskUrl && foilUrl) {
+      return "rare holo v";
     }
     return ""
   }

@@ -1,40 +1,86 @@
-import { Text, View } from 'tamagui'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import React, {useState} from "react";
+import {CardGrid} from "../components/CardGrid";
+import {ScrollView, Sheet,} from 'tamagui';
+import {BrowseFilterForm} from "../browse/components/BrowseFilterForm";
+import {useCollections} from "../../contexts/CollectionContext";
+import {ActivityIndicator} from "react-native";
+import {Card} from "../../classes/card";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function CollectionTabScreen() {
+  const { collections } = useCollections();
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarScrollEnabled: true,
-        tabBarIndicatorStyle: { backgroundColor:"grey" },
+        tabBarIndicatorStyle: { backgroundColor: "grey" },
+        tabBarItemStyle: {
+          flex: 1,
+          minWidth: 'auto',
+          width: 'auto',
+        },
         swipeEnabled: true,
       }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-      <Tab.Screen name="grah" component={SettingsScreen} />
-      <Tab.Screen name="dasda" component={SettingsScreen} />
-      <Tab.Screen name="dajskdhsakdlasd" component={SettingsScreen} />
-      <Tab.Screen name="dahksjdhasdk" component={SettingsScreen} />
-      <Tab.Screen name="basdasd" component={SettingsScreen} />
+      {
+        collections.length === 0 && <Tab.Screen name="LOADING" children={() => <ActivityIndicator />} />
+      }
+      {collections.map(collection => (
+        <Tab.Screen
+          key={collection.id}
+          name={collection.name}
+          children={(props) => <CollectionScreen {...props} numColumns={2} cards={collection.cards} />}
+        />
+      ))}
     </Tab.Navigator>
-  )
-}
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text selectable={false}>Home!</Text>
-    </View>
   );
 }
 
-function SettingsScreen() {
+type CollectionScreenProps = {
+  numColumns: number;
+  cards: Card[];
+};
+
+function CollectionScreen({ numColumns, cards }: CollectionScreenProps) {
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+
+  const toggleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  const submitFilterRequest = () => {
+    setIsFilterOpen(false);
+  };
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text selectable={false}>Settings!</Text>
-    </View>
+    <>
+      <ScrollView>
+        <CardGrid cards={cards} numColumns={numColumns} route={"collection"} />
+      </ScrollView>
+      <Sheet
+        forceRemoveScrollEnabled={isFilterOpen}
+        modal={true}
+        open={isFilterOpen}
+        onOpenChange={setIsFilterOpen}
+        dismissOnSnapToBottom
+        zIndex={100_000}
+        animation="medium"
+      >
+        <Sheet.Overlay
+          animation="medium"
+          enterStyle={{ opacity: 0 }}
+          exitStyle={{ opacity: 0 }}
+        />
+        <Sheet.Handle />
+        <Sheet.Frame padding="$4" alignItems="center" backgroundColor={"$black2"}>
+          <Sheet.ScrollView width={"100%"}>
+            <BrowseFilterForm submitFilter={submitFilterRequest} />
+          </Sheet.ScrollView>
+        </Sheet.Frame>
+      </Sheet>
+    </>
   );
 }

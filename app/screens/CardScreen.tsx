@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {H4, H5, H6, Paragraph, ScrollView, Separator, XStack, YStack} from "tamagui";
+import {H6, Paragraph, ScrollView, Separator, XStack, YStack} from "tamagui";
 import {Image} from "expo-image";
 import {LinearGradient} from "tamagui/linear-gradient";
 import {BlurView} from "expo-blur";
 import {NavigationProp} from "@react-navigation/core";
 import {WishlistDialogButton} from "../components/WishlistDialogButton";
-import {ArrowUp} from "@tamagui/lucide-icons";
 import {DisplayScreenCard} from "../components/DisplayScreenCard";
 import {Card} from "../../classes/card";
-import {CreateWishlistDialogButton} from "../wishlist/components/CreateWishlistDialogButton";
+import {CollectionDialogButton} from "../components/CollectionDialogButton";
 
 const seperatorProps = {
   width: "80%",
@@ -86,6 +85,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
           <XStack paddingTop={"$2"} gap={"$5"} justifyContent={"center"} width={"80%"}>
             <XStack >
               <WishlistDialogButton Card={card as Card} />
+              <CollectionDialogButton Card={card as Card}/>
             </XStack>
           </XStack>
           

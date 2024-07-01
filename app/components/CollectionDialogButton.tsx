@@ -6,31 +6,32 @@ import {
   Fieldset,
   Label,
   Paragraph,
+  PopoverProps,
+  Unspaced,
   XStack,
   YStack,
-  Unspaced, PopoverProps, Input, Switch,
 } from "tamagui";
-import {Check, Edit3, Heart, Plus, Trash, Trash2, X} from "@tamagui/lucide-icons";
-import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
+import {BookOpen, Check, X} from "@tamagui/lucide-icons";
+import {useCollections} from "../../contexts/CollectionContext";
 import {useState} from "react";
 import {useRouter} from "expo-router";
 import {Card} from "../../classes/card";
 
-export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
+export function CollectionDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { wishlists, addCardToWishlist, removeCardFromWishlist} = useWishlists();
+  const { collections, addCardToCollection, removeCardFromCollection} = useCollections();
   const router= useRouter();
-  const isCardInWishlist = Object.values(wishlists).some(wishlist => wishlist.cards.some(card => card.id === Card?.id));
+  const isCardInCollection = Object.values(collections).some(collection => collection.cards.some(card => card.id === Card?.id));
   
   const handlePressEdit = () => {
-    router.push(`/wishlist/manage/`);
+    router.push(`/collection/manage/`);
   };
 
   const handleCheckboxChange = async (id: string, checked: CheckedState) => {
     if (checked === true && Card !== undefined) {
-      addCardToWishlist(id, Card);
+      addCardToCollection(id, Card);
     } else if (checked === false && Card !== undefined) {
-      removeCardFromWishlist(id, Card?.id);
+      removeCardFromCollection(id, Card?.id);
     }
   };
 
@@ -39,9 +40,9 @@ export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProp
       <Dialog.Trigger asChild>
         <Button
           icon={
-            <Heart
-              fill={isCardInWishlist ? "#e34439" : undefined}
-              strokeWidth={2}
+            <BookOpen
+              fill={isCardInCollection ? "white" : undefined}
+              strokeWidth={isCardInCollection ? 0 : 2}
             />
           }
           scaleIcon={2}
@@ -75,22 +76,22 @@ export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProp
           gap={"$3"}
           backgroundColor={"$black2"}
         >
-          <Dialog.Title size={"$7"}>Wishlists</Dialog.Title>
+          <Dialog.Title size={"$7"}>Collections</Dialog.Title>
           <YStack maxHeight={"50vh"} overflow={"scroll"}>
-            {Object.values(wishlists).map(wishlist => (
-              <Fieldset key={wishlist.id} horizontal borderWidth={0} gap={"$3"}>
+            {Object.values(collections).map(collection => (
+              <Fieldset key={collection.id} horizontal borderWidth={0} gap={"$3"}>
                 <Checkbox
-                  id={wishlist.id}
+                  id={collection.id}
                   size={"$4"}
-                  checked={wishlist.cards.some(card => card.id === Card?.id) || false}
-                  onCheckedChange={(checked) => handleCheckboxChange(wishlist.id, checked)}
+                  checked={collection.cards.some(card => card.id === Card?.id) || false}
+                  onCheckedChange={(checked) => handleCheckboxChange(collection.id, checked)}
                 >
                   <Checkbox.Indicator>
                     <Check />
                   </Checkbox.Indicator>
                 </Checkbox>
-                <Label justifyContent="flex-start" htmlFor={wishlist.id} flex={1}>
-                  <Paragraph>{wishlist.name}</Paragraph>
+                <Label justifyContent="flex-start" htmlFor={collection.id} flex={1}>
+                  <Paragraph>{collection.name}</Paragraph>
               </Label>
               </Fieldset>
             ))}
