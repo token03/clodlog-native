@@ -18,7 +18,7 @@ import {Card} from "../../classes/card";
 
 export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { wishlists, addCardToWishlist, removeCardFromWishlist} = useWishlists();
+  const { items: wishlists, addCardToItem: addCardToWishlist, removeCardFromItem: removeCardFromWishlist} = useWishlists();
   const router= useRouter();
   const isCardInWishlist = Object.values(wishlists).some(wishlist => wishlist.cards.some(card => card.id === Card?.id));
   

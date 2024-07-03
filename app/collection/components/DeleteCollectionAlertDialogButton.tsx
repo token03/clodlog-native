@@ -11,7 +11,7 @@ import {useCollections} from "../../../contexts/CollectionContext";
 import {Collection} from "../../../types/interfaces/collection";
 
 export function DeleteCollectionAlertDialogButton({ Collection }: PopoverProps & { Collection: Collection }) {
-  const { deleteCollection } = useCollections();
+  const { deleteItem: deleteCollection } = useCollections();
 
   const handleDeleteCollection = async () => {
     deleteCollection(Collection.id)

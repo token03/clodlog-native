@@ -8,7 +8,7 @@ import {DeleteCollectionAlertDialogButton} from "./components/DeleteCollectionAl
 import {DndProvider, Draggable, DraggableStack, UniqueIdentifier} from "@mgcrea/react-native-dnd";
 
 export default function ManageCollectionsScreen() {
-  const { collectionRecord, collectionOrder, updateCollectionOrder } = useCollections();
+  const { itemsRecord: collectionRecord, itemOrder: collectionOrder, updateItemOrder: updateCollectionOrder } = useCollections();
   const navigation = useNavigation();
 
   // Memoize the ordered collections array

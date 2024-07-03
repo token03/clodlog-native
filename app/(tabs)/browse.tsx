@@ -19,6 +19,11 @@ export default function BrowseTabScreen() {
     }
   };
   
+  const handleViewSeries = (seriesName: string) => {
+    router.push(`/browse/search/`);
+    router.setParams({ series: seriesName });
+  }
+  
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
@@ -45,7 +50,9 @@ export default function BrowseTabScreen() {
             </Button>
           </XStack>
           <YStack flex={1} paddingTop={10}>
-            <GenerationAccordion />
+            <GenerationAccordion 
+              handleViewSeries={handleViewSeries}
+            />
           </YStack>
         </YStack>
         <Sheet

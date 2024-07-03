@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {Wishlist} from "../../../types/interfaces/wishlist";
 
 export function EditWishlistDialogButton({ Wishlist, ...props }: PopoverProps & { Wishlist: Wishlist }) {
-  const { wishlists, updateWishlistById } = useWishlists();
+  const { items: wishlists, updateItem: updateWishlistById } = useWishlists();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
 

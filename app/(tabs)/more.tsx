@@ -12,6 +12,7 @@ import {
   YStack
 } from 'tamagui'
 import {ChevronRight} from "@tamagui/lucide-icons";
+import {useRouter} from "expo-router";
 
 const buttonProps : ButtonProps = {
   chromeless: true,
@@ -32,6 +33,16 @@ const xStackProps : XStackProps = {
 };
 
 export default function MoreTabScreen() {
+  const router = useRouter();
+  
+  const handlePressWishlist = () => {
+    router.push(`/wishlist/manage/`);
+  };
+
+  const handlePressCollection = () => {
+    router.push(`/collection/manage/`);
+  };
+  
   return (
     <View flex={1} alignItems="center" justifyContent="center">
       <YStack width={"80%"} alignItems={"center"} justifyContent={"center"}>
@@ -51,13 +62,7 @@ export default function MoreTabScreen() {
         </Button>
         <Button {...buttonProps} onPress={() => {}}>
           <XStack {...xStackProps}>
-            <ButtonText>{"Theme"}</ButtonText>
-            <ChevronRight/>
-          </XStack>
-        </Button>
-        <Button {...buttonProps} onPress={() => {}}>
-          <XStack {...xStackProps}>
-            <ButtonText>{"Layout"}</ButtonText>
+            <ButtonText>{"Appearance"}</ButtonText>
             <ChevronRight/>
           </XStack>
         </Button>
@@ -67,7 +72,21 @@ export default function MoreTabScreen() {
             <ChevronRight/>
           </XStack>
         </Button>
+        <Button {...buttonProps} onPress={handlePressWishlist}>
+          <XStack {...xStackProps}>
+            <ButtonText>{"Wishlists"}</ButtonText>
+            <ChevronRight/>
+          </XStack>
+        </Button>
+        <Button {...buttonProps} onPress={handlePressCollection}>
+          <XStack {...xStackProps}>
+            <ButtonText>{"Collections"}</ButtonText>
+            <ChevronRight/>
+          </XStack>
+        </Button>
+        
         <Separator {...separatorProps}/>
+        
         <Paragraph size={"$1"}>1.0.0  • 20240608</Paragraph>
       </YStack>
     </View>

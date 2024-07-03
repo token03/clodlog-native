@@ -4,7 +4,7 @@ import {useCollections} from "../../../contexts/CollectionContext";
 import {useEffect, useState} from "react";
 
 export function CreateCollectionDialogButton(props: PopoverProps) {
-  const { collections, createCollection } = useCollections();
+  const { items: collections, createItem: createCollection } = useCollections();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
 

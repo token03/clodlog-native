@@ -10,7 +10,7 @@ import {Card} from "../../classes/card";
 const Tab = createMaterialTopTabNavigator();
 
 export default function WishlistTabScreen() {
-  const { wishlists } = useWishlists();
+  const { items: wishlists } = useWishlists();
   
   return (
     <Tab.Navigator
@@ -57,7 +57,7 @@ function WishlistScreen({ numColumns, cards }: WishlistScreenProps) {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView userSelect={"none"}>
         <CardGrid cards={cards} numColumns={numColumns} route={"wishlist"} />
       </ScrollView>
       <Sheet

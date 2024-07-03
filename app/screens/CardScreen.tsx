@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {H6, Paragraph, ScrollView, Separator, XStack, YStack} from "tamagui";
+import {H5, H6, Paragraph, ScrollView, Separator, XStack, YStack} from "tamagui";
 import {Image} from "expo-image";
 import {LinearGradient} from "tamagui/linear-gradient";
 import {BlurView} from "expo-blur";
@@ -9,6 +9,7 @@ import {WishlistDialogButton} from "../components/WishlistDialogButton";
 import {DisplayScreenCard} from "../components/DisplayScreenCard";
 import {Card} from "../../classes/card";
 import {CollectionDialogButton} from "../components/CollectionDialogButton";
+import {EnergyIcon} from "../components/EnergyIcon";
 
 const seperatorProps = {
   width: "80%",
@@ -93,9 +94,9 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
           
           <YStack width={"80%"}>
             <XStack justifyContent={"space-between"}>
-              <H6 width={"70%"}>
+              <H5 width={"75%"}>
                 {card?.name} 
-              </H6>
+              </H5>
               {card?.hp && <H6>{card.hp} HP</H6>}
             </XStack>
             <XStack justifyContent={"space-between"}>
@@ -111,9 +112,9 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
           <Separator {...seperatorProps}/>
 
           {
-            card?.rules &&
+            card?.rules && card.rules.length > 1 &&
             <YStack width={"80%"} gap={"$2"}>
-              {card?.rules?.map((rule, index) => (
+              {card?.rules?.slice(0, -1).map((rule, index) => (
                 <Paragraph key={index} size={"$2"}>{rule}</Paragraph>
               ))}
             </YStack>
@@ -121,16 +122,19 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
 
           {
             card?.abilities &&
-            <YStack width={"80%"} gap={"$2"}>
-              {card?.abilities?.map((ability, index) => (
-                <YStack key={index} gap={"$2"}>
-                  <XStack justifyContent={"space-between"}>
-                    <Paragraph size={"$2"}>Ability - {ability.name}</Paragraph>
-                  </XStack>
-                  <Paragraph size={"$1"}>{ability.text}</Paragraph>
-                </YStack>
-              ))}
-            </YStack>
+            <>
+              <YStack width={"80%"} gap={"$2"}>
+                {card?.abilities?.map((ability, index) => (
+                  <YStack key={index} gap={"$2"}>
+                    <XStack justifyContent={"space-between"}>
+                      <Paragraph size={"$2"}>Ability - {ability.name}</Paragraph>
+                    </XStack>
+                    <Paragraph size={"$1"}>{ability.text}</Paragraph>
+                  </YStack>
+                ))}
+              </YStack>
+              <Separator {...seperatorProps}/>
+            </>
           }
 
           {
@@ -139,7 +143,17 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
               {card?.attacks?.map((attack, index) => (
                 <YStack key={index} gap={"$2"}>
                   <XStack justifyContent={"space-between"}>
-                    <Paragraph size={"$2"}>{attack.name}</Paragraph>
+                    <XStack gap={"$2"}>
+                      <Paragraph size={"$2"}>{attack.name}</Paragraph>
+                      {
+                        attack.cost && 
+                        <XStack gap={"$1"} >
+                          {attack.cost.map((cost, index) => (
+                            <EnergyIcon type={cost} key={index}/>
+                            ))}
+                        </XStack>
+                      }
+                    </XStack>
                     <Paragraph size={"$2"}>{attack.damage}</Paragraph>
                   </XStack>
                   <Paragraph size={"$1"}>{attack.text}</Paragraph>

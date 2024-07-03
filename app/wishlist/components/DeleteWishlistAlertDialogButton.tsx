@@ -11,7 +11,7 @@ import {useWishlists} from "../../../contexts/WishlistContext";
 import {Wishlist} from "../../../types/interfaces/wishlist";
 
 export function DeleteWishlistAlertDialogButton({ Wishlist }: PopoverProps & { Wishlist: Wishlist }) {
-  const { deleteWishlist } = useWishlists();
+  const { deleteItem: deleteWishlist } = useWishlists();
 
   const handleDeleteWishlist = async () => {
     deleteWishlist(Wishlist.id)

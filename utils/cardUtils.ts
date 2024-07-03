@@ -29,15 +29,15 @@ export const mapRaritySortWeight = (rarity: string): number => {
     "Trainer Gallery Rare Holo": 33,
 
     // Special illustration types
-    "Illustration Rare": 23,
-    "Special Illustration Rare": 24,
+    "Illustration Rare": 17,
+    "Special Illustration Rare": 18,
     
     // Shiny rare types
-    "Hyper Rare": 17,
-    "Shiny Rare": 19,
     "Rare Shiny": 20,
     "Rare Shiny GX": 21,
     "Shiny Ultra Rare": 22,
+    "Hyper Rare": 23,
+    "Shiny Rare": 23,
 
     // Other special types
     "ACE SPEC Rare": 25,

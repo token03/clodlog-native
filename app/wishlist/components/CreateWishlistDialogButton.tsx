@@ -4,7 +4,7 @@ import {useWishlists} from "../../../contexts/WishlistContext";
 import {useEffect, useState} from "react";
 
 export function CreateWishlistDialogButton(props: PopoverProps) {
-  const { wishlists, createWishlist } = useWishlists();
+  const { items: wishlists, createItem: createWishlist } = useWishlists();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
 

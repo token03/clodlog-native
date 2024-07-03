@@ -10,7 +10,7 @@ import {DndProvider, Draggable, DraggableGrid, DraggableStack, UniqueIdentifier}
 import {Wishlist} from "../../types/interfaces/wishlist";
 
 export default function ManageWishlistsScreen() {
-  const { wishlistRecord, wishlistOrder, updateWishlistOrder } = useWishlists();
+  const { itemsRecord: wishlistRecord, itemOrder: wishlistOrder, updateItemOrder: updateWishlistOrder } = useWishlists();
   const navigation = useNavigation();
 
   // Memoize the ordered wishlists array

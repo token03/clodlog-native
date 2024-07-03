@@ -61,7 +61,7 @@ const SetScreen = () => {
   }, [set, navigation]);
 
   return (
-    <ScrollView stickyHeaderIndices={[0]}>
+    <ScrollView stickyHeaderIndices={[0]} userSelect={"none"}>
       <XStack height={"100%"} backgroundColor={"$background"} paddingVertical={"$2"} gap={"$2"} justifyContent={"center"}>
         <Label size={"$2"} width={"15%"}>
           Sort By:

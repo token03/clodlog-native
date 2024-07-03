@@ -16,119 +16,109 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
   const [maskUrl, setMaskUrl] = useState<string>("");
   const [foilUrl, setFoilUrl] = useState<string>("");
   
-  const server = process.env.EXPO_PUBLIC_IMAGE_CDN;
+  const IMAGE_CDN = process.env.EXPO_PUBLIC_IMAGE_CDN;
 
   useEffect(() => {
-    // TODO: move this logic to backend. instead, have the Card class contain the mask and foil urls
-    if(card) {
-      const paddingRequiredSetIds = [/^swsh/, /^pgo/];
-      if (card.set.id != "cel25c") {
-        paddingRequiredSetIds.push(/^cel25/);
-      }
-      
-      let number = paddingRequiredSetIds.some(regex => regex.test(card.set.id)) ? card.number.padStart(3, '0').toLowerCase() : card.number.toLowerCase()
-      let setId = card.set.id;
+    if (!card) return;
 
-      if (setId.startsWith('swsh') && setId.endsWith('tg')) {
-        setId = setId.replace(/tg$/, '');
-      }
-      
-      const potentialMaskUrl = `${server}/images/${setId}/masks/upscaled/${number}.webp`;
-      const potentialFoilUrl = `${server}/images/${setId}/foils/upscaled/${number}.webp`;
-
-      fetch(potentialMaskUrl)
-        .then(response => {
-          if (response.ok) {
-            setMaskUrl(potentialMaskUrl);
-          }
-        });
-
-      fetch(potentialFoilUrl)
-        .then(response => {
-          if (response.ok) {
-            setFoilUrl(potentialFoilUrl);
-          }
-        });
-    }
-  }, [card]);
-  
-  const mapRarity = (rarity: string | undefined): string => {
-    rarity = rarity?.toLowerCase() || "";
-    const rarityMap = {
-      "rare": "rare holo",
-      "rare holo gx": "rare holo v",
-      "double rare": "rare holo v",
-      "rare holo ex": "rare holo v",
-      "illustration rare": "rare holo v",
-      "ultra rare": "rare ultra",
-      "shiny ultra rare": "rare ultra",
-      "rare break": "rare secret",
-      "hyper rare": "rare secret",
-      "legend": "rare secret",
-      "promo": mapPromoRarity(rarity)
+    // TODO: this entire useEffect should be removed in favour of backend foil/mask url storage.
+    const fetchImage = async (url: string) => {
+      const response = await fetch(url);
+      return response.ok ? url : '';
     };
+
+    const getImageNumber = () => {
+      const padSet = new Set(['swsh', 'pgo', 'cel25']);
+      const shouldPad = [...padSet].some(prefix => card.set.id.startsWith(prefix)) && card.set.id !== 'cel25c';
+      return shouldPad ? card.number.padStart(3, '0').toLowerCase() : card.number.toLowerCase();
+    };
+
+    const setId = card.set.id.replace(/^(swsh.*?)tg$/, '$1');
+    const number = getImageNumber();
+    const baseUrl = `${IMAGE_CDN}/images/${setId}`;
+    
+    Promise.all([
+      fetchImage(`${baseUrl}/masks/upscaled/${number}.webp`),
+      fetchImage(`${baseUrl}/foils/upscaled/${number}.webp`)
+    ]).then(([maskUrl, foilUrl]) => {
+      setMaskUrl(maskUrl);
+      setFoilUrl(foilUrl);
+    });
+  }, [card]);
+
+
+  const getRarity = (): string => {
+    if (!card) return '';
+
+    const rarityMap: { [key: string]: string } = {
+      'rare holo gx': 'rare holo v',
+      'double rare': 'rare holo v',
+      'rare holo ex': 'rare holo v',
+      'illustration rare': 'rare holo v',
+      'ultra rare': 'rare ultra',
+      'shiny ultra rare': 'rare ultra',
+      'rare break': 'rare secret',
+      'hyper rare': 'rare secret',
+      'legend': 'rare secret',
+      'rare shining': 'rare shiny',
+    };
+
+    const rarity = card.rarity.toLowerCase();
+    const hasMaskAndFoil = maskUrl && foilUrl;
+
+    if (rarity === 'promo') {
+      const prioritySubtypes = ['VMAX', 'VSTAR', 'V', 'GX', 'EX', 'ex'];
+      const matchedSubtype = card.subtypes.find(subtype =>
+        prioritySubtypes.includes(subtype.toUpperCase())
+      );
+
+      if (matchedSubtype) {
+        return rarityMap[`rare holo ${matchedSubtype.toLowerCase()}`];
+      }
+      return hasMaskAndFoil ? (card.set.id.startsWith("sv") ? "rare holo v" : "rare holo") : '';
+    }
+
+    // TODO: add reverse rare support to backend and image server
+    if (rarity === 'rare' && hasMaskAndFoil && card.set.id.startsWith('sv')) {
+      return 'rare holo v';
+    } 
 
     return rarityMap[rarity] || rarity;
   };
   
-  const mapPromoRarity = (rarity: string): string => {
-    if(card?.subtypes.includes("VMAX")) {
-      return "rare holo vmax";
-    } else if(card?.subtypes.includes("V")) {
-      return "rare holo v";
-    } else if(card?.subtypes.includes("GX")) {
-      return "rare holo v";
-    } else if(card?.subtypes.includes("VSTAR")) {
-      return "rare holo vstar";
-    } else if(card?.subtypes.includes("EX") || card?.subtypes.includes("ex")) {
-      return "rare holo v";
-    } else if (maskUrl && foilUrl) {
-      return "rare holo v";
-    }
-    return ""
-  }
-  
   const isTrainerGallery = () => {
     return !!card?.number.match(/^[tg]g/i) || card?.rarity.toLowerCase() === "special illustration rare";
   }
+  
+  if (!card) return null;
 
   return (
-    <View style={{flex: 1}}>
-      <HolographicCard 
-        supertype={card?.supertype.toLowerCase()} 
-        rarity={mapRarity(card?.rarity.toLowerCase())}
-        subtypes={card?.subtypes.join(" ").toLowerCase()}
-        // mask={"/assets/images/mask.png"}
-        // foil={"/assets/images/foil.png"}
+    <View style={{ flex: 1 }}>
+      <HolographicCard
+        supertype={card.supertype.toLowerCase()}
+        rarity={getRarity()}
+        subtypes={card.subtypes.join(' ').toLowerCase()}
         mask={maskUrl}
         foil={foilUrl}
-        number={card?.number}
+        number={card.number}
         isTrainerGallery={isTrainerGallery()}
-        // isTrainerGallery={"true"} 
-        children={
-          <Image
-            placeholder={{
-              uri: '/assets/images/placeholder.png'
-            }}
-            source={
-              {
-                uri: card?.images?.large,
-                width: 733,
-                height: 1024,
-              }
-            }
-            style={{
-              flex: 1,
-              height: '100%'
-            }}
-            priority={"high"}
-            pointerEvents={"none"}
-            contentFit={"contain"}
-            placeholderContentFit={"contain"}
-            onTouchEndCapture={() => handlePress && handlePress()}
-          />
-        }
-      />
+      >
+        <Image
+          placeholder={{ uri: '/assets/images/placeholder.png' }}
+          source={{
+            uri: card.images.large,
+            width: 733,
+            height: 1024,
+          }}
+          style={{ flex: 1, height: '100%' }}
+          priority="high"
+          pointerEvents="none"
+          contentFit="contain"
+          placeholderContentFit="contain"
+          onTouchEndCapture={handlePress}
+        />
+      </HolographicCard>
     </View>
   );
+
 }

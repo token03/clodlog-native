@@ -10,7 +10,7 @@ import {Card} from "../../classes/card";
 const Tab = createMaterialTopTabNavigator();
 
 export default function CollectionTabScreen() {
-  const { collections } = useCollections();
+  const { items: collections } = useCollections();
 
   return (
     <Tab.Navigator
@@ -57,7 +57,7 @@ function CollectionScreen({ numColumns, cards }: CollectionScreenProps) {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView userSelect={"none"}>
         <CardGrid cards={cards} numColumns={numColumns} route={"collection"} />
       </ScrollView>
       <Sheet

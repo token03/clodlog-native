@@ -5,6 +5,8 @@ import {FlatList} from "react-native";
 import {Sort, SortDirection} from "../../types/sort";
 import {Card} from "../../classes/card";
 import {mapRaritySortWeight} from "../../utils/cardUtils";
+import {useWishlists} from "../../contexts/WishlistContext";
+import {useCollections} from "../../contexts/CollectionContext";
 
 type CardGridProps = {
   cards: Array<Card>;
@@ -14,8 +16,29 @@ type CardGridProps = {
   sortDirection?: SortDirection;
 };
 export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : CardGridProps) => {
+  const { itemCardsRecord: wishlistCardsRecord } = useWishlists();
+  const { itemCardsRecord: collectionCardsRecord } = useCollections();
   const [sortedCards, setSortedCards] = React.useState<Array<Card>>(cards);
-
+  const [selectedCardsRecord, setSelectedCardsRecord] = React.useState<Record<string, Card[]>>({});
+  
+  const selectCard = (card: Card) => {
+    setSelectedCardsRecord((prevSelectedCards) => {
+      const existingCards = prevSelectedCards[card.id] || [];
+      return { ...prevSelectedCards, [card.id]: [...existingCards, card] };
+    });
+  }
+  
+  const deselectCard = (card: Card) => {
+    setSelectedCardsRecord((prevSelectedCards) => {
+      const newSelectedCards = { ...prevSelectedCards };
+      delete newSelectedCards[card.id];
+      return newSelectedCards;
+    })
+  }
+  
+  const deselectAllCards = () => {
+    setSelectedCardsRecord({});
+  }
 
   useEffect(() => {
     const sortCards = (data: Card[], sortField: Sort | undefined, sortOrder: SortDirection | undefined): Card[] => {
@@ -36,7 +59,12 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : Car
           case Sort.Name:
             return compare(a.name, b.name);
           case Sort.Id:
-            return compare(parseInt(a.number, 10), parseInt(b.number, 10));
+            const aNum = parseInt(a.number.replace(/\D/g, ''), 10);
+            const bNum = parseInt(b.number.replace(/\D/g, ''), 10);
+            if (aNum === bNum) {
+              return compare(a.number, b.number);
+            }
+            return compare(aNum, bNum);
           case Sort.Rarity:
             return compare(mapRaritySortWeight(a.rarity), mapRaritySortWeight(b.rarity));
           case Sort.Date:
@@ -60,11 +88,23 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : Car
   return (
     <FlatList
       data={sortedCards}
+      style={{ paddingVertical: 5 }}
       renderItem={({ item }) => (
-        <View paddingVertical={"$2"} width={"50%"} height={"$17"} justifyContent={"center"}>
+        <View 
+          padding={"$1.5"} 
+          width={`calc(100% / ${numColumns})`}
+          justifyContent={"center"} 
+          aspectRatio={245 / 342}
+        >
           <DisplayGridCard
             route={route}
             card={item}
+            isInWishlist={wishlistCardsRecord[item.id] !== undefined}
+            isInCollection={collectionCardsRecord[item.id] !== undefined}
+            isSelected={selectedCardsRecord[item.id] !== undefined}
+            selectingMode={Object.keys(selectedCardsRecord).length > 0}
+            selectCard={selectCard}
+            deselectCard={deselectCard}
           />
         </View>
       )}

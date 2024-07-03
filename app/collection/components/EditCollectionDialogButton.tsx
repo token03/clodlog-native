@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {Collection} from "../../../types/interfaces/collection";
 
 export function EditCollectionDialogButton({ Collection, ...props }: PopoverProps & { Collection: Collection }) {
-  const { collections, updateCollectionById } = useCollections();
+  const { items: collections, updateItem: updateCollectionById } = useCollections();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
 

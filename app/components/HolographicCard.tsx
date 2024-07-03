@@ -41,7 +41,7 @@ const Card: React.FC<CardProps> = ({
   const cardFrontRef = useRef<HTMLDivElement>(null);
   
 useEffect(() => {
-    if ( cardFrontRef.current && (mask || foil)) {
+    if ( cardFrontRef.current && cardRef.current && (mask || foil)) {
 
       const randomSeed = {
         x: Math.random(),
@@ -55,8 +55,14 @@ useEffect(() => {
       
       cardFrontRef.current.style.setProperty("--cosmosbg", `${cosmosPosition.x}px ${cosmosPosition.y}px`);
       
-      cardFrontRef.current.style.setProperty("--mask", `url(${mask})`, "important");
-      cardFrontRef.current.style.setProperty("--foil", `url(${foil})`, "important");
+      if (mask && foil) {
+        cardFrontRef.current.style.setProperty("--mask", `url(${mask})`, "important");
+        cardFrontRef.current.style.setProperty("--foil", `url(${foil})`, "important");
+        cardRef.current.style.setProperty("--clip", "none", "important");
+        // cardRef.current.style.setProperty("--clip-invert", "none", "important");
+        cardRef.current.style.setProperty("--clip-stage", "none", "important");
+        // cardRef.current.style.setProperty("--clip-stage-invert", "none", "important");
+      }
     }
   }, [mask, foil]);
 

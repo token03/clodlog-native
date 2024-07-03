@@ -76,9 +76,9 @@ export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => 
           {/*Format*/}
           <FilterAccordion name={"Rarities"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
           {/*Series*/}
-          <FilterAccordion name={"Rarities"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
+          <FilterAccordion name={"Supertypes"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
           {/*Set*/}
-          <FilterAccordion name={"Rarities"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
+          <FilterAccordion name={"Subtypes"} options={["Ultra Mega Rare", "Super Amazing Rare"]} selectedFilters={rarities} setSelectedFilter={setRarities}/>
         </YStack>
       </YStack>
     </Form>

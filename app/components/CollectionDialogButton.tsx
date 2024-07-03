@@ -19,7 +19,7 @@ import {Card} from "../../classes/card";
 
 export function CollectionDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { collections, addCardToCollection, removeCardFromCollection} = useCollections();
+  const { items: collections, addCardToItem: addCardToCollection, removeCardFromItem: removeCardFromCollection} = useCollections();
   const router= useRouter();
   const isCardInCollection = Object.values(collections).some(collection => collection.cards.some(card => card.id === Card?.id));
   

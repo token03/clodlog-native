@@ -1,10 +1,15 @@
-import {ChevronDown} from "@tamagui/lucide-icons";
-import {Accordion, Paragraph, ScrollView, Square} from "tamagui";
+import {AlignJustify, ChevronDown} from "@tamagui/lucide-icons";
+import {Accordion, Paragraph, ScrollView, Square, XStack} from "tamagui";
 import {BrowseSetButton} from "./BrowseSetButton";
 import {useEffect, useMemo, useState} from "react";
 import {Set} from "../../../classes/set";
+import {ViewGenerationButton} from "./ViewGenerationButton";
 
-export function GenerationAccordion() {
+interface GenerationAccordionProps {
+  handleViewSeries: (seriesName: string) => void;
+}
+
+export function GenerationAccordion({handleViewSeries}: GenerationAccordionProps) {
   const [seriesRecord, setSeriesRecord] = useState<Record<string, Set[]>>({});
   useEffect(() => {
     const fetchAllSeries = async () => {
@@ -42,9 +47,12 @@ export function GenerationAccordion() {
         </Accordion.Trigger>
         <Accordion.HeightAnimator animation="medium">
           <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }} padding={0}>
-            {seriesRecord[seriesName].reverse().map((set) => (
-              <BrowseSetButton key={set.id} set={set}/>
-            ))}
+            <>
+              <ViewGenerationButton seriesName={seriesName} handleViewSeries={handleViewSeries}/>
+              {seriesRecord[seriesName].reverse().map((set) => (
+                <BrowseSetButton key={set.id} set={set}/>
+              ))}
+            </>
           </Accordion.Content>
         </Accordion.HeightAnimator>
       </Accordion.Item>
