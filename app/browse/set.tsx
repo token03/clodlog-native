@@ -1,35 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import {useRoute} from '@react-navigation/native';
-import {H6, Label, ScrollView, XStack} from "tamagui";
-import {Set} from "../../classes/set";
-import {CardGrid} from "../components/CardGrid";
-import {useNavigation} from "expo-router";
-import {Filter, MoreVertical} from "@tamagui/lucide-icons";
-import {SelectItem} from "../components/Select";
-import {Sort, SortDirection, SortDirectionOptions, SortOptions} from "../../types/sort";
-import {Card} from "../../classes/card";
+// SetScreen.tsx
+import React, { useEffect, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { H6, View, XStack } from "tamagui";
+import { CardGrid } from "../components/CardGrid";
+import { useNavigation } from "expo-router";
+import { Filter, MoreVertical } from "@tamagui/lucide-icons";
+import { Sort, SortDirection } from "../../types/sort";
+import { Set } from "../../classes/set";
+import { SortHeader } from "../components/SortHeader";
 
 type RouteParams = {
-  setId: string; 
+  setId: string;
 };
 
 const SetScreen = () => {
   const [set, setSet] = useState<Set | null>(null);
   const [sort, setSort] = useState<string>(Sort.Id);
   const [sortDirection, setSortDirection] = useState<string>(SortDirection.Asc);
-  
+
   const route = useRoute();
   const navigation = useNavigation();
   const params = route.params as RouteParams;
   const { setId } = params;
-  
-  const handleSelectSort = (value: string) => {
-    setSort(value);
-  }
-  
-  const handleSelectSortDirection = (value: string) => {
-    setSortDirection(value);
-  }
 
   useEffect(() => {
     const fetchSet = async () => {
@@ -38,13 +30,13 @@ const SetScreen = () => {
     }
     fetchSet();
   }, [setId]);
-  
+
   useEffect(() => {
     if (set) {
       navigation.setOptions({
         title: set.name,
         headerTitle: () => (
-          <XStack 
+          <XStack
             alignContent={"center"}
             justifyContent={"space-between"}
             width={"78vw"}
@@ -61,22 +53,23 @@ const SetScreen = () => {
   }, [set, navigation]);
 
   return (
-    <ScrollView stickyHeaderIndices={[0]} userSelect={"none"}>
-      <XStack height={"100%"} backgroundColor={"$background"} paddingVertical={"$2"} gap={"$2"} justifyContent={"center"}>
-        <Label size={"$2"} width={"15%"}>
-          Sort By:
-        </Label>
-        <SelectItem width={"40%"} size={"$2"} value={sort} onValueChange={handleSelectSort} items={SortOptions} label={"Sort By:"}/>
-        <SelectItem width={"25%"} size={"$2"} value={sortDirection} onValueChange={handleSelectSortDirection} items={SortDirectionOptions} label={"Direction:"} />
-      </XStack>
-      <CardGrid 
-        cards={set?.cards ?? []} 
-        numColumns={2} 
-        route={"browse"} 
-        sort={sort as Sort} 
-        sortDirection={sortDirection as SortDirection} 
+    <View style={{ flex: 1 }}>
+      <CardGrid
+        cards={set?.cards ?? []}
+        numColumns={2}
+        route={"browse"}
+        sort={sort as Sort}
+        sortDirection={sortDirection as SortDirection}
+        ListHeaderComponent={
+          <SortHeader
+            sort={sort}
+            sortDirection={sortDirection}
+            onSortChange={setSort}
+            onSortDirectionChange={setSortDirection}
+          />
+        }
       />
-    </ScrollView>
+    </View>
   );
 };
 

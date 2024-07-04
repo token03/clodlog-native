@@ -11,11 +11,11 @@ import {
   XStack,
   YStack,
 } from "tamagui";
-import {BookOpen, Check, X} from "@tamagui/lucide-icons";
 import {useCollections} from "../../contexts/CollectionContext";
 import {useState} from "react";
 import {useRouter} from "expo-router";
 import {Card} from "../../classes/card";
+import {BookOpen, Check, LibrarySquare, X} from "@tamagui/lucide-icons";
 
 export function CollectionDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -42,7 +42,8 @@ export function CollectionDialogButton({ Icon, Name, Card, ...props }: PopoverPr
           icon={
             <BookOpen
               fill={isCardInCollection ? "white" : undefined}
-              strokeWidth={isCardInCollection ? 0 : 2}
+              color={"grey"}
+              strokeWidth={2}
             />
           }
           scaleIcon={2}

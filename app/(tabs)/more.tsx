@@ -43,6 +43,18 @@ export default function MoreTabScreen() {
     router.push(`/collection/manage/`);
   };
   
+  const handlePressGeneral = () => {
+    router.push(`/more/general/`);
+  };
+
+  const handlePressAppearance = () => {
+    router.push(`/more/appearance/`);
+  };
+
+  const handlePressBackup = () => {
+    router.push(`/more/backup/`);
+  };
+  
   return (
     <View flex={1} alignItems="center" justifyContent="center">
       <YStack width={"80%"} alignItems={"center"} justifyContent={"center"}>
@@ -54,24 +66,28 @@ export default function MoreTabScreen() {
         }}
       />
         <Separator {...separatorProps}/>
-        <Button {...buttonProps} onPress={() => {}}>
+        
+        <Button {...buttonProps} onPress={handlePressGeneral}>
           <XStack {...xStackProps}>
             <ButtonText>{"General"}</ButtonText>
             <ChevronRight/>
           </XStack>
         </Button>
-        <Button {...buttonProps} onPress={() => {}}>
+        <Button {...buttonProps} onPress={handlePressAppearance}>
           <XStack {...xStackProps}>
             <ButtonText>{"Appearance"}</ButtonText>
             <ChevronRight/>
           </XStack>
         </Button>
-        <Button {...buttonProps} onPress={() => {}}>
+        <Button {...buttonProps} onPress={handlePressBackup}>
           <XStack {...xStackProps}>
             <ButtonText>{"Backup"}</ButtonText>
             <ChevronRight/>
           </XStack>
         </Button>
+
+        <Separator {...separatorProps}/>
+        
         <Button {...buttonProps} onPress={handlePressWishlist}>
           <XStack {...xStackProps}>
             <ButtonText>{"Wishlists"}</ButtonText>

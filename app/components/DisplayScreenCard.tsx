@@ -6,6 +6,7 @@ import {Card} from "../../classes/card";
 import {Supertype} from "../../types/supertype";
 import {Rarity} from "../../types/rarity";
 import {useEffect, useState} from "react";
+import {HI_RES_CARD_HEIGHT, HI_RES_CARD_WIDTH} from "../../constants/DisplayCards";
 
 type DisplayScreenCardProps = {
   card: Card | null;
@@ -51,6 +52,7 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
     if (!card) return '';
 
     const rarityMap: { [key: string]: string } = {
+      'shiny rare': 'rare shiny',
       'rare holo gx': 'rare holo v',
       'double rare': 'rare holo v',
       'rare holo ex': 'rare holo v',
@@ -107,14 +109,13 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
           placeholder={{ uri: '/assets/images/placeholder.png' }}
           source={{
             uri: card.images.large,
-            width: 733,
-            height: 1024,
+            width: HI_RES_CARD_WIDTH,
+            height: HI_RES_CARD_HEIGHT,
           }}
-          style={{ flex: 1, height: '100%' }}
+          style={{ flex: 1 }}
           priority="high"
-          pointerEvents="none"
-          contentFit="contain"
-          placeholderContentFit="contain"
+          contentFit="cover"
+          placeholderContentFit="cover"
           onTouchEndCapture={handlePress}
         />
       </HolographicCard>

@@ -10,6 +10,7 @@ import {DisplayScreenCard} from "../components/DisplayScreenCard";
 import {Card} from "../../classes/card";
 import {CollectionDialogButton} from "../components/CollectionDialogButton";
 import {EnergyIcon} from "../components/EnergyIcon";
+import {SCREEN_CARD_ASPECT_RATIO} from "../../constants/DisplayCards";
 
 const seperatorProps = {
   width: "80%",
@@ -79,7 +80,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
           locations={[0, 0.35, 0.8]}
         />      
         <YStack gap={"$3"} padding={"$3"} height={"100%"}  alignItems={"center"}>
-          <XStack width={"80%"} overflow={"visible"}>
+          <XStack overflow={"visible"} aspectRatio={SCREEN_CARD_ASPECT_RATIO} width={"80%"}>
             <DisplayScreenCard card={card} />
           </XStack>
           

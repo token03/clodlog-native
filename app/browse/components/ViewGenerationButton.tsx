@@ -18,8 +18,7 @@ const buttonProps = {
 
 export const ViewGenerationButton = ({seriesName, handleViewSeries}: ViewGenerationButtonProps) => {
   const handlePress = () => {
-    // TODO: needs to be implemented on the backend
-    // handleViewSeries(seriesName)
+    handleViewSeries(seriesName)
   };
 
   return (

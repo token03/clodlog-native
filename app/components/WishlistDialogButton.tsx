@@ -10,7 +10,7 @@ import {
   YStack,
   Unspaced, PopoverProps, Input, Switch,
 } from "tamagui";
-import {Check, Edit3, Heart, Plus, Trash, Trash2, X} from "@tamagui/lucide-icons";
+import {Check, Edit3, Heart, Plus, Star, Trash, Trash2, X} from "@tamagui/lucide-icons";
 import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
 import {useState} from "react";
 import {useRouter} from "expo-router";
@@ -39,8 +39,9 @@ export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProp
       <Dialog.Trigger asChild>
         <Button
           icon={
-            <Heart
-              fill={isCardInWishlist ? "#e34439" : undefined}
+            <Star
+              fill={isCardInWishlist ? "white" : undefined}
+              color={"grey"}
               strokeWidth={2}
             />
           }

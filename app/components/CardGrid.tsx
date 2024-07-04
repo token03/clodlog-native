@@ -1,12 +1,17 @@
-import React, {useEffect} from 'react';
-import {ScrollView, View, XStack} from 'tamagui';
-import {DisplayGridCard} from "./DisplayGridCard";
-import {FlatList} from "react-native";
-import {Sort, SortDirection} from "../../types/sort";
-import {Card} from "../../classes/card";
-import {mapRaritySortWeight} from "../../utils/cardUtils";
-import {useWishlists} from "../../contexts/WishlistContext";
-import {useCollections} from "../../contexts/CollectionContext";
+import React, {useEffect, useMemo} from 'react';
+import { FlatList } from 'react-native';
+import { DisplayGridCard } from "./DisplayGridCard";
+import { Sort, SortDirection } from "../../types/sort";
+import { Card } from "../../classes/card";
+import { mapRaritySortWeight } from "../../utils/cardUtils";
+import { useWishlists } from "../../contexts/WishlistContext";
+import { useCollections } from "../../contexts/CollectionContext";
+import {View} from "tamagui";
+import {GRID_CARD_ASPECT_RATIO} from "../../constants/DisplayCards";
+
+const MAX_CARDS_PER_BATCH = 15;
+const INITIAL_CARDS_TO_RENDER = 10;
+const WINDOW_SIZE = 3;
 
 type CardGridProps = {
   cards: Array<Card>;
@@ -14,20 +19,22 @@ type CardGridProps = {
   route: string;
   sort?: Sort;
   sortDirection?: SortDirection;
+  ListHeaderComponent?: React.ComponentType<any> | React.ReactElement | null;
 };
-export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : CardGridProps) => {
+
+export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHeaderComponent }: CardGridProps) => {
   const { itemCardsRecord: wishlistCardsRecord } = useWishlists();
   const { itemCardsRecord: collectionCardsRecord } = useCollections();
   const [sortedCards, setSortedCards] = React.useState<Array<Card>>(cards);
   const [selectedCardsRecord, setSelectedCardsRecord] = React.useState<Record<string, Card[]>>({});
-  
+
   const selectCard = (card: Card) => {
     setSelectedCardsRecord((prevSelectedCards) => {
       const existingCards = prevSelectedCards[card.id] || [];
       return { ...prevSelectedCards, [card.id]: [...existingCards, card] };
     });
   }
-  
+
   const deselectCard = (card: Card) => {
     setSelectedCardsRecord((prevSelectedCards) => {
       const newSelectedCards = { ...prevSelectedCards };
@@ -35,7 +42,7 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : Car
       return newSelectedCards;
     })
   }
-  
+
   const deselectAllCards = () => {
     setSelectedCardsRecord({});
   }
@@ -82,37 +89,44 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection } : Car
     const sortedCards = sortCards(cards, sort, sortDirection);
     setSortedCards(sortedCards);
   }, [cards, sort, sortDirection]);
+  
+  const renderItem = useMemo(() => ({ item }) => (
+    <View
+      padding={"$1.5"}
+      width={`calc(100% / ${numColumns})`}
+      justifyContent={"center"}
+      aspectRatio={GRID_CARD_ASPECT_RATIO}
+    >
+      <DisplayGridCard
+        route={route}
+        card={item}
+        isInWishlist={wishlistCardsRecord[item.id] !== undefined}
+        isInCollection={collectionCardsRecord[item.id] !== undefined}
+        isSelected={selectedCardsRecord[item.id] !== undefined}
+        selectingMode={Object.keys(selectedCardsRecord).length > 0}
+        selectCard={selectCard}
+        deselectCard={deselectCard}
+      />
+    </View>
+  ), [route, wishlistCardsRecord, collectionCardsRecord, selectedCardsRecord]);
 
-
-    
   return (
     <FlatList
       data={sortedCards}
-      style={{ paddingVertical: 5 }}
-      renderItem={({ item }) => (
-        <View 
-          padding={"$1.5"} 
-          width={`calc(100% / ${numColumns})`}
-          justifyContent={"center"} 
-          aspectRatio={245 / 342}
-        >
-          <DisplayGridCard
-            route={route}
-            card={item}
-            isInWishlist={wishlistCardsRecord[item.id] !== undefined}
-            isInCollection={collectionCardsRecord[item.id] !== undefined}
-            isSelected={selectedCardsRecord[item.id] !== undefined}
-            selectingMode={Object.keys(selectedCardsRecord).length > 0}
-            selectCard={selectCard}
-            deselectCard={deselectCard}
-          />
-        </View>
-      )}
+      scrollEnabled={true}
+      overScrollMode={"never"}
+      maxToRenderPerBatch={INITIAL_CARDS_TO_RENDER}
+      initialNumToRender={MAX_CARDS_PER_BATCH}
+      renderItem={renderItem}
       columnWrapperStyle={{
         marginHorizontal: 13,
-    }}
+      }}
       keyExtractor={(item, index) => `${item.id}-${index}`}
+      windowSize={WINDOW_SIZE}
       numColumns={numColumns}
+      onEndReachedThreshold={0.5}
+      ListHeaderComponent={ListHeaderComponent}
+      stickyHeaderIndices={ListHeaderComponent ? [0] : undefined}
     />
   );
 }

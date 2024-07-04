@@ -57,9 +57,7 @@ function CollectionScreen({ numColumns, cards }: CollectionScreenProps) {
 
   return (
     <>
-      <ScrollView userSelect={"none"}>
-        <CardGrid cards={cards} numColumns={numColumns} route={"collection"} />
-      </ScrollView>
+      <CardGrid cards={cards} numColumns={numColumns} route={"collection"} />
       <Sheet
         forceRemoveScrollEnabled={isFilterOpen}
         modal={true}

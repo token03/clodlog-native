@@ -57,9 +57,7 @@ function WishlistScreen({ numColumns, cards }: WishlistScreenProps) {
 
   return (
     <>
-      <ScrollView userSelect={"none"}>
-        <CardGrid cards={cards} numColumns={numColumns} route={"wishlist"} />
-      </ScrollView>
+      <CardGrid cards={cards} numColumns={numColumns} route={"wishlist"} />
       <Sheet
         forceRemoveScrollEnabled={isFilterOpen}
         modal={true}

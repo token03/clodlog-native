@@ -2,19 +2,19 @@ import React, {useEffect} from 'react';
 import {H6, View, XStack} from "tamagui";
 import {useNavigation} from "expo-router";
 
-const BackupScreen = () => {
+const AppearanceScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Backup",
+      title: "Appearance",
       headerTitle: () => (
         <XStack
           alignContent={"center"}
           justifyContent={"space-between"}
           width={"78vw"}
         >
-          <H6>Backup</H6>
+          <H6>Appearance</H6>
         </XStack>
       )
     });
@@ -27,4 +27,4 @@ const BackupScreen = () => {
   );
 };
 
-export default BackupScreen;
+export default AppearanceScreen;

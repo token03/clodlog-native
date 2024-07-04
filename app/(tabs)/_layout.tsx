@@ -1,6 +1,6 @@
 import {Tabs} from "expo-router";
 import {H6, useTheme, XStack} from "tamagui";
-import {BookOpen, Filter, Heart, Home, MoreVertical, Search, Settings2} from "@tamagui/lucide-icons";
+import {BookOpen, Filter, Heart, Search, Settings2, MoreVertical} from "@tamagui/lucide-icons";
 import {StackStyleBase, WithThemeValues} from "@tamagui/web";
 
 const headerXStackProps: WithThemeValues<StackStyleBase> = {
@@ -11,28 +11,27 @@ const headerXStackProps: WithThemeValues<StackStyleBase> = {
 
 export default function TabLayout() {
   const theme = useTheme()
-
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: theme.white2.val,
         tabBarStyle: {
-          height: 60, 
-          paddingTop: 10, 
-          paddingBottom: 10, 
+          height: 60,
+          paddingTop: 10,
+          paddingBottom: 10,
         },
       }}
     >
       <Tabs.Screen
-        name="wishlist"
+        name="index"
         options={{
           headerTitle: () => (
             <XStack {...headerXStackProps}>
               <H6>Wishlist</H6>
               <XStack gap={"$3"}>
-                  <Search />
-                  <Filter />
-                  <MoreVertical />
+                <Search />
+                <Filter />
+                <MoreVertical />
               </XStack>
             </XStack>
           ),
@@ -41,28 +40,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-          name="collection"
-          options={{
-            headerTitle: () => (
-              <XStack {...headerXStackProps}>
-                <H6>Collection</H6>
-                <XStack gap={"$3"}>
-                  <Search />
-                  <Filter />
-                  <MoreVertical />
-                </XStack>
-              </XStack>
-            ),
-          title: 'Collection',
-          tabBarIcon: ({ color }) => <BookOpen color={color} />,
-          }}
-      />
-      <Tabs.Screen
-        name="index"
+        name="collection"
         options={{
           headerTitle: () => (
             <XStack {...headerXStackProps}>
-              <H6>Home</H6>
+              <H6>Collection</H6>
               <XStack gap={"$3"}>
                 <Search />
                 <Filter />
@@ -70,8 +52,8 @@ export default function TabLayout() {
               </XStack>
             </XStack>
           ),
-          title: 'Home',
-          tabBarIcon: ({ color }) => <Home color={color} />
+          title: 'Collection',
+          tabBarIcon: ({ color }) => <BookOpen color={color} />,
         }}
       />
       <Tabs.Screen
@@ -90,16 +72,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-          name="more"
-          options={{
-            headerTitle: () => (
-              <XStack {...headerXStackProps}>
-                <H6>More</H6>
-              </XStack>
-            ),
-            title: 'More',
-            tabBarIcon: ({ color }) => <Settings2 color={color} />,
-          }}
+        name="more"
+        options={{
+          headerTitle: () => (
+            <XStack {...headerXStackProps}>
+              <H6>More</H6>
+            </XStack>
+          ),
+          title: 'More',
+          tabBarIcon: ({ color }) => <Settings2 color={color} />,
+        }}
       />
     </Tabs>
   )

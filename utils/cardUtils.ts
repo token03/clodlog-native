@@ -7,52 +7,52 @@ export const mapRaritySortWeight = (rarity: string): number => {
     // Basic rare types
     "Rare": 2,
     "Rare Holo": 3,
+    "Rare Shiny": 4,
+    "Shiny Rare": 4, 
+    "Radiant Rare": 5,
+    "Amazing Rare": 6,
 
     // Special rare types
-    "Amazing Rare": 4,
-    "Rare ACE": 5,
-    "Rare BREAK": 6,
-    "Rare Holo EX": 7,
-    "Double Rare": 7,
-    "Rare Holo GX": 8,
-    "Rare Holo LV.X": 9,
-    "Rare Holo V": 10,
-    "Rare Holo VMAX": 11,
-    "Rare Holo VSTAR": 12,
-    "Rare Prime": 13,
-    "Rare Prism Star": 14,
+    "Rare BREAK": 7,
+    "Rare Holo EX": 8,
+    "Double Rare": 9,
+    "Trainer Gallery Rare Holo": 9,
+    "Rare Holo GX": 10,
+    "Rare Holo LV.X": 11,
+    "Rare Holo V": 12,
+    "Rare Holo VMAX": 13,
+    "Rare Holo VSTAR": 14,
+    "Rare Prime": 15,
+    "Rare Prism Star": 16,
+    "Rare ACE": 17,
 
     // Ultra rare types
-    "Ultra Rare": 15,
-    "Rare Ultra": 16,
-    "Rare Rainbow": 18,
-    "Trainer Gallery Rare Holo": 33,
+    "Ultra Rare": 18,
+    "Rare Ultra": 18,
+    "Rare Rainbow": 19,
+    "Shiny Ultra Rare": 20,
 
     // Special illustration types
-    "Illustration Rare": 17,
-    "Special Illustration Rare": 18,
+    "Illustration Rare": 22,
+    "Special Illustration Rare": 23,
     
     // Shiny rare types
-    "Rare Shiny": 20,
-    "Rare Shiny GX": 21,
-    "Shiny Ultra Rare": 22,
-    "Hyper Rare": 23,
-    "Shiny Rare": 23,
+    "Rare Shiny GX": 24,
+    "Hyper Rare": 25,
 
     // Other special types
-    "ACE SPEC Rare": 25,
-    "LEGEND": 26,
-    "Radiant Rare": 27,
-    "Rare Holo Star": 28,
-    "Rare Secret": 29,
-    "Rare Shining": 30,
+    "ACE SPEC Rare": 27,
+    "LEGEND": 28,
+    "Rare Holo Star": 29,
+    "Rare Secret": 30,
+    "Rare Shining": 31,
 
     // Promo and special collections
-    "Promo": 31,
-    "Classic Collection": 32,
+    "Promo": 0,
+    "Classic Collection": 0,
 
     // Default for unknown rarities
-    "Unknown": 34
+    "Unknown": 0
   };
 
   return raritySortWeights[rarity] ?? raritySortWeights["Unknown"];

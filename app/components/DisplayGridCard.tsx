@@ -2,8 +2,9 @@ import {useRouter} from "expo-router";
 import {Image} from "expo-image"
 import {Pressable} from "react-native";
 import {Card} from "../../classes/card";
-import {View, XStack, YStack} from "tamagui";
-import {BookOpen, Heart} from "@tamagui/lucide-icons";
+import {View, XStack} from "tamagui";
+import {Bookmark, Heart, Star} from "@tamagui/lucide-icons";
+import {SMALL_CARD_HEIGHT, SMALL_CARD_WIDTH} from "../../constants/DisplayCards";
 
 type DisplayGridCardProps = {
   card: Card;
@@ -45,8 +46,8 @@ export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isS
       <Image
         source={{
           uri: card?.images?.small,
-          width: 245,
-          height: 342,
+          width: SMALL_CARD_WIDTH,
+          height: SMALL_CARD_HEIGHT,
         }}
         placeholder={{ uri: '/assets/images/placeholder.png' }}
         style={{ 
@@ -75,23 +76,15 @@ export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isS
             style={{
               position: 'absolute',
               top: -5,
-              right: -5,
+              right: -3,
               zIndex: 3,
             }}
         >
-          {isInCollection && (
-            <BookOpen
+          {(isInCollection || isInWishlist) && (
+            <Bookmark
               fill="white"
               strokeWidth={1}
-              color="$black6"
-              size="$1"
-            />
-          )}
-          {isInWishlist && (
-            <Heart
-              fill="#e34439"
-              strokeWidth={1}
-              color="$black6"
+              color="black"
               size="$1"
             />
           )}

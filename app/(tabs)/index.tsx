@@ -1,11 +1,3 @@
-import { ExternalLink } from '@tamagui/lucide-icons'
-import { Anchor, H2, Paragraph, XStack, YStack } from 'tamagui'
-import { ToastControl } from 'app/CurrentToast'
+import WishlistTabScreen from "../screens/WishlistScreen";
 
-export default function HomeTabScreen() {
-  return (
-    <YStack>
-    
-    </YStack>
-  )
-}
+export default WishlistTabScreen;
