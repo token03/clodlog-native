@@ -1,7 +1,6 @@
 import React, {useRef, ReactNode, useEffect} from "react";
 import { useSpring } from "@react-spring/web";
 import {clamp} from "../../utils/mathUtils";
-import {Rarity} from "../../types/rarity";
 
 interface CardProps {
   supertype?: string;

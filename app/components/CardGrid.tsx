@@ -27,6 +27,9 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHe
   const { itemCardsRecord: collectionCardsRecord } = useCollections();
   const [sortedCards, setSortedCards] = React.useState<Array<Card>>(cards);
   const [selectedCardsRecord, setSelectedCardsRecord] = React.useState<Record<string, Card[]>>({});
+  const [scrollToTop, setScrollToTop] = React.useState<boolean>(false);
+  
+  const flatListRef = React.useRef<FlatList>(null);
 
   const selectCard = (card: Card) => {
     setSelectedCardsRecord((prevSelectedCards) => {
@@ -45,7 +48,14 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHe
 
   const deselectAllCards = () => {
     setSelectedCardsRecord({});
-  }
+  }  
+  
+  useEffect(() => {
+    if (scrollToTop && flatListRef.current) {
+      flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+      setScrollToTop(false);
+    }
+  }, [scrollToTop]);
 
   useEffect(() => {
     const sortCards = (data: Card[], sortField: Sort | undefined, sortOrder: SortDirection | undefined): Card[] => {
@@ -88,6 +98,7 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHe
 
     const sortedCards = sortCards(cards, sort, sortDirection);
     setSortedCards(sortedCards);
+    setScrollToTop(true)
   }, [cards, sort, sortDirection]);
   
   const renderItem = useMemo(() => ({ item }) => (
@@ -112,6 +123,7 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHe
 
   return (
     <FlatList
+      ref={flatListRef}
       data={sortedCards}
       scrollEnabled={true}
       overScrollMode={"never"}
