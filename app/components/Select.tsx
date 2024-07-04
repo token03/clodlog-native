@@ -1,10 +1,26 @@
-import { Check, ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
-import React, { useMemo, useState } from 'react'
-import type { FontSizeTokens, SelectProps } from 'tamagui'
-import { Adapt, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
-import { LinearGradient } from 'tamagui/linear-gradient'
+import { Check, ChevronDown, ChevronUp } from "@tamagui/lucide-icons";
+import React, { useMemo, useState } from "react";
+import type { FontSizeTokens, SelectProps } from "tamagui";
+import {
+  Adapt,
+  Label,
+  Paragraph,
+  Select,
+  Sheet,
+  XStack,
+  YStack,
+  getFontSize,
+} from "tamagui";
+import { LinearGradient } from "tamagui/linear-gradient";
+import { SelectOption } from "types/sort";
 
-export function SelectItem(props: { width?: string, label?: string, items: {label: string, value: string}[] } & SelectProps) {
+export function SelectItem(
+  props: {
+    width?: string;
+    label?: string;
+    items: SelectOption[];
+  } & SelectProps
+) {
   return (
     <Select disablePreventBodyScroll {...props}>
       <Select.Trigger width={props.width} iconAfter={ChevronDown}>
@@ -23,7 +39,7 @@ export function SelectItem(props: { width?: string, label?: string, items: {labe
           <LinearGradient
             start={[0, 0]}
             end={[0, 1]}
-            colors={['$background', 'transparent']}
+            colors={["$background", "transparent"]}
             borderRadius="$4"
           />
         </Select.ScrollUpButton>
@@ -45,13 +61,19 @@ export function SelectItem(props: { width?: string, label?: string, items: {labe
                       index={i}
                       key={item.value}
                       value={item.value}
+                      width={"100%"}
                     >
-                      <Select.ItemText>{item.label}</Select.ItemText>
+                      <Select.ItemText width={"80%"}>
+                        <XStack gap={"$3"}>
+                          <Paragraph>{item.emoji}</Paragraph>
+                          <Paragraph>{item.label}</Paragraph>
+                        </XStack>
+                      </Select.ItemText>
                       <Select.ItemIndicator marginLeft="auto">
                         <Check size={16} />
                       </Select.ItemIndicator>
                     </Select.Item>
-                  )
+                  );
                 }),
               [props.items]
             )}
@@ -65,11 +87,11 @@ export function SelectItem(props: { width?: string, label?: string, items: {labe
               bottom={0}
               alignItems="center"
               justifyContent="center"
-              width={'$4'}
+              width={"$4"}
               pointerEvents="none"
             >
               <ChevronDown
-                size={getFontSize((props.size as FontSizeTokens) ?? '$true')}
+                size={getFontSize((props.size as FontSizeTokens) ?? "$true")}
               />
             </YStack>
           )}
@@ -86,11 +108,11 @@ export function SelectItem(props: { width?: string, label?: string, items: {labe
           <LinearGradient
             start={[0, 0]}
             end={[0, 1]}
-            colors={['transparent', '$background']}
+            colors={["transparent", "$background"]}
             borderRadius="$4"
           />
         </Select.ScrollDownButton>
       </Select.Content>
     </Select>
-  )
+  );
 }
