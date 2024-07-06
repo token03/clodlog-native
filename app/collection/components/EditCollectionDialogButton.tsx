@@ -4,7 +4,7 @@ import {useCollections} from "../../../contexts/CollectionContext";
 import {useEffect, useState} from "react";
 import {Collection} from "../../../types/interfaces/collection";
 
-export function EditCollectionDialogButton({ Collection, ...props }: PopoverProps & { Collection: Collection }) {
+export function EditCollectionDialogButton({ Collection, afterEdit, ...props }: PopoverProps & { Collection: Collection, afterEdit?: (id: string, name: string) => void }) {
   const { items: collections, updateItem: updateCollectionById } = useCollections();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
@@ -17,9 +17,10 @@ export function EditCollectionDialogButton({ Collection, ...props }: PopoverProp
     setIsValid(!checkExistingNameInCollection(name));
   }, [name]);
 
-  const handleCreateCollection = async (name: string) => {
+  const handleEditCollection = async (name: string) => {
     if (isValid) {
-      updateCollectionById(Collection.id, { ...Collection, name })
+      await updateCollectionById(Collection.id, { ...Collection, name })
+      afterEdit && afterEdit(Collection.id, name);
     }
   }
 
@@ -82,7 +83,7 @@ export function EditCollectionDialogButton({ Collection, ...props }: PopoverProp
                       theme="active"
                       aria-label="Close"
                       disabled={!isValid}
-                      onPress={() => handleCreateCollection(name)}
+                      onPress={() => handleEditCollection(name)}
               >
                 Edit
               </Button>

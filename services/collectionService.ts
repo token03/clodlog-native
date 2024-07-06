@@ -53,16 +53,18 @@ export const createCollection = async (collectionName: string) => {
     const order = await getCollectionOrder();
 
     if (!collections[collectionId]) {
-      collections[collectionId] = {
+      const newCollection: Collection = {
         id: collectionId,
         name: collectionName,
         cards: [],
         dateCreated: new Date().toISOString()
       };
+      collections[collectionId] = newCollection;
       await saveCollections(collections);
 
       order.push(collectionId);
       await saveCollectionOrder(order);
+      return newCollection;
     } else {
       console.warn('Collection with the same ID already exists.');
     }

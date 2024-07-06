@@ -4,7 +4,7 @@ import {useWishlists} from "../../../contexts/WishlistContext";
 import {useEffect, useState} from "react";
 import {Wishlist} from "../../../types/interfaces/wishlist";
 
-export function EditWishlistDialogButton({ Wishlist, ...props }: PopoverProps & { Wishlist: Wishlist }) {
+export function EditWishlistDialogButton({ Wishlist, afterEdit, ...props }: PopoverProps & { Wishlist: Wishlist, afterEdit?: (id: string, name: string) => void }) {
   const { items: wishlists, updateItem: updateWishlistById } = useWishlists();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
@@ -17,9 +17,10 @@ export function EditWishlistDialogButton({ Wishlist, ...props }: PopoverProps & 
     setIsValid(!checkExistingNameInWishlist(name));
   }, [name]);
 
-  const handleCreateWishlist = async (name: string) => {
+  const handleEditWishlist = async (name: string) => {
     if (isValid) {
       updateWishlistById(Wishlist.id, { ...Wishlist, name })
+      afterEdit && afterEdit(Wishlist.id, name);
     }
   }
 
@@ -82,7 +83,7 @@ export function EditWishlistDialogButton({ Wishlist, ...props }: PopoverProps & 
                       theme="active"
                       aria-label="Close"
                       disabled={!isValid}
-                      onPress={() => handleCreateWishlist(name)}
+                      onPress={() => handleEditWishlist(name)}
               >
                 Edit
               </Button>

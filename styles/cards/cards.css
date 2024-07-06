@@ -3115,8 +3115,8 @@ Shine & Glare Effects
 
     mix-blend-mode: hard-light;
     filter: brightness(1) contrast(1.2) saturate(1);
-
-    opacity: calc(var(--card-opacity) * .75 );
+    
+    opacity: calc(var(--card-opacity) * .5 );
 
 }
 

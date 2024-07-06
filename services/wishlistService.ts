@@ -53,16 +53,18 @@ export const createWishlist = async (wishlistName: string) => {
     const order = await getWishlistOrder();
 
     if (!wishlists[wishlistId]) {
-      wishlists[wishlistId] = {
+      const newWishlist: Wishlist = {
         id: wishlistId,
         name: wishlistName,
         cards: [],
         dateCreated: new Date().toISOString()
       };
+      wishlists[wishlistId] = newWishlist;
       await saveWishlists(wishlists);
 
       order.push(wishlistId);
       await saveWishlistOrder(order);
+      return newWishlist;
     } else {
       console.warn('Wishlist with the same ID already exists.');
     }

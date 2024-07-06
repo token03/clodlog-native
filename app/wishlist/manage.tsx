@@ -1,24 +1,42 @@
-import React, {useState, useEffect, useCallback, useMemo} from "react";
-import { Button, H6, Label, ScrollView, Sheet, View, XStack, YStack } from 'tamagui';
-import { useWishlists, WishlistProvider } from "../../contexts/WishlistContext";
+import React, { useCallback, useEffect, useState } from "react";
+import { H6, Label, ScrollView, View, XStack } from 'tamagui';
+import { useWishlists } from "../../contexts/WishlistContext";
 import { useNavigation } from "expo-router";
-import { Plus, Trash2, Edit3 } from "@tamagui/lucide-icons";
 import { CreateWishlistDialogButton } from "./components/CreateWishlistDialogButton";
+import { DndProvider, Draggable, DraggableStack, UniqueIdentifier } from "@mgcrea/react-native-dnd";
+import { Wishlist } from "../../types/interfaces/wishlist";
 import { EditWishlistDialogButton } from "./components/EditWishlistDialogButton";
 import { DeleteWishlistAlertDialogButton } from "./components/DeleteWishlistAlertDialogButton";
-import {DndProvider, Draggable, DraggableGrid, DraggableStack, UniqueIdentifier} from "@mgcrea/react-native-dnd";
-import {Wishlist} from "../../types/interfaces/wishlist";
 
 export default function ManageWishlistsScreen() {
-  const { itemsRecord: wishlistRecord, itemOrder: wishlistOrder, updateItemOrder: updateWishlistOrder } = useWishlists();
+  const { items: initialWishlist, updateItemOrder: updateWishlistOrder } = useWishlists();
+  const [renderedWishlists, setRenderedWishlists] = useState(initialWishlist);
+  const [refreshKey, setRefreshKey] = useState(0);
   const navigation = useNavigation();
 
-  // Memoize the ordered wishlists array
-  const orderedWishlists = useMemo(() => {
-    return wishlistOrder
-      .map(id => wishlistRecord[id])
-      .filter(Boolean); // Remove any undefined entries
-  }, [wishlistOrder, wishlistRecord]);
+  const refreshScreen = useCallback(() => {
+    setRefreshKey(prevKey => prevKey + 1);
+  }, []);
+
+  const afterEditWishlist = useCallback((id: string, name: string) => {
+    setRenderedWishlists(prevWishlists =>
+      prevWishlists.map(wishlist =>
+        wishlist.id === id ? { ...wishlist, name } : wishlist
+      )
+    );
+  }, []);
+
+  const afterDeleteWishlist = useCallback((id: string) => {
+    setRenderedWishlists(prevWishlists =>
+      prevWishlists.filter(wishlist => wishlist.id !== id)
+    );
+    refreshScreen();
+  }, [refreshScreen]);
+
+  const afterCreateWishlist = useCallback((wishlist: Wishlist) => {
+    setRenderedWishlists(prevWishlists => [...prevWishlists, wishlist]);
+    refreshScreen();
+  }, [refreshScreen]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -35,12 +53,12 @@ export default function ManageWishlistsScreen() {
     });
   }, [navigation]);
 
-  const onStackOrderChange = (orderedIds: UniqueIdentifier[]) => {
-    updateWishlistOrder(orderedIds as string[]);
+  const onStackOrderChange = async (orderedIds: UniqueIdentifier[]) => {
+    await updateWishlistOrder(orderedIds as string[]);
   }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1}} key={refreshKey}>
       <ScrollView>
         <View height={"100%"}>
           <DndProvider>
@@ -48,17 +66,17 @@ export default function ManageWishlistsScreen() {
               direction="column"
               onOrderChange={onStackOrderChange}
               gap={10}
-              style={{ padding: 20 }}
+              style={{ padding: 10 }}
             >
-              {orderedWishlists.map(wishlist => (
-                <Draggable key={wishlist.id} id={wishlist.id} activationTolerance={2}>
+              {renderedWishlists.map(wishlist => (
+                <Draggable key={wishlist.id} id={wishlist.id} activationTolerance={0}>
                   <XStack width={"100%"} justifyContent={"space-between"} backgroundColor={"$black2"} paddingVertical={"$2"} borderRadius={"$3"}>
                     <Label paddingLeft={"$4"}>
                       {wishlist.name}
                     </Label>
                     <XStack paddingRight={"$3"}>
-                      <EditWishlistDialogButton Wishlist={wishlist}/>
-                      <DeleteWishlistAlertDialogButton Wishlist={wishlist}/>
+                      <EditWishlistDialogButton Wishlist={wishlist} afterEdit={afterEditWishlist}/>
+                      <DeleteWishlistAlertDialogButton Wishlist={wishlist} afterDelete={afterDeleteWishlist}/>
                     </XStack>
                   </XStack>
                 </Draggable>
@@ -67,7 +85,7 @@ export default function ManageWishlistsScreen() {
           </DndProvider>
         </View>
       </ScrollView>
-      <CreateWishlistDialogButton/>
+      <CreateWishlistDialogButton afterCreate={afterCreateWishlist}/>
     </View>
   );
 }

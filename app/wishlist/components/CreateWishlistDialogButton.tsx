@@ -2,8 +2,9 @@ import {Button, Dialog, Fieldset, Input, Label, PopoverProps, Unspaced, XStack, 
 import {Plus, X} from "@tamagui/lucide-icons";
 import {useWishlists} from "../../../contexts/WishlistContext";
 import {useEffect, useState} from "react";
+import {Wishlist} from "../../../types/interfaces/wishlist";
 
-export function CreateWishlistDialogButton(props: PopoverProps) {
+export function CreateWishlistDialogButton({ afterCreate, ...props }: PopoverProps & { afterCreate?: (wishlist: Wishlist) => void }) {
   const { items: wishlists, createItem: createWishlist } = useWishlists();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
@@ -18,10 +19,10 @@ export function CreateWishlistDialogButton(props: PopoverProps) {
 
   const handleCreateWishlist = async (name: string) => {
     if (isValid) {
-      createWishlist(name);
+      const newWishlist = await createWishlist(name);
+      afterCreate && newWishlist && afterCreate(newWishlist);
     }
   }
-
 
   return (
     <Dialog modal>

@@ -2,8 +2,9 @@ import {Button, Dialog, Fieldset, Input, Label, PopoverProps, Unspaced, XStack, 
 import {Plus, X} from "@tamagui/lucide-icons";
 import {useCollections} from "../../../contexts/CollectionContext";
 import {useEffect, useState} from "react";
+import {Collection} from "../../../types/interfaces/collection";
 
-export function CreateCollectionDialogButton(props: PopoverProps) {
+export function CreateCollectionDialogButton({ afterCreate, ...props }: PopoverProps & { afterCreate?: (collection: Collection) => void }) {
   const { items: collections, createItem: createCollection } = useCollections();
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(true);
@@ -18,7 +19,8 @@ export function CreateCollectionDialogButton(props: PopoverProps) {
 
   const handleCreateCollection = async (name: string) => {
     if (isValid) {
-      createCollection(name);
+      const newCollection = await createCollection(name);
+      afterCreate && newCollection && afterCreate(newCollection);
     }
   }
 

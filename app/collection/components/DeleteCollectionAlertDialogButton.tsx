@@ -10,11 +10,12 @@ import {Edit3, Plus, Trash2, X} from "@tamagui/lucide-icons";
 import {useCollections} from "../../../contexts/CollectionContext";
 import {Collection} from "../../../types/interfaces/collection";
 
-export function DeleteCollectionAlertDialogButton({ Collection }: PopoverProps & { Collection: Collection }) {
+export function DeleteCollectionAlertDialogButton({ Collection, afterDelete }: PopoverProps & { Collection: Collection, afterDelete?: (id: string) => void }) {
   const { deleteItem: deleteCollection } = useCollections();
 
   const handleDeleteCollection = async () => {
     deleteCollection(Collection.id)
+    afterDelete && afterDelete(Collection.id);
   }
 
 

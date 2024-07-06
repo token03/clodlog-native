@@ -15,7 +15,7 @@ type GenericListContextType<T extends GenericItem> = {
   refreshItems: () => Promise<void>;
   addCardToItem: (itemId: string, card: Card) => Promise<void>;
   removeCardFromItem: (itemId: string, cardId: string) => Promise<void>;
-  createItem: (itemName: string) => Promise<void>;
+  createItem: (itemName: string) => Promise<T | undefined>;
   deleteItem: (itemId: string) => Promise<void>;
   updateItem: (itemId: string, item: T) => Promise<void>;
   updateItemOrder: (orderedIds: string[]) => Promise<void>;
@@ -31,7 +31,7 @@ export const createGenericListProvider = <T extends GenericItem>(
   getItemOrder: () => Promise<string[]>,
   addCard: (itemId: string, card: Card) => Promise<void>,
   removeCard: (itemId: string, cardId: string) => Promise<void>,
-  createItem: (itemName: string) => Promise<void>,
+  createItem: (itemName: string) => Promise<T | undefined>,
   deleteItem: (itemId: string) => Promise<void>,
   updateItem: (itemId: string, item: T) => Promise<void>,
   updateItemOrder: (orderedIds: string[]) => Promise<void>
@@ -85,8 +85,9 @@ export const createGenericListProvider = <T extends GenericItem>(
     };
 
     const addItem = async (itemName: string) => {
-      await createItem(itemName);
+      const item = await createItem(itemName);
       await refreshItems();
+      return item;
     };
 
     const deleteItemById = async (itemId: string) => {
