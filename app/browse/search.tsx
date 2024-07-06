@@ -9,6 +9,7 @@ import { Sort, SortDirection } from "../../types/sort";
 import { Card } from "../../classes/card";
 import { NoCardsFound } from "./components/NoCardsFound";
 import { SortHeader } from "../components/SortHeader";
+import {ScreenHeader} from "../components/ScreenHeader";
 
 type RouteParams = {
   name?: string,
@@ -44,17 +45,7 @@ const SearchScreen = () => {
     navigation.setOptions({
       title: name ?? series,
       headerTitle: () => (
-        <XStack
-          alignContent={"center"}
-          justifyContent={"space-between"}
-          width={"78vw"}
-        >
-          <H6>{name ?? series}</H6>
-          <XStack gap={"$3"}>
-            <Filter />
-            <MoreVertical />
-          </XStack>
-        </XStack>
+        <ScreenHeader title={name ?? series ?? ""} />
       )
     });
   }, [navigation, name, series]);

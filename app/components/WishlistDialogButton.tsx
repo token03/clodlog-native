@@ -41,6 +41,7 @@ export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProp
           icon={
             <Star
               fill={isCardInWishlist ? "white" : undefined}
+              opacity={isCardInWishlist ? 0.7 : 1}
               color={"grey"}
               strokeWidth={2}
             />

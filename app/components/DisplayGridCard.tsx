@@ -82,9 +82,9 @@ export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isS
         >
           {(isInCollection || isInWishlist) && (
             <Bookmark
-              fill="white"
-              strokeWidth={1}
-              color="black"
+              fill={isInCollection ? "white" : (isInWishlist ? "red" : "blue")}
+              opacity={0.75}
+              strokeWidth={0}
               size="$1"
             />
           )}

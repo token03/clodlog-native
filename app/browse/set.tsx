@@ -8,6 +8,7 @@ import { Filter, MoreVertical } from "@tamagui/lucide-icons";
 import { Sort, SortDirection } from "../../types/sort";
 import { Set } from "../../classes/set";
 import { SortHeader } from "../components/SortHeader";
+import {ScreenHeader} from "../components/ScreenHeader";
 
 type RouteParams = {
   setId: string;
@@ -36,17 +37,7 @@ const SetScreen = () => {
       navigation.setOptions({
         title: set.name,
         headerTitle: () => (
-          <XStack
-            alignContent={"center"}
-            justifyContent={"space-between"}
-            width={"78vw"}
-          >
-            <H6 width={"80%"} textOverflow={"ellipsis"} numberOfLines={1}>{set.name}</H6>
-            <XStack gap={"$3"}>
-              <Filter />
-              <MoreVertical />
-            </XStack>
-          </XStack>
+          <ScreenHeader title={set.name} />
         )
       });
     }

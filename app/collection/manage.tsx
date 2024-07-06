@@ -7,6 +7,7 @@ import { DndProvider, Draggable, DraggableStack, UniqueIdentifier } from "@mgcre
 import { Collection } from "../../types/interfaces/collection";
 import { EditCollectionDialogButton } from "./components/EditCollectionDialogButton";
 import { DeleteCollectionAlertDialogButton } from "./components/DeleteCollectionAlertDialogButton";
+import {ScreenHeader} from "../components/ScreenHeader";
 
 export default function ManageCollectionsScreen() {
   const { items: initialCollection, updateItemOrder: updateCollectionOrder } = useCollections();
@@ -42,13 +43,7 @@ export default function ManageCollectionsScreen() {
     navigation.setOptions({
       title: "Edit Collections",
       headerTitle: () => (
-        <XStack
-          alignContent={"center"}
-          justifyContent={"space-between"}
-          width={"78vw"}
-        >
-          <H6>Edit Collections</H6>
-        </XStack>
+        <ScreenHeader title={"Edit Collections"} />
       )
     });
   }, [navigation]);

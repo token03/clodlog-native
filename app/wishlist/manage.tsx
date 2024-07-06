@@ -7,6 +7,7 @@ import { DndProvider, Draggable, DraggableStack, UniqueIdentifier } from "@mgcre
 import { Wishlist } from "../../types/interfaces/wishlist";
 import { EditWishlistDialogButton } from "./components/EditWishlistDialogButton";
 import { DeleteWishlistAlertDialogButton } from "./components/DeleteWishlistAlertDialogButton";
+import {ScreenHeader} from "../components/ScreenHeader";
 
 export default function ManageWishlistsScreen() {
   const { items: initialWishlist, updateItemOrder: updateWishlistOrder } = useWishlists();
@@ -42,13 +43,7 @@ export default function ManageWishlistsScreen() {
     navigation.setOptions({
       title: "Edit Wishlists",
       headerTitle: () => (
-        <XStack
-          alignContent={"center"}
-          justifyContent={"space-between"}
-          width={"78vw"}
-        >
-          <H6>Edit Wishlists</H6>
-        </XStack>
+        <ScreenHeader title={"Edit Wishlists"} />
       )
     });
   }, [navigation]);

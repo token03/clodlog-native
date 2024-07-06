@@ -11,6 +11,7 @@ import {Card} from "../../classes/card";
 import {CollectionDialogButton} from "../components/CollectionDialogButton";
 import {EnergyIcon} from "../components/EnergyIcon";
 import {SCREEN_CARD_ASPECT_RATIO} from "../../constants/DisplayCards";
+import {ScreenHeader} from "../components/ScreenHeader";
 
 const seperatorProps = {
   width: "80%",
@@ -39,13 +40,7 @@ export const CardScreen = ({ cardId, navigation}: CardScreenProps) => {
       navigation.setOptions({
         title: card.name,
         headerTitle: () => (
-          <XStack
-            alignContent={"center"}
-            justifyContent={"space-between"}
-            width={"78vw"}
-          >
-            <H6>{card.set.name} - {card.number}/{card.set.printedTotal}</H6>
-          </XStack>
+          <ScreenHeader title={`${card.set.name} - ${card.number} / ${card.set.printedTotal}`} />
         )
       });
     }

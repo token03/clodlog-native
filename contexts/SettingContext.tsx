@@ -24,8 +24,8 @@ export const SettingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const updateSetting = async <K extends keyof Settings>(key: K, value: Settings[K]) => {
     const updatedSettings = new Settings({ ...settings, [key]: value });
-    setSettings(updatedSettings);
     await saveSettings(updatedSettings);
+    loadSettings();
   };
 
   return (
