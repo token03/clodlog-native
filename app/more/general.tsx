@@ -72,6 +72,28 @@ const GeneralScreen = () => {
             </XStack>
           </SettingSection>
           
+          <Separator />
+          
+          <SettingSection title="Notification">
+            <CurrencySelector
+              currentCurrency={settings.currency.name}
+              onValueChange={updateCurrency}
+              labelProps={labelProps}
+            />
+          </SettingSection>
+
+          <Separator />
+          
+          <SettingSection title="Language">
+            <CurrencySelector
+              currentCurrency={settings.currency.name}
+              onValueChange={updateCurrency}
+              labelProps={labelProps}
+            />
+          </SettingSection>
+
+          <Separator />
+          
         </YStack>
       </ScrollView>
     </View>

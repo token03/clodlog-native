@@ -42,6 +42,7 @@ export function CollectionDialogButton({ Icon, Name, Card, ...props }: PopoverPr
           icon={
             <BookOpen
               fill={isCardInCollection ? "white" : undefined}
+              opacity={isCardInCollection ? 0.7 : 1}
               color={"grey"}
               strokeWidth={2}
             />
