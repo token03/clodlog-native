@@ -6,16 +6,16 @@ import {useMeta} from "../../../contexts/MetaContext";
 import {series} from "expo-router/build/fork/useLinking";
 
 export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => {
-  // const {
-  //   rarities: rarityOptions,
-  //   supertypes: supertypeOptions,
-  //   subtypes: subtypeOptions,
-  //   types: typeOptions,
-  //   artists: artistOptions,
-  //   hp: hpOptions,
-  //   series: seriesOptions,
-  //   sets: setOptions,
-  // } = useMeta();
+  const {
+    rarities: rarityOptions,
+    supertypes: supertypeOptions,
+    subtypes: subtypeOptions,
+    types: typeOptions,
+    artists: artistOptions,
+    hp: hpOptions,
+    series: seriesOptions,
+    sets: setOptions,
+  } = useMeta();
   const [rarities, setRarities] = React.useState([""]);
   const [supertypes, setSupertypes] = React.useState([""]);
   const [subtypes, setSubtypes] = React.useState([""]);
@@ -72,7 +72,7 @@ export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => 
             <Label>
               HP:
             </Label>
-            {/*<SelectItem items={hpOptions.map(hp => ({label: hp, value: hp}))} size={"$3"}/>*/}
+            <SelectItem items={hpOptions.map(hp => ({label: hp, value: hp}))} size={"$3"}/>
           </XStack>
           
           {/*Type*/}
@@ -80,23 +80,23 @@ export const BrowseFilterForm = ({submitFilter}: {submitFilter: () => void}) => 
             <Label>
               Type:
             </Label>
-            {/*<SelectItem items={typeOptions.map(type => ({label: type, value: type}))} size={"$3"}/>*/}
+            <SelectItem items={typeOptions.map(type => ({label: type, value: type}))} size={"$3"}/>
           </XStack>
           
           <XStack alignItems={"center"} justifyContent={"space-between"} gap={"$4"} paddingLeft={"$4"}>
             <Label>
               Artist:
             </Label>
-            {/*<SelectItem items={artistOptions.map(artist => ({label: artist, value: artist}))} size={"$3"}/>*/}
+            <SelectItem items={artistOptions.map(artist => ({label: artist, value: artist}))} size={"$3"}/>
           </XStack>
         </YStack>
         
         <YStack>
-          {/*<FilterAccordion name={"Rarities"} options={rarityOptions} selectedFilters={rarities} setSelectedFilter={setRarities}/>*/}
-          {/*<FilterAccordion name={"Supertypes"} options={supertypeOptions} selectedFilters={supertypes} setSelectedFilter={setSupertypes}/>*/}
-          {/*<FilterAccordion name={"Subtypes"} options={subtypeOptions} selectedFilters={subtypes} setSelectedFilter={setSubtypes}/>*/}
-          {/*<FilterAccordion name={"Series"} options={seriesOptions} selectedFilters={subtypes} setSelectedFilter={setSubtypes}/>*/}
-          {/*<FilterAccordion name={"Sets"} options={setOptions} selectedFilters={subtypes} setSelectedFilter={setSubtypes}/>*/}
+          <FilterAccordion name={"Rarities"} options={rarityOptions} selectedFilters={rarities} setSelectedFilter={setRarities}/>
+          <FilterAccordion name={"Supertypes"} options={supertypeOptions} selectedFilters={supertypes} setSelectedFilter={setSupertypes}/>
+          <FilterAccordion name={"Subtypes"} options={subtypeOptions} selectedFilters={subtypes} setSelectedFilter={setSubtypes}/>
+          <FilterAccordion name={"Series"} options={seriesOptions} selectedFilters={subtypes} setSelectedFilter={setSubtypes}/>
+          <FilterAccordion name={"Sets"} options={setOptions} selectedFilters={subtypes} setSelectedFilter={setSubtypes}/>
         </YStack>
       </YStack>
     </Form>
