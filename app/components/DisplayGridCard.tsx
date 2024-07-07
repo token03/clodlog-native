@@ -1,7 +1,7 @@
 import {useRouter} from "expo-router";
 import {Image} from "expo-image"
 import {Pressable} from "react-native";
-import {Card} from "../../classes/card";
+import {Card} from "../../types/classes/card";
 import {View, XStack} from "tamagui";
 import {Bookmark, Heart, Star} from "@tamagui/lucide-icons";
 import {SMALL_CARD_HEIGHT, SMALL_CARD_WIDTH} from "../../constants/DisplayCards";

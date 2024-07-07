@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { Card } from "../classes/card";
+import { Card } from "../types/classes/card";
 
 type GenericItem = {
   id: string;

@@ -5,7 +5,7 @@ import {ScrollView, Sheet,} from 'tamagui';
 import {BrowseFilterForm} from "../browse/components/BrowseFilterForm";
 import {useCollections} from "../../contexts/CollectionContext";
 import {ActivityIndicator} from "react-native";
-import {Card} from "../../classes/card";
+import {Card} from "../../types/classes/card";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -32,7 +32,7 @@ export default function CollectionTabScreen() {
         <Tab.Screen
           key={collection.id}
           name={collection.name}
-          children={(props) => <CollectionScreen {...props} numColumns={2} cards={collection.cards} />}
+          children={(props) => <CollectionScreen {...props} cards={collection.cards} />}
         />
       ))}
     </Tab.Navigator>
@@ -40,11 +40,10 @@ export default function CollectionTabScreen() {
 }
 
 type CollectionScreenProps = {
-  numColumns: number;
   cards: Card[];
 };
 
-function CollectionScreen({ numColumns, cards }: CollectionScreenProps) {
+function CollectionScreen({cards }: CollectionScreenProps) {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   const toggleFilter = () => {
@@ -57,7 +56,7 @@ function CollectionScreen({ numColumns, cards }: CollectionScreenProps) {
 
   return (
     <>
-      <CardGrid cards={cards} numColumns={numColumns} route={"collection"} />
+      <CardGrid cards={cards} route={"collection"} />
       <Sheet
         forceRemoveScrollEnabled={isFilterOpen}
         modal={true}

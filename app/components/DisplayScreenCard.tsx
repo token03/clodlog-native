@@ -2,18 +2,21 @@ import {Image} from "expo-image"
 import {View} from "tamagui";
 import '../../styles/cards/cards.css'
 import HolographicCard from "./HolographicCard";
-import {Card} from "../../classes/card";
+import {Card} from "../../types/classes/card";
 import {Supertype} from "../../types/supertype";
 import {Rarity} from "../../types/rarity";
 import {useEffect, useState} from "react";
 import {HI_RES_CARD_HEIGHT, HI_RES_CARD_WIDTH} from "../../constants/DisplayCards";
+import {Platform} from "react-native";
 
 type DisplayScreenCardProps = {
   card: Card | null;
   handlePress?: () => void;
+  isHolographic: boolean;
+  setScrollEnabled?: (scrollEnabled: boolean) => void;
 };
 
-export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps) => {
+export const DisplayScreenCard = ({ card, handlePress, isHolographic, setScrollEnabled }: DisplayScreenCardProps) => {
   const [maskUrl, setMaskUrl] = useState<string>("");
   const [foilUrl, setFoilUrl] = useState<string>("");
   
@@ -54,6 +57,7 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
     const rarityMap: { [key: string]: string } = {
       'shiny rare': 'rare shiny',
       'rare holo gx': 'rare holo v',
+      'rare prime': 'rare holo',
       'double rare': 'rare holo v',
       'rare holo ex': 'rare holo v',
       'illustration rare': 'rare holo v',
@@ -96,29 +100,48 @@ export const DisplayScreenCard = ({ card, handlePress }: DisplayScreenCardProps)
 
   return (
     <View style={{ flex: 1 }}>
-      <HolographicCard
-        supertype={card.supertype.toLowerCase()}
-        rarity={getRarity()}
-        subtypes={card.subtypes.join(' ').toLowerCase()}
-        mask={maskUrl}
-        foil={foilUrl}
-        number={card.number}
-        isTrainerGallery={isTrainerGallery()}
-      >
-        <Image
-          placeholder={{ uri: '/assets/images/placeholder.png' }}
-          source={{
-            uri: card.images.large,
-            width: HI_RES_CARD_WIDTH,
-            height: HI_RES_CARD_HEIGHT,
-          }}
-          style={{ flex: 1 }}
-          priority="high"
-          contentFit="cover"
-          placeholderContentFit="cover"
-          onTouchEndCapture={handlePress}
-        />
-      </HolographicCard>
+      {
+        (isHolographic && Platform.OS === "web")? (
+          <HolographicCard
+            supertype={card.supertype.toLowerCase()}
+            rarity={getRarity()}
+            subtypes={card.subtypes.join(' ').toLowerCase()}
+            mask={maskUrl}
+            foil={foilUrl}
+            number={card.number}
+            isTrainerGallery={isTrainerGallery()}
+            setScrollEnabled={setScrollEnabled}
+          >
+            <Image
+              placeholder={{ uri: '/assets/images/placeholder.png' }}
+              source={{
+                uri: card.images.large,
+                width: HI_RES_CARD_WIDTH,
+                height: HI_RES_CARD_HEIGHT,
+              }}
+              style={{ flex: 1 }}
+              priority="high"
+              contentFit="cover"
+              placeholderContentFit="cover"
+              onTouchEndCapture={handlePress}
+            />
+          </HolographicCard>
+        ) : (
+          <Image
+            placeholder={{ uri: '/assets/images/placeholder.png' }}
+            source={{
+              uri: card.images.large,
+              width: HI_RES_CARD_WIDTH,
+              height: HI_RES_CARD_HEIGHT,
+            }}
+            style={{ flex: 1 }}
+            priority="high"
+            contentFit="cover"
+            placeholderContentFit="cover"
+            onTouchEndCapture={handlePress}
+            />
+        )
+      }
     </View>
   );
 

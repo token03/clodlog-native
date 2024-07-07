@@ -6,7 +6,7 @@ import { CardGrid } from "../components/CardGrid";
 import { useNavigation } from "expo-router";
 import { Filter, MoreVertical } from "@tamagui/lucide-icons";
 import { Sort, SortDirection } from "../../types/sort";
-import { Card } from "../../classes/card";
+import { Card } from "../../types/classes/card";
 import { NoCardsFound } from "./components/NoCardsFound";
 import { SortHeader } from "../components/SortHeader";
 import {ScreenHeader} from "../components/ScreenHeader";
@@ -18,14 +18,22 @@ type RouteParams = {
 
 const SearchScreen = () => {
   const [cards, setCards] = useState<Card[] | null>(null);
-  const [sort, setSort] = useState<string>(Sort.Id);
-  const [sortDirection, setSortDirection] = useState<string>(SortDirection.Asc);
+  const [sort, setSort] = useState<Sort>(Sort.Id);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.Asc);
 
   const route = useRoute();
   const navigation = useNavigation();
   const params = route.params as RouteParams;
   const { name, series } = params;
 
+  const handleSortChange = (value: Sort) => {
+    setSort(value);
+  }
+
+  const handleSortDirectionChange = (value: SortDirection) => {
+    setSortDirection(value);
+  }
+  
   useEffect(() => {
     const fetchCards = async () => {
       const params : {name: string, value: string}[] = [];
@@ -58,16 +66,15 @@ const SearchScreen = () => {
     <View style={{ flex: 1 }}>
       <CardGrid
         cards={cards}
-        numColumns={2}
         route={"browse"}
-        sort={sort as Sort}
+        sort={sort}
         sortDirection={sortDirection as SortDirection}
         ListHeaderComponent={
           <SortHeader
             sort={sort}
             sortDirection={sortDirection}
-            onSortChange={setSort}
-            onSortDirectionChange={setSortDirection}
+            onSortChange={handleSortChange}
+            onSortDirectionChange={handleSortDirectionChange}
           />
         }
       />

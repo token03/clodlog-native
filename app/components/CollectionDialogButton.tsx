@@ -14,7 +14,7 @@ import {
 import {useCollections} from "../../contexts/CollectionContext";
 import {useState} from "react";
 import {useRouter} from "expo-router";
-import {Card} from "../../classes/card";
+import {Card} from "../../types/classes/card";
 import {BookOpen, Check, LibrarySquare, X} from "@tamagui/lucide-icons";
 
 export function CollectionDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { YStack, XStack, Paragraph } from 'tamagui';
-import {Card} from "../../../classes/card";
+import {Card} from "../../../types/classes/card";
 import {EnergyIcon} from "../../components/EnergyIcon";
 
 type CardAttacksProps = {

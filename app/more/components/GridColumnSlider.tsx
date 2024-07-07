@@ -1,6 +1,6 @@
 import React from 'react';
 import {XStack, YStack, Label, Slider, Paragraph, LabelProps} from "tamagui";
-import {Settings} from "../../../classes/settings";
+import {Settings} from "../../../types/classes/settings";
 
 interface GridColumnSliderProps {
   value: number;

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Label, ScrollView, Separator, View, XStack, YStack} from "tamagui";
+import {Button, ButtonText, Label, ScrollView, Separator, Switch, View, XStack, YStack} from "tamagui";
 import {useNavigation} from "expo-router";
 import {useSettings} from "../../contexts/SettingContext";
 import {Currency} from "../../constants/Currency";
@@ -9,6 +9,7 @@ import {CurrencySelector} from "./components/CurrencySelector";
 import {ScreenHeader} from "../components/ScreenHeader";
 import {SelectItem} from "../components/Select";
 import {Sort, SortDirection, SortDirectionOptions, SortOptions} from "../../types/sort";
+import {PriceType} from "../../types/enums/PriceType";
 
 const labelProps = {
   size: "$3",
@@ -17,7 +18,7 @@ const labelProps = {
 
 const GeneralScreen = () => {
   const navigation = useNavigation();
-  const { settings, updateSetting } = useSettings();
+  const { settings, updateSetting, resetSettings } = useSettings();
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,8 +40,8 @@ const GeneralScreen = () => {
   }
 
   return (
-    <View flex={1} padding="$6">
-      <ScrollView>
+    <ScrollView>
+      <View flex={1} padding="$6">
         <YStack gap="$5">
           <SettingSection title="Card Details">
             <CurrencySelector
@@ -48,6 +49,30 @@ const GeneralScreen = () => {
               onValueChange={updateCurrency}
               labelProps={labelProps}
             />
+            <XStack gap={"$3"}>
+              <Label {...labelProps}>
+                Price Type:
+              </Label>
+              <SelectItem
+                items={Object.entries(PriceType).map(([key, value]) => ({
+                  label: key,
+                  value: value 
+                }))}
+                width={`${95 - parseInt(labelProps.width as string)}%`}
+                value={settings.gridPriceType}
+                onValueChange={(value) => updateSetting('gridPriceType', value as PriceType)}
+                size={"$3"}
+                label={"Price Type:"}
+              />
+            </XStack>
+            <XStack gap={"$3"}>
+              <Label {...labelProps}>
+                Holographic:
+              </Label>
+              <Switch checked={settings.holographic} onCheckedChange={(value) => updateSetting('holographic', value)} size={"$3"} alignSelf={"center"}>
+                <Switch.Thumb animation="quicker" size={"$3"}/>
+              </Switch>
+            </XStack>
           </SettingSection>
           
           <Separator />
@@ -69,6 +94,14 @@ const GeneralScreen = () => {
                 Sort Direction:
               </Label>
               <SelectItem width={"70%"} size={"$3"} value={settings.defaultSortDirection} onValueChange={onSortDirectionChange} items={SortDirectionOptions} label={"Direction:"} />
+            </XStack>
+            <XStack gap={"$3"}>
+              <Label {...labelProps}>
+                Display Price:
+              </Label>
+              <Switch checked={settings.alwaysDisplayPrice} onCheckedChange={(value) => updateSetting("alwaysDisplayPrice", value)} size={"$3"} alignSelf={"center"}>
+                <Switch.Thumb animation="quicker" size={"$3"} />
+              </Switch>
             </XStack>
           </SettingSection>
           
@@ -94,9 +127,15 @@ const GeneralScreen = () => {
 
           <Separator />
           
+          <Button size={"$4"} onPress={resetSettings}>
+            <ButtonText>
+              Reset Settings
+            </ButtonText>
+          </Button>
+          
         </YStack>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 

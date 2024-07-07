@@ -2,7 +2,7 @@ import {Button, ButtonText, XStack} from "tamagui";
 import {Image} from "expo-image"
 import React from "react";
 import {useRouter} from "expo-router";
-import {Set} from "../../../classes/set";
+import {Set} from "../../../types/classes/set";
 
 interface BrowseSetButtonProps {
   set: Set;

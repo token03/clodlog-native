@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { fetchSettings, saveSettings } from "../services/settingService";
-import { Settings } from "../classes/settings";
+import {fetchSettings, saveDefaultSettings, saveSettings} from "../services/settingService";
+import { Settings } from "../types/classes/settings";
 
 interface SettingContextType {
   settings: Settings;
   updateSetting: <K extends keyof Settings>(key: K, value: Settings[K]) => Promise<void>;
+  resetSettings: () => Promise<void>;
 }
 
 const SettingContext = createContext<SettingContextType | undefined>(undefined);
@@ -27,12 +28,18 @@ export const SettingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     await saveSettings(updatedSettings);
     loadSettings();
   };
+  
+  const resetSettings = async () => {
+    await saveDefaultSettings();
+    loadSettings();
+  }
 
   return (
     <SettingContext.Provider
       value={{
         settings,
         updateSetting,
+        resetSettings,
       }}
     >
       {children}

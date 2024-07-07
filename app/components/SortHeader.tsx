@@ -7,8 +7,8 @@ import { Sort, SortDirection, SortDirectionOptions, SortOptions } from "../../ty
 interface SortHeaderProps {
   sort: string;
   sortDirection: string;
-  onSortChange: (value: string) => void;
-  onSortDirectionChange: (value: string) => void;
+  onSortChange: (value: Sort) => void;
+  onSortDirectionChange: (value: SortDirection) => void;
 }
 
 export const SortHeader: React.FC<SortHeaderProps> = ({
@@ -18,7 +18,7 @@ export const SortHeader: React.FC<SortHeaderProps> = ({
                                                         onSortDirectionChange
                                                       }) => {
   return (
-    <XStack height={"100%"} backgroundColor={"$background"} paddingVertical={"$2"} gap={"$2"} justifyContent={"center"}>
+    <XStack height={"$3"} backgroundColor={"$background"} paddingVertical={"$2"} gap={"$2"} justifyContent={"center"}>
       <Label size={"$2"} width={"15%"}>
         Sort By:
       </Label>

@@ -6,6 +6,7 @@ import { config } from '../tamagui.config'
 import {WishlistProvider} from "../contexts/WishlistContext";
 import {CollectionProvider} from "../contexts/CollectionContext";
 import {SettingProvider} from "../contexts/SettingContext";
+import {MetaProvider} from "../contexts/MetaContext";
 
 export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
   const colorScheme = useColorScheme()
@@ -19,21 +20,23 @@ export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'conf
       <WishlistProvider>
         <CollectionProvider>
           <SettingProvider>
-            <ToastProvider
-              swipeDirection="horizontal"
-              duration={6000}
-              native={
-                [
-                  /* uncomment the next line to do native toasts on mobile. NOTE: it'll require you making a dev build and won't work with Expo Go */
-                  // 'mobile'
-                ]
-              }
-            >
-                
-              {children}
-              <CurrentToast />
-              <ToastViewport top="$8" left={0} right={0} />
-            </ToastProvider>
+            <MetaProvider>
+              <ToastProvider
+                swipeDirection="horizontal"
+                duration={6000}
+                native={
+                  [
+                    /* uncomment the next line to do native toasts on mobile. NOTE: it'll require you making a dev build and won't work with Expo Go */
+                    // 'mobile'
+                  ]
+                }
+              >
+                  
+                {children}
+                <CurrentToast />
+                <ToastViewport top="$8" left={0} right={0} />
+              </ToastProvider>
+            </MetaProvider>
           </SettingProvider>
         </CollectionProvider>
       </WishlistProvider>

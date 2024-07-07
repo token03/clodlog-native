@@ -5,7 +5,7 @@ import {ScrollView, Sheet, View,} from 'tamagui';
 import {BrowseFilterForm} from "../browse/components/BrowseFilterForm";
 import {useWishlists} from "../../contexts/WishlistContext";
 import {ActivityIndicator} from "react-native";
-import {Card} from "../../classes/card";
+import {Card} from "../../types/classes/card";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -32,7 +32,7 @@ export default function WishlistTabScreen() {
         <Tab.Screen
           key={wishlist.id}
           name={wishlist.name}
-          children={(props) => <WishlistScreen {...props} numColumns={2} cards={wishlist.cards} />}
+          children={(props) => <WishlistScreen {...props} cards={wishlist.cards} />}
         />
       ))}
     </Tab.Navigator>
@@ -40,11 +40,10 @@ export default function WishlistTabScreen() {
 }
 
 type WishlistScreenProps = {
-  numColumns: number;
   cards: Card[];
 };
 
-function WishlistScreen({ numColumns, cards }: WishlistScreenProps) {
+function WishlistScreen({ cards }: WishlistScreenProps) {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   const toggleFilter = () => {
@@ -57,7 +56,7 @@ function WishlistScreen({ numColumns, cards }: WishlistScreenProps) {
 
   return (
     <>
-      <CardGrid cards={cards} numColumns={numColumns} route={"wishlist"} />
+      <CardGrid cards={cards} route={"wishlist"} />
       <Sheet
         forceRemoveScrollEnabled={isFilterOpen}
         modal={true}

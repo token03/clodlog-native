@@ -8,6 +8,8 @@ import { Wishlist } from "../../types/interfaces/wishlist";
 import { EditWishlistDialogButton } from "./components/EditWishlistDialogButton";
 import { DeleteWishlistAlertDialogButton } from "./components/DeleteWishlistAlertDialogButton";
 import {ScreenHeader} from "../components/ScreenHeader";
+import GestureHandler from "react-native-gesture-handler/src/web_hammer/GestureHandler";
+import {GestureDetector, GestureHandlerRootView} from "react-native-gesture-handler";
 
 export default function ManageWishlistsScreen() {
   const { items: initialWishlist, updateItemOrder: updateWishlistOrder } = useWishlists();
@@ -53,6 +55,8 @@ export default function ManageWishlistsScreen() {
   }
 
   return (
+    <GestureHandlerRootView>
+      
     <View style={{flex: 1}} key={refreshKey}>
       <ScrollView>
         <View height={"100%"}>
@@ -82,5 +86,6 @@ export default function ManageWishlistsScreen() {
       </ScrollView>
       <CreateWishlistDialogButton afterCreate={afterCreateWishlist}/>
     </View>
+    </GestureHandlerRootView>
   );
 }

@@ -1,5 +1,5 @@
 import React, {useRef, ReactNode, useEffect} from "react";
-import { useSpring } from "@react-spring/web";
+import { useSpring } from "react-spring";
 import {clamp} from "../../utils/mathUtils";
 
 interface CardProps {
@@ -13,6 +13,7 @@ interface CardProps {
   isTrainerGallery?: boolean;
   children?: ReactNode;
   style?: React.CSSProperties;
+  setScrollEnabled?: (enabled: boolean) => void;
 }
 
 const springConfig = {
@@ -34,6 +35,7 @@ const Card: React.FC<CardProps> = ({
                                      isTrainerGallery = false,
                                      children,
                                      style,
+                                     setScrollEnabled,
                                      ...restProps
                                    }) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -125,7 +127,11 @@ useEffect(() => {
           <div
             ref={cardRef}
             className="card__rotator"
+            onTouchStart={(event) => {
+              setScrollEnabled && setScrollEnabled(false);
+            }}
             onTouchEnd={() => {
+              setScrollEnabled && setScrollEnabled(true);
               setTimeout(() => {
                 setSpringRotate({ x: 0, y: 0 });
                 setSpringGlare({ x: 50, y: 50, o: 0 });
@@ -136,6 +142,24 @@ useEffect(() => {
               if (rarity === "custom" && typeof image === "string" && cardRef.current) {
                 cardRef.current.style.setProperty("--customimage", `url(${image})`);
               }
+            }}
+            onTouchMove={(event) => {
+              const target = event.target as HTMLDivElement;
+              const rect = target.getBoundingClientRect();
+              const x = Math.floor((100 / rect.width) * (event.touches[0].clientX - rect.left));
+              const y = Math.floor((100 / rect.height) * (event.touches[0].clientY - rect.top));
+              const offsetX = x - 50;
+              const offsetY = y - 50;
+
+              if (cardRef.current) {
+                cardRef.current.style.setProperty("--card-scale", "1");
+                cardRef.current.style.setProperty("--translate-x", "0px");
+                cardRef.current.style.setProperty("--translate-y", "0px");
+              }
+
+              setSpringBackground({ x: Math.round(50 + x / 4 - 12.5), y: Math.round(50 + y / 3 - 16.67) });
+              setSpringRotate({ x: Math.floor(-offsetX / 3.5), y: Math.floor(offsetY / 2) });
+              setSpringGlare({ x: Math.round(x), y: Math.round(y), o: 1 });
             }}
             onMouseMove={(event) => {
               const target = event.target as HTMLDivElement;

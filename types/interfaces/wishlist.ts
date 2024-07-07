@@ -1,4 +1,4 @@
-import {Card} from "../../classes/card";
+import {Card} from "../classes/card";
 
 export interface Wishlist {
   id: string;

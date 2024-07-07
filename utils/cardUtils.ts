@@ -1,3 +1,7 @@
+import {Currency} from "../constants/Currency";
+import currency from "currency.js";
+import {symbol} from "prop-types";
+
 export const mapRaritySortWeight = (rarity: string): number => {
   const raritySortWeights: Record<string, number> = {
     // Common rarities
@@ -57,3 +61,8 @@ export const mapRaritySortWeight = (rarity: string): number => {
 
   return raritySortWeights[rarity] ?? raritySortWeights["Unknown"];
 };
+
+export const convertCurrency = (price: string | undefined, currencyToConvertTo: Currency): string => {
+  if (!price) return "N/A";
+  return currency(price, {symbol: currencyToConvertTo.symbol}).multiply(currencyToConvertTo.rate).format();
+}

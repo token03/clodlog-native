@@ -1,7 +1,7 @@
 import { Client } from './client';
 import { Card } from './card';
 import { Set } from './set';
-import { IQuery } from '../types/interfaces/query';
+import { IQuery } from '../interfaces/query';
 
 export class QueryBuilder {
     static async all<T>(resource: string): Promise<T[]> {

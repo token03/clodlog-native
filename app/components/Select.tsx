@@ -19,12 +19,13 @@ export function SelectItem(
     width?: string;
     label?: string;
     items: SelectOption[];
+    placeholder?: string;
   } & SelectProps
 ) {
   return (
     <Select disablePreventBodyScroll {...props}>
       <Select.Trigger width={props.width} iconAfter={ChevronDown}>
-        <Select.Value placeholder="Something" />
+        <Select.Value placeholder={props.placeholder} />
       </Select.Trigger>
       <Select.Content zIndex={200000}>
         <Select.ScrollUpButton
@@ -65,7 +66,7 @@ export function SelectItem(
                     >
                       <Select.ItemText width={"80%"}>
                         <XStack gap={"$3"}>
-                          <Paragraph>{item.emoji}</Paragraph>
+                          {item.emoji ? <Paragraph>{item.emoji}</Paragraph> : null}
                           <Paragraph>{item.label}</Paragraph>
                         </XStack>
                       </Select.ItemText>

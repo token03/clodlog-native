@@ -2,12 +2,13 @@ import React, {useEffect, useMemo} from 'react';
 import { FlatList } from 'react-native';
 import { DisplayGridCard } from "./DisplayGridCard";
 import { Sort, SortDirection } from "../../types/sort";
-import { Card } from "../../classes/card";
-import { mapRaritySortWeight } from "../../utils/cardUtils";
+import { Card } from "../../types/classes/card";
+import {convertCurrency, mapRaritySortWeight} from "../../utils/cardUtils";
 import { useWishlists } from "../../contexts/WishlistContext";
 import { useCollections } from "../../contexts/CollectionContext";
-import {View} from "tamagui";
+import {Paragraph, View} from "tamagui";
 import {GRID_CARD_ASPECT_RATIO} from "../../constants/DisplayCards";
+import {useSettings} from "../../contexts/SettingContext";
 
 const MAX_CARDS_PER_BATCH = 15;
 const INITIAL_CARDS_TO_RENDER = 10;
@@ -15,19 +16,20 @@ const WINDOW_SIZE = 3;
 
 type CardGridProps = {
   cards: Array<Card>;
-  numColumns: number;
   route: string;
   sort?: Sort;
   sortDirection?: SortDirection;
   ListHeaderComponent?: React.ComponentType<any> | React.ReactElement | null;
 };
 
-export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHeaderComponent }: CardGridProps) => {
+export const CardGrid = ({ cards, route, sort, sortDirection, ListHeaderComponent }: CardGridProps) => {
   const { itemCardsRecord: wishlistCardsRecord } = useWishlists();
   const { itemCardsRecord: collectionCardsRecord } = useCollections();
   const [sortedCards, setSortedCards] = React.useState<Array<Card>>(cards);
   const [selectedCardsRecord, setSelectedCardsRecord] = React.useState<Record<string, Card[]>>({});
   const [scrollToTop, setScrollToTop] = React.useState<boolean>(false);
+  
+  const { settings } = useSettings();
   
   const flatListRef = React.useRef<FlatList>(null);
 
@@ -104,7 +106,7 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHe
   const renderItem = useMemo(() => ({ item }) => (
     <View
       padding={"$1.5"}
-      width={`calc(100% / ${numColumns})`}
+      width={`${100 / settings.displayGridColumns}%`}
       justifyContent={"center"}
       aspectRatio={GRID_CARD_ASPECT_RATIO}
     >
@@ -118,11 +120,27 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHe
         selectCard={selectCard}
         deselectCard={deselectCard}
       />
+      {/*TODO: PRICES ARE SAVE TO ASYNC ON SAVE SO WHEN DISPLAYING FROM WISHLIST/COLLECTION ITS OUT OF DATE (BAD!!!!)*/}
+      {
+        (sort === Sort.Price || settings.alwaysDisplayPrice) && (
+          <View
+            position={"absolute"}
+            bottom={"$1.5"}
+            right={"$1.5"}
+            padding={"$1"}
+            backgroundColor={"rgba(0, 0, 0, 0.5)"} // Adjust the last value for opacity
+            borderRadius={"$1"}
+          >
+            <Paragraph size={"$1"}>{convertCurrency(item.prices?.["normal"]?.[settings.gridPriceType], settings.currency)}</Paragraph>
+          </View>
+        )
+      }
     </View>
-  ), [route, wishlistCardsRecord, collectionCardsRecord, selectedCardsRecord]);
+  ), [route, sort, wishlistCardsRecord, collectionCardsRecord, selectedCardsRecord, settings]);
 
   return (
     <FlatList
+      key={settings.displayGridColumns}
       ref={flatListRef}
       data={sortedCards}
       scrollEnabled={true}
@@ -130,12 +148,10 @@ export const CardGrid = ({ cards, numColumns, route, sort, sortDirection, ListHe
       maxToRenderPerBatch={INITIAL_CARDS_TO_RENDER}
       initialNumToRender={MAX_CARDS_PER_BATCH}
       renderItem={renderItem}
-      columnWrapperStyle={{
-        marginHorizontal: 13,
-      }}
+      columnWrapperStyle={settings.displayGridColumns > 1 ? {marginHorizontal: 13} : null}
       keyExtractor={(item, index) => `${item.id}-${index}`}
       windowSize={WINDOW_SIZE}
-      numColumns={numColumns}
+      numColumns={settings.displayGridColumns}
       onEndReachedThreshold={0.5}
       ListHeaderComponent={ListHeaderComponent}
       stickyHeaderIndices={ListHeaderComponent ? [0] : undefined}

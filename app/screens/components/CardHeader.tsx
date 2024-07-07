@@ -1,6 +1,6 @@
 import React from 'react';
 import { XStack, YStack, H5, H6, Paragraph } from 'tamagui';
-import {Card} from "../../../classes/card";
+import {Card} from "../../../types/classes/card";
 
 type CardHeaderProps = {
   card: Card | null;
