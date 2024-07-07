@@ -2,6 +2,12 @@
 
 This is a wishlist / collection manager for the Pokemon TCG built with React Native, Expo, and Tamagui. 
 
+## Demo
+
+![Demo 1](/assets/images/demo1.gif)
+
+![Demo 2](/assets/images/demo2.gif)
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
@@ -19,21 +25,11 @@ To set up the Pokemon Wishlist Application, follow these steps:
 3. Install the dependencies: `yarn install`
 4. Start the Expo server: `yarn start`
 
-## Using the Pokemon Wishlist Application
+## Using the Application
 
 Once the server is running, you can open the application in your Expo client app on your phone by scanning the QR code that appears in the terminal or on the Expo dev tools page.
 
 You can also use an Android or iOS emulator by pressing `a` or `i` in the terminal respectively.
-
-## Contributing to the Pokemon Wishlist Application
-
-To contribute to the Pokemon Wishlist Application, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch: `git checkout -b <branch_name>`
-3. Make your changes and commit them: `git commit -m '<commit_message>'`
-4. Push to the original branch: `git push origin <project_name>/<location>`
-5. Create the pull request.
 
 ## Contact
 
