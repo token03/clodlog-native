@@ -3,10 +3,12 @@ import { TamaguiProvider, type TamaguiProviderProps } from "tamagui";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { CurrentToast } from "./CurrentToast";
 import { config } from "@/../tamagui.config";
-import { WishlistProvider } from "../contexts/WishlistContext";
-import { CollectionProvider } from "../contexts/CollectionContext";
-import { SettingProvider } from "../contexts/SettingContext";
-import { MetaProvider } from "../contexts/MetaContext";
+import {
+  WishlistProvider,
+  CollectionProvider,
+  SettingProvider,
+  MetaProvider,
+} from "../contexts";
 
 export function Provider({
   children,
