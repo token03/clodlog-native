@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { View } from "tamagui";
-import "../../styles/cards/cards.css";
+import "@/styles/cards/cards.css";
 import HolographicCard from "./HolographicCard";
 import { Card } from "@/types/classes/card";
 import { useEffect, useState } from "react";
