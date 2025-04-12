@@ -6,7 +6,7 @@ import {
   SortDirection,
   SortDirectionOptions,
   SortOptions,
-} from "../../types/sort";
+} from "@/types/sort";
 
 interface SortHeaderProps {
   sort: string;

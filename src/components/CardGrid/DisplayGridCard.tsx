@@ -1,14 +1,14 @@
-import {useRouter} from "expo-router";
-import {Image} from "expo-image"
-import {Pressable} from "react-native";
-import {Card} from "../../types/classes/card";
-import {View, XStack} from "tamagui";
-import {Bookmark, Heart, Star} from "@tamagui/lucide-icons";
-import {SMALL_CARD_HEIGHT, SMALL_CARD_WIDTH} from "../../constants/DisplayCards";
+import { useRouter } from "expo-router";
+import { Image } from "expo-image";
+import { Pressable } from "react-native";
+import { Card } from "@/types/classes/card";
+import { View, XStack } from "tamagui";
+import { Bookmark } from "@tamagui/lucide-icons";
+import { SMALL_CARD_HEIGHT, SMALL_CARD_WIDTH } from "@/constants/DisplayCards";
 
 type DisplayGridCardProps = {
   card: Card;
-  route: string; 
+  route: string;
   isSelected: boolean;
   isInWishlist: boolean;
   isInCollection: boolean;
@@ -17,9 +17,19 @@ type DisplayGridCardProps = {
   selectingMode: boolean;
 };
 
-export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isSelected, selectCard, deselectCard, selectingMode }: DisplayGridCardProps) => {
+export const DisplayGridCard = ({
+  route,
+  card,
+  isInWishlist,
+  isInCollection,
+  isSelected,
+  selectCard,
+  deselectCard,
+  selectingMode,
+}: DisplayGridCardProps) => {
   const router = useRouter();
-  const isWishlistOrCollectionGrid = route === "wishlist" || route === "collection";
+  const isWishlistOrCollectionGrid =
+    route === "wishlist" || route === "collection";
 
   const handlePress = () => {
     if (selectingMode) {
@@ -40,7 +50,7 @@ export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isS
     <Pressable
       onPress={handlePress}
       onLongPress={handleLongPress}
-      style={{flex: 1,}}
+      style={{ flex: 1 }}
       pointerEvents={"box-only"}
     >
       <Image
@@ -49,8 +59,8 @@ export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isS
           width: SMALL_CARD_WIDTH,
           height: SMALL_CARD_HEIGHT,
         }}
-        placeholder={{ uri: '/assets/images/placeholder.png' }}
-        style={{ 
+        placeholder={{ uri: "/assets/images/placeholder.png" }}
+        style={{
           flex: 1,
         }}
         placeholderContentFit="cover"
@@ -60,12 +70,12 @@ export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isS
       {isSelected && (
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(140, 216, 255, 0.3)',
+            backgroundColor: "rgba(140, 216, 255, 0.3)",
             borderRadius: 10,
             zIndex: 1,
           }}
@@ -73,16 +83,22 @@ export const DisplayGridCard = ({ route, card, isInWishlist, isInCollection, isS
       )}
       {!isWishlistOrCollectionGrid && (
         <XStack
-            style={{
-              position: 'absolute',
-              top: -5,
-              right: 2,
-              zIndex: 3,
-            }}
+          style={{
+            position: "absolute",
+            top: -5,
+            right: 2,
+            zIndex: 3,
+          }}
         >
           {(isInCollection || isInWishlist) && (
             <Bookmark
-              fill={isInCollection && isInWishlist ? "white" : (isInWishlist ? "red" : "orange")}
+              fill={
+                isInCollection && isInWishlist
+                  ? "white"
+                  : isInWishlist
+                  ? "red"
+                  : "orange"
+              }
               opacity={0.7}
               strokeWidth={0}
               size="$1"
