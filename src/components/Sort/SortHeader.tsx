@@ -6,7 +6,7 @@ import {
   SortDirection,
   SortDirectionOptions,
   SortOptions,
-} from "@/types/sort";
+} from "../../types/sort";
 
 interface SortHeaderProps {
   sort: string;
@@ -22,32 +22,34 @@ export const SortHeader: React.FC<SortHeaderProps> = ({
   onSortDirectionChange,
 }) => {
   return (
-    <XStack
-      height={"$3"}
-      backgroundColor={"$background"}
-      paddingVertical={"$2"}
-      gap={"$2"}
-      justifyContent={"center"}
-    >
-      <Label size={"$2"} width={"15%"}>
-        Sort By:
-      </Label>
-      <SelectItem
-        width={"40%"}
-        size={"$2"}
-        value={sort}
-        onValueChange={onSortChange}
-        items={SortOptions}
-        label={"Sort By:"}
-      />
-      <SelectItem
-        width={"25%"}
-        size={"$2"}
-        value={sortDirection}
-        onValueChange={onSortDirectionChange}
-        items={SortDirectionOptions}
-        label={"Direction:"}
-      />
+    <XStack backgroundColor={"$background"} paddingVertical={"$2"}>
+      <XStack
+        width={"100%"}
+        height={"$2"}
+        backgroundColor={"$background"}
+        gap={"$2"}
+        justifyContent={"center"}
+      >
+        <Label size={"$2"} width={"15%"}>
+          Sort By:
+        </Label>
+        <SelectItem
+          width={"40%"}
+          size={"$2"}
+          value={sort}
+          onValueChange={onSortChange}
+          items={SortOptions}
+          label={"Sort By:"}
+        />
+        <SelectItem
+          width={"25%"}
+          size={"$2"}
+          value={sortDirection}
+          onValueChange={onSortDirectionChange}
+          items={SortDirectionOptions}
+          label={"Direction:"}
+        />
+      </XStack>
     </XStack>
   );
 };
