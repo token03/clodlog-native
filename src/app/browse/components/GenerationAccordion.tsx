@@ -2,7 +2,7 @@ import {AlignJustify, ChevronDown} from "@tamagui/lucide-icons";
 import {Accordion, Paragraph, ScrollView, Square, XStack} from "tamagui";
 import {BrowseSetButton} from "./BrowseSetButton";
 import {useEffect, useMemo, useState} from "react";
-import {Set} from "../../../types/classes/set";
+import {Set} from "@/types/classes/set";
 import {ViewGenerationButton} from "./ViewGenerationButton";
 
 interface GenerationAccordionProps {

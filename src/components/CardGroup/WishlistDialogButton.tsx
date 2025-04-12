@@ -11,10 +11,10 @@ import {
   Unspaced, PopoverProps, Input, Switch,
 } from "tamagui";
 import {Check, Edit3, Heart, Plus, Star, Trash, Trash2, X} from "@tamagui/lucide-icons";
-import {useWishlists, WishlistProvider} from "../../contexts/WishlistContext";
+import {useWishlists, WishlistProvider} from "@/contexts/WishlistContext";
 import {useState} from "react";
 import {useRouter} from "expo-router";
-import {Card} from "../../types/classes/card";
+import {Card} from "@/types/classes/card";
 
 export function WishlistDialogButton({ Icon, Name, Card, ...props }: PopoverProps & { Icon?: any; Name?: string; Card?: Card }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);

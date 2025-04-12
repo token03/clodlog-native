@@ -1,4 +1,4 @@
-import { Wishlist } from "../types/interfaces/wishlist";
+import { Wishlist } from "@/types/interfaces/wishlist";
 import * as wishlistService from '../services/wishlistService';
 import {useContext} from "react";
 import {createGenericListProvider} from "./GenericItemContext";

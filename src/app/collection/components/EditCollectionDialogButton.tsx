@@ -1,8 +1,8 @@
 import {Button, Dialog, Fieldset, Input, Label, PopoverProps, Unspaced, XStack, YStack,} from "tamagui";
 import {Edit3, Plus, X} from "@tamagui/lucide-icons";
-import {useCollections} from "../../../contexts/CollectionContext";
+import {useCollections} from "@/contexts/CollectionContext";
 import {useEffect, useState} from "react";
-import {Collection} from "../../../types/interfaces/collection";
+import {Collection} from "@/types/interfaces/collection";
 
 export function EditCollectionDialogButton({ Collection, afterEdit, ...props }: PopoverProps & { Collection: Collection, afterEdit?: (id: string, name: string) => void }) {
   const { items: collections, updateItem: updateCollectionById } = useCollections();

@@ -7,8 +7,8 @@ import {
   YStack,
 } from "tamagui";
 import {Edit3, Plus, Trash2, X} from "@tamagui/lucide-icons";
-import {useCollections} from "../../../contexts/CollectionContext";
-import {Collection} from "../../../types/interfaces/collection";
+import {useCollections} from "@/contexts/CollectionContext";
+import {Collection} from "@/types/interfaces/collection";
 
 export function DeleteCollectionAlertDialogButton({ Collection, afterDelete }: PopoverProps & { Collection: Collection, afterDelete?: (id: string) => void }) {
   const { deleteItem: deleteCollection } = useCollections();

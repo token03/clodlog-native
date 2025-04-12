@@ -2,7 +2,7 @@ import { Button, Form, Input, Label, Select, XStack, YStack } from "tamagui";
 import React from "react";
 import { FilterAccordion } from "@/components/Filter/FilterAccordion";
 import { SelectItem } from "@/components/Select";
-import { useMeta } from "../../../contexts/MetaContext";
+import { useMeta } from "@/contexts/MetaContext";
 import { series } from "expo-router/build/fork/useLinking";
 
 export const BrowseFilterForm = ({

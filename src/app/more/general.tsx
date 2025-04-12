@@ -11,8 +11,8 @@ import {
   YStack,
 } from "tamagui";
 import { useNavigation } from "expo-router";
-import { useSettings } from "../../contexts/SettingContext";
-import { Currency } from "../../constants/Currency";
+import { useSettings } from "@/contexts/SettingContext";
+import { Currency } from "@/constants/Currency";
 import { GridColumnSlider } from "./components/GridColumnSlider";
 import { SettingSection } from "./components/SettingSection";
 import { CurrencySelector } from "./components/CurrencySelector";
@@ -23,8 +23,8 @@ import {
   SortDirection,
   SortDirectionOptions,
   SortOptions,
-} from "../../types/sort";
-import { PriceType } from "../../types/enums/PriceType";
+} from "@/types/sort";
+import { PriceType } from "@/types/enums/PriceType";
 
 const labelProps = {
   size: "$3",

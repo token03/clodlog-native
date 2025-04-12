@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { H6, Paragraph, ScrollView, Separator, XStack, YStack } from "tamagui";
 import { NavigationProp } from "@react-navigation/core";
-import { Card } from "../../types/classes/card";
-import { SCREEN_CARD_ASPECT_RATIO } from "../../constants/DisplayCards";
+import { Card } from "@/types/classes/card";
+import { SCREEN_CARD_ASPECT_RATIO } from "@/constants/DisplayCards";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { DisplayScreenCard } from "./components/DisplayScreenCard";
 import { WishlistDialogButton } from "@/components/CardGroup/WishlistDialogButton";
@@ -12,9 +12,9 @@ import { CardHeader } from "./components/CardHeader";
 import { CardAbilities } from "./components/CardAbilities";
 import { CardAttacks } from "./components/CardAttacks";
 import { BlurredGradientCard } from "./components/BlurredGradientCard";
-import { useSettings } from "../../contexts/SettingContext";
-import { PriceType } from "../../types/enums/PriceType";
-import { convertCurrency } from "../../utils/cardUtils";
+import { useSettings } from "@/contexts/SettingContext";
+import { PriceType } from "@/types/enums/PriceType";
+import { convertCurrency } from "@/utils/cardUtils";
 
 type CardScreenProps = {
   cardId: string;

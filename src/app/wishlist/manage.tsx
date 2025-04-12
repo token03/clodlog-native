@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Label, ScrollView, View, XStack } from "tamagui";
-import { useWishlists } from "../../contexts/WishlistContext";
+import { useWishlists } from "@/contexts/WishlistContext";
 import { useNavigation } from "expo-router";
 import { CreateWishlistDialogButton } from "./components/CreateWishlistDialogButton";
 import {
@@ -9,7 +9,7 @@ import {
   DraggableStack,
   UniqueIdentifier,
 } from "@mgcrea/react-native-dnd";
-import { Wishlist } from "../../types/interfaces/wishlist";
+import { Wishlist } from "@/types/interfaces/wishlist";
 import { EditWishlistDialogButton } from "./components/EditWishlistDialogButton";
 import { DeleteWishlistAlertDialogButton } from "./components/DeleteWishlistAlertDialogButton";
 import { ScreenHeader } from "@/components/ScreenHeader";

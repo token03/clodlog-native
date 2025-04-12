@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Card} from "types/classes/card";
-import {Collection, CollectionRecord} from "../types/interfaces/collection";
+import {Collection, CollectionRecord} from "@/types/interfaces/collection";
 
 const COLLECTION_KEY = '@Collection';
 const COLLECTION_ORDER_KEY = '@CollectionOrder';

@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { IQuery } from '../interfaces/query';
-import { API_URL } from '../../constants/API';
+import { API_URL } from '@/constants/API';
 
 export class Client {
   static apiUrl = `${API_URL}/api/`;

@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { CardGrid } from "@/components/CardGrid/CardGrid";
 import { ScrollView, Sheet, View } from "tamagui";
 import { BrowseFilterForm } from "../browse/components/BrowseFilterForm";
-import { useWishlists } from "../../contexts/WishlistContext";
+import { useWishlists } from "@/contexts/WishlistContext";
 import { ActivityIndicator } from "react-native";
-import { Card } from "../../types/classes/card";
+import { Card } from "@/types/classes/card";
 
 const Tab = createMaterialTopTabNavigator();
 

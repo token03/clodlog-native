@@ -1,4 +1,4 @@
-import { Collection } from "../types/interfaces/collection";
+import { Collection } from "@/types/interfaces/collection";
 import * as collectionService from '../services/collectionService';
 import {createGenericListProvider} from "./GenericItemContext";
 import {useContext} from "react";

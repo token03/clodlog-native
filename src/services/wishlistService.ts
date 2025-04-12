@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Card} from "types/classes/card";
-import {Wishlist, WishlistRecord} from "../types/interfaces/wishlist";
+import {Wishlist, WishlistRecord} from "@/types/interfaces/wishlist";
 
 const WISHLIST_KEY = '@Wishlist';
 const WISHLIST_ORDER_KEY = '@WishlistOrder';

@@ -8,7 +8,7 @@ import {
   CollectionProvider,
   SettingProvider,
   MetaProvider,
-} from "../contexts";
+} from "@/contexts";
 
 export function Provider({
   children,

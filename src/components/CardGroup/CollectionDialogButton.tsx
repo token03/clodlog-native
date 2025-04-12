@@ -11,10 +11,10 @@ import {
   XStack,
   YStack,
 } from "tamagui";
-import { useCollections } from "../../contexts/CollectionContext";
+import { useCollections } from "@/contexts/CollectionContext";
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { Card } from "../../types/classes/card";
+import { Card } from "@/types/classes/card";
 import { BookOpen, Check, LibrarySquare, X } from "@tamagui/lucide-icons";
 
 export function CollectionDialogButton({

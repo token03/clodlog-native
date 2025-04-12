@@ -7,8 +7,8 @@ import {
   YStack,
 } from "tamagui";
 import {Edit3, Plus, Trash2, X} from "@tamagui/lucide-icons";
-import {useWishlists} from "../../../contexts/WishlistContext";
-import {Wishlist} from "../../../types/interfaces/wishlist";
+import {useWishlists} from "@/contexts/WishlistContext";
+import {Wishlist} from "@/types/interfaces/wishlist";
 
 export function DeleteWishlistAlertDialogButton({ Wishlist, afterDelete, ...props }: PopoverProps & { Wishlist: Wishlist, afterDelete?: (id: string) => void }) {
   const { deleteItem: deleteWishlist } = useWishlists();

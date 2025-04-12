@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import {fetchSettings, saveDefaultSettings, saveSettings} from "../services/settingService";
-import { Settings } from "../types/classes/settings";
+import { Settings } from "@/types/classes/settings";
 
 interface SettingContextType {
   settings: Settings;

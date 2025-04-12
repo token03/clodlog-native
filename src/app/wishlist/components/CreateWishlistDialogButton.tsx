@@ -1,8 +1,8 @@
 import {Button, Dialog, Fieldset, Input, Label, PopoverProps, Unspaced, XStack, YStack,} from "tamagui";
 import {Plus, X} from "@tamagui/lucide-icons";
-import {useWishlists} from "../../../contexts/WishlistContext";
+import {useWishlists} from "@/contexts/WishlistContext";
 import {useEffect, useState} from "react";
-import {Wishlist} from "../../../types/interfaces/wishlist";
+import {Wishlist} from "@/types/interfaces/wishlist";
 
 export function CreateWishlistDialogButton({ afterCreate, ...props }: PopoverProps & { afterCreate?: (wishlist: Wishlist) => void }) {
   const { items: wishlists, createItem: createWishlist } = useWishlists();

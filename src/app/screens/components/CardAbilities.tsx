@@ -1,6 +1,6 @@
 import React from 'react';
 import { YStack, XStack, Paragraph } from 'tamagui';
-import {Card} from "../../../types/classes/card";
+import {Card} from "@/types/classes/card";
 
 type CardAbilitiesProps = {
   card: Card | null;

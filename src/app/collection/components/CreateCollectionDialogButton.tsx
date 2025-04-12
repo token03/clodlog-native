@@ -1,8 +1,8 @@
 import {Button, Dialog, Fieldset, Input, Label, PopoverProps, Unspaced, XStack, YStack,} from "tamagui";
 import {Plus, X} from "@tamagui/lucide-icons";
-import {useCollections} from "../../../contexts/CollectionContext";
+import {useCollections} from "@/contexts/CollectionContext";
 import {useEffect, useState} from "react";
-import {Collection} from "../../../types/interfaces/collection";
+import {Collection} from "@/types/interfaces/collection";
 
 export function CreateCollectionDialogButton({ afterCreate, ...props }: PopoverProps & { afterCreate?: (collection: Collection) => void }) {
   const { items: collections, createItem: createCollection } = useCollections();

@@ -1,4 +1,4 @@
-import "@/tamagui-web.css";
+import "@/../tamagui-web.css";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import {
@@ -10,9 +10,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { Provider } from "./Provider";
 import { H6, XStack } from "tamagui";
-import { Filter, MoreVertical, Search } from "@tamagui/lucide-icons";
 import { StackStyleBase, WithThemeValues } from "@tamagui/web";
-import { WishlistProvider } from "../contexts/WishlistContext";
 
 const headerXStackProps: WithThemeValues<StackStyleBase> = {
   alignContent: "center",
