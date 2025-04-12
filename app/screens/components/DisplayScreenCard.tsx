@@ -2,14 +2,12 @@ import { Image } from "expo-image";
 import { View } from "tamagui";
 import "../../styles/cards/cards.css";
 import HolographicCard from "./HolographicCard";
-import { Card } from "../../types/classes/card";
-import { Supertype } from "../../types/supertype";
-import { Rarity } from "../../types/rarity";
+import { Card } from "@/types/classes/card";
 import { useEffect, useState } from "react";
 import {
   HI_RES_CARD_HEIGHT,
   HI_RES_CARD_WIDTH,
-} from "../../constants/DisplayCards";
+} from "../../../constants/DisplayCards";
 import { Platform } from "react-native";
 
 type DisplayScreenCardProps = {
