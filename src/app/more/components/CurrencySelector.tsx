@@ -1,7 +1,7 @@
-import React from 'react';
-import {XStack, Label, LabelProps} from "tamagui";
-import {Currency} from "../../../constants/Currency";
-import {SelectItem} from "../../components/Select";
+import React from "react";
+import { XStack, Label, LabelProps } from "tamagui";
+import { Currency } from "@/constants/Currency";
+import { SelectItem } from "@/components/Select";
 
 interface CurrencySelectorProps {
   currentCurrency: string;
@@ -9,12 +9,16 @@ interface CurrencySelectorProps {
   labelProps: LabelProps;
 }
 
-export const CurrencySelector: React.FC<CurrencySelectorProps> = ({ currentCurrency, onValueChange, labelProps}) => (
+export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
+  currentCurrency,
+  onValueChange,
+  labelProps,
+}) => (
   <XStack gap="$5">
     <Label {...labelProps}>Currency:</Label>
     <SelectItem
       id="currency"
-      items={Object.keys(Currency).map(currency => ({
+      items={Object.keys(Currency).map((currency) => ({
         value: currency,
         label: Currency[currency].name,
         emoji: Currency[currency].symbol,

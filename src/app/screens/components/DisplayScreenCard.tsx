@@ -1,8 +1,8 @@
 import { Image } from "expo-image";
 import { View } from "tamagui";
-import "@/src/styles/cards/cards.css";
+import "@/styles/cards/cards.css";
 import HolographicCard from "./HolographicCard";
-import { Card } from "@/src/types/classes/card";
+import { Card } from "@/types/classes/card";
 import { useEffect, useState } from "react";
 import {
   HI_RES_CARD_HEIGHT,

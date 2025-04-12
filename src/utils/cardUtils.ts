@@ -1,18 +1,17 @@
-import {Currency} from "../constants/Currency";
+import { Currency } from "@/constants/Currency";
 import currency from "currency.js";
-import {symbol} from "prop-types";
 
 export const mapRaritySortWeight = (rarity: string): number => {
   const raritySortWeights: Record<string, number> = {
     // Common rarities
-    "Common": 0,
-    "Uncommon": 1,
+    Common: 0,
+    Uncommon: 1,
 
     // Basic rare types
-    "Rare": 2,
+    Rare: 2,
     "Rare Holo": 3,
     "Rare Shiny": 4,
-    "Shiny Rare": 4, 
+    "Shiny Rare": 4,
     "Radiant Rare": 5,
     "Amazing Rare": 6,
 
@@ -39,30 +38,35 @@ export const mapRaritySortWeight = (rarity: string): number => {
     // Special illustration types
     "Illustration Rare": 22,
     "Special Illustration Rare": 23,
-    
+
     // Shiny rare types
     "Rare Shiny GX": 24,
     "Hyper Rare": 25,
 
     // Other special types
     "ACE SPEC Rare": 27,
-    "LEGEND": 28,
+    LEGEND: 28,
     "Rare Holo Star": 29,
     "Rare Secret": 30,
     "Rare Shining": 31,
 
     // Promo and special collections
-    "Promo": 0,
+    Promo: 0,
     "Classic Collection": 0,
 
     // Default for unknown rarities
-    "Unknown": 0
+    Unknown: 0,
   };
 
   return raritySortWeights[rarity] ?? raritySortWeights["Unknown"];
 };
 
-export const convertCurrency = (price: string | undefined, currencyToConvertTo: Currency): string => {
+export const convertCurrency = (
+  price: string | undefined,
+  currencyToConvertTo: Currency
+): string => {
   if (!price) return "N/A";
-  return currency(price, {symbol: currencyToConvertTo.symbol}).multiply(currencyToConvertTo.rate).format();
-}
+  return currency(price, { symbol: currencyToConvertTo.symbol })
+    .multiply(currencyToConvertTo.rate)
+    .format();
+};

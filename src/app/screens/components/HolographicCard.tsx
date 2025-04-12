@@ -1,6 +1,6 @@
 import React, { useRef, ReactNode, useEffect } from "react";
 import { useSpring } from "react-spring";
-import { clamp } from "@/src/utils/mathUtils";
+import { clamp } from "@/utils/mathUtils";
 
 interface CardProps {
   supertype?: string;
@@ -24,7 +24,7 @@ const springConfig = {
   precision: 0.01,
 };
 
-const Card: React.FC<CardProps> = ({
+const HolographicCard: React.FC<CardProps> = ({
   supertype = "",
   subtypes = "",
   rarity = "",
@@ -244,4 +244,4 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-export default Card;
+export default HolographicCard;

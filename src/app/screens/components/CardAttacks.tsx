@@ -1,7 +1,7 @@
-import React from 'react';
-import { YStack, XStack, Paragraph } from 'tamagui';
-import {Card} from "../../../types/classes/card";
-import {EnergyIcon} from "../../components/EnergyIcon";
+import React from "react";
+import { YStack, XStack, Paragraph } from "tamagui";
+import { Card } from "../../../types/classes/card";
+import { EnergyIcon } from "@/components/EnergyIcon";
 
 type CardAttacksProps = {
   card: Card | null;

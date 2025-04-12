@@ -1,17 +1,17 @@
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import React, {useState} from "react";
-import {CardGrid} from "../components/CardGrid";
-import {ScrollView, Sheet, View,} from 'tamagui';
-import {BrowseFilterForm} from "../browse/components/BrowseFilterForm";
-import {useWishlists} from "../../contexts/WishlistContext";
-import {ActivityIndicator} from "react-native";
-import {Card} from "../../types/classes/card";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import React, { useState } from "react";
+import { CardGrid } from "@/components/CardGrid/CardGrid";
+import { ScrollView, Sheet, View } from "tamagui";
+import { BrowseFilterForm } from "../browse/components/BrowseFilterForm";
+import { useWishlists } from "../../contexts/WishlistContext";
+import { ActivityIndicator } from "react-native";
+import { Card } from "../../types/classes/card";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function WishlistTabScreen() {
   const { items: wishlists } = useWishlists();
-  
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -19,20 +19,22 @@ export default function WishlistTabScreen() {
         tabBarIndicatorStyle: { backgroundColor: "grey" },
         tabBarItemStyle: {
           flex: 1,
-          minWidth: 'auto',
-          width: 'auto',
+          minWidth: "auto",
+          width: "auto",
         },
         swipeEnabled: true,
       }}
     >
-      {
-        wishlists.length === 0 && <Tab.Screen name="LOADING" children={() => <ActivityIndicator />} />
-      }
-      {wishlists.map(wishlist => (
+      {wishlists.length === 0 && (
+        <Tab.Screen name="LOADING" children={() => <ActivityIndicator />} />
+      )}
+      {wishlists.map((wishlist) => (
         <Tab.Screen
           key={wishlist.id}
           name={wishlist.name}
-          children={(props) => <WishlistScreen {...props} cards={wishlist.cards} />}
+          children={(props) => (
+            <WishlistScreen {...props} cards={wishlist.cards} />
+          )}
         />
       ))}
     </Tab.Navigator>
@@ -72,7 +74,11 @@ function WishlistScreen({ cards }: WishlistScreenProps) {
           exitStyle={{ opacity: 0 }}
         />
         <Sheet.Handle />
-        <Sheet.Frame padding="$4" alignItems="center" backgroundColor={"$black2"}>
+        <Sheet.Frame
+          padding="$4"
+          alignItems="center"
+          backgroundColor={"$black2"}
+        >
           <Sheet.ScrollView width={"100%"}>
             <BrowseFilterForm submitFilter={submitFilterRequest} />
           </Sheet.ScrollView>

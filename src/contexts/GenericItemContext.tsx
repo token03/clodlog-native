@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect } from "react";
 import { Card } from "../types/classes/card";
 
 type GenericItem = {
@@ -38,9 +38,13 @@ export const createGenericListProvider = <T extends GenericItem>(
 ) => {
   const GenericListContext = createGenericListContext<T>();
 
-  const GenericListProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const GenericListProvider: React.FC<{ children: React.ReactNode }> = ({
+    children,
+  }) => {
     const [items, setItems] = useState<T[]>([]);
-    const [itemCardsRecord, setItemCardsRecord] = useState<Record<string, Card[]>>({});
+    const [itemCardsRecord, setItemCardsRecord] = useState<
+      Record<string, Card[]>
+    >({});
     const [itemsRecord, setItemsRecord] = useState<Record<string, T>>({});
     const [itemOrder, setItemOrder] = useState<string[]>([]);
 
@@ -49,17 +53,20 @@ export const createGenericListProvider = <T extends GenericItem>(
       const fetchedItemsRecord = await getItems();
       const fetchedItemOrder = await getItemOrder();
 
-      const cards = fetchedItems.reduce((acc: Record<string, Card[]>, wishlist) => {
-        for (const card of wishlist.cards) {
-          if (acc[card.id]) {
-            acc[card.id].push(card);
-          } else {
-            acc[card.id] = [card];
+      const cards = fetchedItems.reduce(
+        (acc: Record<string, Card[]>, wishlist) => {
+          for (const card of wishlist.cards) {
+            if (acc[card.id]) {
+              acc[card.id].push(card);
+            } else {
+              acc[card.id] = [card];
+            }
           }
-        }
-        return acc;
-      }, {});
-      
+          return acc;
+        },
+        {}
+      );
+
       setItems(fetchedItems);
       setItemCardsRecord(cards);
       setItemsRecord(fetchedItemsRecord);
@@ -109,7 +116,7 @@ export const createGenericListProvider = <T extends GenericItem>(
       <GenericListContext.Provider
         value={{
           items,
-          itemsRecord, 
+          itemsRecord,
           itemCardsRecord,
           itemOrder,
           refreshItems,
@@ -119,11 +126,11 @@ export const createGenericListProvider = <T extends GenericItem>(
           deleteItem: deleteItemById,
           updateItem: updateItemById,
           updateItemOrder: updateOrder,
-      }}
-  >
-    {children}
-    </GenericListContext.Provider>
-  );
+        }}
+      >
+        {children}
+      </GenericListContext.Provider>
+    );
   };
 
   return { GenericListProvider, GenericListContext };
