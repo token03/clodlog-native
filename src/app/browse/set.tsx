@@ -1,72 +1,70 @@
-import { useEffect, useState } from "react";
-import { useRoute } from "@react-navigation/native";
-import { View } from "tamagui";
-import { CardGrid } from "@/components/CardGrid/CardGrid";
-import { useNavigation } from "expo-router";
-import { Sort, SortDirection } from "@/types/sort";
-import { Set } from "@/types/classes/set";
-import { SortHeader } from "@/components/Sort/SortHeader";
-import { ScreenHeader } from "@/components/ScreenHeader";
+import { useEffect, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
+import { View } from 'tamagui';
+import { CardGrid } from '@/components/CardGrid/CardGrid';
+import { useNavigation } from 'expo-router';
+import { Sort, SortDirection } from '@/types/sort';
+import { Set } from '@/types/classes/set';
+import { SortHeader } from '@/components/Sort/SortHeader';
+import { ScreenHeader } from '@/components/ScreenHeader';
 
 type RouteParams = {
-  setId: string;
+    setId: string;
 };
 
 const SetScreen = () => {
-  const [set, setSet] = useState<Set | null>(null);
-  const [sort, setSort] = useState<Sort>(Sort.Id);
-  const [sortDirection, setSortDirection] = useState<SortDirection>(
-    SortDirection.Asc
-  );
+    const [set, setSet] = useState<Set | null>(null);
+    const [sort, setSort] = useState<Sort>(Sort.Id);
+    const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.Asc);
 
-  const route = useRoute();
-  const navigation = useNavigation();
-  const params = route.params as RouteParams;
-  const { setId } = params;
+    const route = useRoute();
+    const navigation = useNavigation();
+    const params = route.params as RouteParams;
+    const { setId } = params;
 
-  const handleSortChange = (value: Sort) => {
-    setSort(value);
-  };
-
-  const handleSortDirectionChange = (value: SortDirection) => {
-    setSortDirection(value);
-  };
-
-  useEffect(() => {
-    const fetchSet = async () => {
-      const fetchedSet = await Set.find(setId);
-      setSet(fetchedSet);
+    const handleSortChange = (value: Sort) => {
+        setSort(value);
     };
-    fetchSet();
-  }, [setId]);
 
-  useEffect(() => {
-    if (set) {
-      navigation.setOptions({
-        title: set.name,
-        headerTitle: () => <ScreenHeader title={set.name} />,
-      });
-    }
-  }, [set, navigation]);
+    const handleSortDirectionChange = (value: SortDirection) => {
+        setSortDirection(value);
+    };
 
-  return (
-    <View style={{ flex: 1 }}>
-      <CardGrid
-        cards={set?.cards ?? []}
-        route={"browse"}
-        sort={sort}
-        sortDirection={sortDirection as SortDirection}
-        ListHeaderComponent={
-          <SortHeader
-            sort={sort}
-            sortDirection={sortDirection}
-            onSortChange={handleSortChange}
-            onSortDirectionChange={handleSortDirectionChange}
-          />
+    useEffect(() => {
+        const fetchSet = async () => {
+            const fetchedSet = await Set.find(setId);
+            setSet(fetchedSet);
+        };
+        fetchSet();
+    }, [setId]);
+
+    useEffect(() => {
+        if (set) {
+            navigation.setOptions({
+                title: set.name,
+                headerTitle: () => <ScreenHeader title={set.name} />,
+            });
         }
-      />
-    </View>
-  );
+    }, [set, navigation]);
+
+    return (
+        <View style={{ flex: 1 }}>
+            <CardGrid
+                cards={set?.cards ?? []}
+                route={'browse'}
+                sort={sort}
+                sortDirection={sortDirection as SortDirection}
+                ListHeaderComponent={
+                    <SortHeader
+                        sort={sort}
+                        sortDirection={sortDirection}
+                        onSortChange={handleSortChange}
+                        onSortDirectionChange={handleSortDirectionChange}
+                    />
+                }
+            />
+        </View>
+    );
 };
 
 export default SetScreen;

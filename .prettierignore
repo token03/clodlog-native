@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Expo specific
+.expo/
+.expo-shared/
+
+# Build outputs
+dist/
+web-build/
+
+# Lock file
+yarn.lock
+# package-lock.json # If you ever switch back to npm
+
+# Environment variables
+.env*
+
+# Coverage reports
+coverage/
+
+# Other generated files (add as needed)
+# some-generated-file.js

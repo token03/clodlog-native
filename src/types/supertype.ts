@@ -1,1 +1,1 @@
-export declare type Supertype = 'Pokémon' | 'Trainer' | 'Support'
+export declare type Supertype = 'Pokémon' | 'Trainer' | 'Support';

@@ -1,3 +1,3 @@
-import WishlistTabScreen from "../screens/WishlistScreen";
+import WishlistTabScreen from '../screens/WishlistScreen';
 
 export default WishlistTabScreen;

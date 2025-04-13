@@ -42,12 +42,14 @@ export class QueryBuilder {
 
     private static mapGroupedResponse<T>(response: any): Record<string, T[]> {
         if (typeof response === 'object' && response !== null) {
-            return Object.entries(response).reduce((acc, [series, sets]) => {
-                acc[series] = Array.isArray(sets) ? sets : [];
-                return acc;
-            }, {} as Record<string, T[]>);
+            return Object.entries(response).reduce(
+                (acc, [series, sets]) => {
+                    acc[series] = Array.isArray(sets) ? sets : [];
+                    return acc;
+                },
+                {} as Record<string, T[]>
+            );
         }
         return {};
     }
 }
-
