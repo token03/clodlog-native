@@ -1,9 +1,12 @@
 import { Collection } from "@/types/interfaces/collection";
-import * as collectionService from '../services/collectionService';
-import {createGenericListProvider} from "./GenericItemContext";
-import {useContext} from "react";
+import * as collectionService from "@/services/collectionService";
+import { createGenericListProvider } from "./GenericItemContext";
+import { useContext } from "react";
 
-const { GenericListProvider: CollectionProvider, GenericListContext: CollectionContext } = createGenericListProvider<Collection>(
+const {
+  GenericListProvider: CollectionProvider,
+  GenericListContext: CollectionContext,
+} = createGenericListProvider<Collection>(
   collectionService.fetchAllCollections,
   collectionService.getCollections,
   collectionService.getCollectionOrder,
@@ -20,7 +23,7 @@ export { CollectionProvider, CollectionContext };
 export const useCollections = () => {
   const context = useContext(CollectionContext);
   if (context === undefined) {
-    throw new Error('useCollections must be used within a CollectionProvider');
+    throw new Error("useCollections must be used within a CollectionProvider");
   }
   return context;
 };

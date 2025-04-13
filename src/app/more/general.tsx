@@ -13,9 +13,11 @@ import {
 import { useNavigation } from "expo-router";
 import { useSettings } from "@/contexts/SettingContext";
 import { Currency } from "@/constants/Currency";
-import { GridColumnSlider } from "./components/GridColumnSlider";
-import { SettingSection } from "./components/SettingSection";
-import { CurrencySelector } from "./components/CurrencySelector";
+import {
+  GridColumnSlider,
+  SettingSection,
+  CurrencySelector,
+} from "@/components/Setting";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { SelectItem } from "@/components/Select";
 import {
