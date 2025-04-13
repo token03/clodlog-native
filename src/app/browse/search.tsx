@@ -5,7 +5,7 @@ import { CardGrid } from "@/components/CardGrid/CardGrid";
 import { useNavigation } from "expo-router";
 import { Sort, SortDirection } from "@/types/sort";
 import { Card } from "@/types/classes/card";
-import { NoCardsFound } from "./components/NoCardsFound";
+import { NoCardsFound } from "@/components/Browse";
 import { SortHeader } from "@/components/Sort/SortHeader";
 import { ScreenHeader } from "@/components/ScreenHeader";
 

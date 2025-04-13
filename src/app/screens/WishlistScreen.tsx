@@ -2,7 +2,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useState } from "react";
 import { CardGrid } from "@/components/CardGrid/CardGrid";
 import { Sheet } from "tamagui";
-import { BrowseFilterForm } from "../browse/components/BrowseFilterForm";
+import { BrowseFilterForm } from "@/components/Browse";
 import { useWishlists } from "@/contexts/WishlistContext";
 import { ActivityIndicator } from "react-native";
 import { Card } from "@/types/classes/card";

@@ -1,7 +1,6 @@
-import React from 'react';
-import { useRoute } from '@react-navigation/native';
-import {CardScreen} from "../screens/CardScreen";
-import {useNavigation} from "expo-router";
+import { useRoute } from "@react-navigation/native";
+import { CardScreen } from "../screens/CardScreen";
+import { useNavigation } from "expo-router";
 
 type RouteParams = {
   cardId: string;
@@ -13,9 +12,7 @@ const BrowseCardScreen = () => {
   const params = route.params as RouteParams;
   const { cardId } = params;
 
-  return (
-    <CardScreen cardId={cardId} navigation={navigation}/>
-  );
+  return <CardScreen cardId={cardId} navigation={navigation} />;
 };
 
 export default BrowseCardScreen;
