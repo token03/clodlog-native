@@ -5,13 +5,15 @@ import { NavigationProp } from "@react-navigation/core";
 import { Card } from "@/types/classes/card";
 import { SCREEN_CARD_ASPECT_RATIO } from "@/constants/DisplayCards";
 import { ScreenHeader } from "@/components/ScreenHeader";
-import { DisplayScreenCard } from "./components/DisplayScreenCard";
-import { WishlistDialogButton } from "@/components/CardGroup/WishlistDialogButton";
-import { CollectionDialogButton } from "@/components/CardGroup/CollectionDialogButton";
-import { CardHeader } from "./components/CardHeader";
-import { CardAbilities } from "./components/CardAbilities";
-import { CardAttacks } from "./components/CardAttacks";
-import { BlurredGradientCard } from "./components/BlurredGradientCard";
+import {
+  DisplayScreenCard,
+  CardHeader,
+  CardAbilities,
+  CardAttacks,
+  BlurredGradientCard,
+} from "@/components/Card";
+import { WishlistDialogButton } from "@/components/Wishlist/WishlistDialogButton";
+import { CollectionDialogButton } from "@/components/Collection/CollectionDialogButton";
 import { useSettings } from "@/contexts/SettingContext";
 import { PriceType } from "@/types/enums/PriceType";
 import { convertCurrency } from "@/utils/cardUtils";

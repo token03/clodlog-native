@@ -2,7 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { Label, ScrollView, View, XStack } from "tamagui";
 import { useCollections } from "@/contexts/CollectionContext";
 import { useNavigation } from "expo-router";
-import { CreateCollectionDialogButton } from "./components/CreateCollectionDialogButton";
+import {
+  CreateCollectionDialogButton,
+  EditCollectionDialogButton,
+  DeleteCollectionAlertDialogButton,
+} from "@/components/Collection";
 import {
   DndProvider,
   Draggable,
@@ -10,8 +14,6 @@ import {
   UniqueIdentifier,
 } from "@mgcrea/react-native-dnd";
 import { Collection } from "@/types/interfaces/collection";
-import { EditCollectionDialogButton } from "./components/EditCollectionDialogButton";
-import { DeleteCollectionAlertDialogButton } from "./components/DeleteCollectionAlertDialogButton";
 import { ScreenHeader } from "@/components/ScreenHeader";
 
 export default function ManageCollectionsScreen() {
