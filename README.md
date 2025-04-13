@@ -27,9 +27,9 @@ To set up the Pokemon Wishlist Application, follow these steps:
 4. Set up the backend:
 
 - Clone the backend repository:
-    ```
-    git clone https://github.com/token03/clodlog-backend.git
-    ```
+  ```
+  git clone https://github.com/token03/clodlog-backend.git
+  ```
 - Follow the instructions in the clodlog-backend repository to spin up the Docker container.
 
 ## Using the Application

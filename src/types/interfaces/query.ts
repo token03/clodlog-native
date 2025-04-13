@@ -1,4 +1,4 @@
 export interface IQuery {
-    name: string;
-    value: string | number;
+  name: string;
+  value: string | number;
 }

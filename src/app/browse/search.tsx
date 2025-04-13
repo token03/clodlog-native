@@ -10,72 +10,72 @@ import { SortHeader } from '@/components/Sort/SortHeader';
 import { ScreenHeader } from '@/components/ScreenHeader';
 
 type RouteParams = {
-    name?: string;
-    series?: string;
+  name?: string;
+  series?: string;
 };
 
 const SearchScreen = () => {
-    const [cards, setCards] = useState<Card[] | null>(null);
-    const [sort, setSort] = useState<Sort>(Sort.Id);
-    const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.Asc);
+  const [cards, setCards] = useState<Card[] | null>(null);
+  const [sort, setSort] = useState<Sort>(Sort.Id);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.Asc);
 
-    const route = useRoute();
-    const navigation = useNavigation();
-    const params = route.params as RouteParams;
-    const { name, series } = params;
+  const route = useRoute();
+  const navigation = useNavigation();
+  const params = route.params as RouteParams;
+  const { name, series } = params;
 
-    const handleSortChange = (value: Sort) => {
-        setSort(value);
+  const handleSortChange = (value: Sort) => {
+    setSort(value);
+  };
+
+  const handleSortDirectionChange = (value: SortDirection) => {
+    setSortDirection(value);
+  };
+
+  useEffect(() => {
+    const fetchCards = async () => {
+      const params: { name: string; value: string }[] = [];
+      if (name) {
+        params.push({ name: 'name', value: name });
+      }
+      if (series) {
+        params.push({ name: 'series', value: series });
+      }
+      const fetchedCards = await Card.where(params);
+      setCards(fetchedCards);
     };
+    fetchCards();
+  }, [name, series]);
 
-    const handleSortDirectionChange = (value: SortDirection) => {
-        setSortDirection(value);
-    };
+  useEffect(() => {
+    navigation.setOptions({
+      title: name ?? series,
+      headerTitle: () => <ScreenHeader title={name ?? series ?? ''} />,
+    });
+  }, [navigation, name, series]);
 
-    useEffect(() => {
-        const fetchCards = async () => {
-            const params: { name: string; value: string }[] = [];
-            if (name) {
-                params.push({ name: 'name', value: name });
-            }
-            if (series) {
-                params.push({ name: 'series', value: series });
-            }
-            const fetchedCards = await Card.where(params);
-            setCards(fetchedCards);
-        };
-        fetchCards();
-    }, [name, series]);
+  if (cards == null || cards.length == 0) {
+    return <NoCardsFound />;
+  }
 
-    useEffect(() => {
-        navigation.setOptions({
-            title: name ?? series,
-            headerTitle: () => <ScreenHeader title={name ?? series ?? ''} />,
-        });
-    }, [navigation, name, series]);
-
-    if (cards == null || cards.length == 0) {
-        return <NoCardsFound />;
-    }
-
-    return (
-        <View style={{ flex: 1 }}>
-            <CardGrid
-                cards={cards}
-                route={'browse'}
-                sort={sort}
-                sortDirection={sortDirection as SortDirection}
-                ListHeaderComponent={
-                    <SortHeader
-                        sort={sort}
-                        sortDirection={sortDirection}
-                        onSortChange={handleSortChange}
-                        onSortDirectionChange={handleSortDirectionChange}
-                    />
-                }
-            />
-        </View>
-    );
+  return (
+    <View style={{ flex: 1 }}>
+      <CardGrid
+        cards={cards}
+        route={'browse'}
+        sort={sort}
+        sortDirection={sortDirection as SortDirection}
+        ListHeaderComponent={
+          <SortHeader
+            sort={sort}
+            sortDirection={sortDirection}
+            onSortChange={handleSortChange}
+            onSortDirectionChange={handleSortDirectionChange}
+          />
+        }
+      />
+    </View>
+  );
 };
 
 export default SearchScreen;

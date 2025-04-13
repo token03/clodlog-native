@@ -6,36 +6,36 @@ import { config } from '@/../tamagui.config';
 import { WishlistProvider, CollectionProvider, SettingProvider, MetaProvider } from '@/contexts';
 
 export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
-    const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
 
-    return (
-        <TamaguiProvider
-            config={config}
-            defaultTheme={colorScheme === 'dark' ? 'dark' : 'light'}
-            {...rest}
-        >
-            <WishlistProvider>
-                <CollectionProvider>
-                    <SettingProvider>
-                        <MetaProvider>
-                            <ToastProvider
-                                swipeDirection='horizontal'
-                                duration={6000}
-                                native={
-                                    [
-                                        /* uncomment the next line to do native toasts on mobile. NOTE: it'll require you making a dev build and won't work with Expo Go */
-                                        // 'mobile'
-                                    ]
-                                }
-                            >
-                                {children}
-                                <CurrentToast />
-                                <ToastViewport top='$8' left={0} right={0} />
-                            </ToastProvider>
-                        </MetaProvider>
-                    </SettingProvider>
-                </CollectionProvider>
-            </WishlistProvider>
-        </TamaguiProvider>
-    );
+  return (
+    <TamaguiProvider
+      config={config}
+      defaultTheme={colorScheme === 'dark' ? 'dark' : 'light'}
+      {...rest}
+    >
+      <WishlistProvider>
+        <CollectionProvider>
+          <SettingProvider>
+            <MetaProvider>
+              <ToastProvider
+                swipeDirection='horizontal'
+                duration={6000}
+                native={
+                  [
+                    /* uncomment the next line to do native toasts on mobile. NOTE: it'll require you making a dev build and won't work with Expo Go */
+                    // 'mobile'
+                  ]
+                }
+              >
+                {children}
+                <CurrentToast />
+                <ToastViewport top='$8' left={0} right={0} />
+              </ToastProvider>
+            </MetaProvider>
+          </SettingProvider>
+        </CollectionProvider>
+      </WishlistProvider>
+    </TamaguiProvider>
+  );
 }
