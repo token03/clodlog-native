@@ -166,6 +166,7 @@ const HolographicCard: React.FC<CardProps> = ({
                 y: Math.floor(offsetY / 2),
               });
               setSpringGlare({ x: Math.round(x), y: Math.round(y), o: 1 });
+              event.preventDefault();
             }}
             onMouseMove={event => {
               const target = event.target as HTMLDivElement;
