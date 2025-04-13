@@ -1,30 +1,37 @@
-import {Tabs} from "expo-router";
-import {H6, useTheme, XStack} from "tamagui";
-import {BookOpen, Filter, Heart, Search, Settings2, MoreVertical} from "@tamagui/lucide-icons";
-import {StackStyleBase, WithThemeValues} from "@tamagui/web";
+import { Tabs } from "expo-router";
+import { H6, useTheme, XStack } from "tamagui";
+import {
+  BookOpen,
+  Filter,
+  Heart,
+  Search,
+  Settings2,
+  MoreVertical,
+} from "@tamagui/lucide-icons";
+import { StackStyleBase, WithThemeValues } from "@tamagui/web";
 
 const headerXStackProps: WithThemeValues<StackStyleBase> = {
   alignContent: "center",
   justifyContent: "space-between",
   width: "93vw",
-}
+};
 
 export default function TabLayout() {
-  const theme = useTheme()
+  const theme = useTheme();
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: theme.white2.val,
         tabBarStyle: {
-          height: 60,
-          paddingTop: 10,
-          paddingBottom: 10,
+          height: 50,
+          paddingBottom: 5,
         },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
+          headerStatusBarHeight: 0,
           headerTitle: () => (
             <XStack {...headerXStackProps}>
               <H6>Wishlist</H6>
@@ -35,7 +42,7 @@ export default function TabLayout() {
               </XStack>
             </XStack>
           ),
-          title: 'Wishlist',
+          title: "",
           tabBarIcon: ({ color }) => <Heart color={color} />,
         }}
       />
@@ -52,7 +59,7 @@ export default function TabLayout() {
               </XStack>
             </XStack>
           ),
-          title: 'Collection',
+          title: "",
           tabBarIcon: ({ color }) => <BookOpen color={color} />,
         }}
       />
@@ -67,7 +74,7 @@ export default function TabLayout() {
               </XStack>
             </XStack>
           ),
-          title: 'Browse',
+          title: "",
           tabBarIcon: ({ color }) => <Search color={color} />,
         }}
       />
@@ -79,10 +86,10 @@ export default function TabLayout() {
               <H6>More</H6>
             </XStack>
           ),
-          title: 'More',
+          title: "",
           tabBarIcon: ({ color }) => <Settings2 color={color} />,
         }}
       />
     </Tabs>
-  )
+  );
 }
