@@ -71,6 +71,7 @@ export const FilterAccordion = ({
             padding={0}
             flex={1}
             backgroundColor={'$black2'}
+            style={{ scrollbarWidth: 'none' }}
           >
             {options.map((option, index) => (
               <Option

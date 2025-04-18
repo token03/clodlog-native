@@ -10,11 +10,9 @@ import {
   YStack,
   Unspaced,
   PopoverProps,
-  Input,
-  Switch,
 } from 'tamagui';
-import { Check, Edit3, Heart, Plus, Star, Trash, Trash2, X } from '@tamagui/lucide-icons';
-import { useWishlists, WishlistProvider } from '@/contexts/WishlistContext';
+import { Check, Star, X } from '@tamagui/lucide-icons';
+import { useWishlists } from '@/contexts/WishlistContext';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Card } from '@/types/classes/card';
