@@ -1,93 +1,227 @@
-import React from 'react';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { ReactNode } from 'react';
 import Animated, {
-  Extrapolation,
-  interpolate,
-  useAnimatedStyle,
   useSharedValue,
-  withTiming,
-  useAnimatedReaction,
+  useAnimatedStyle,
+  withSpring,
+  runOnJS,
+  interpolate,
+  Extrapolate,
 } from 'react-native-reanimated';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Platform } from 'react-native'; // Import Platform
 
 interface GestureContainerProps {
-  children: React.ReactNode;
   width: number;
   height: number;
-  maxAngle?: number; // Made optional with default value
-  onRotationChange?: (rx: number, ry: number) => void;
+  children: ReactNode;
+  maxAngle?: number;
+  onGestureStart?: () => void;
+  onGestureEnd?: () => void;
+  onPointerMove?: (pos: {
+    relativeX: number;
+    relativeY: number;
+    rawX: number;
+    rawY: number;
+  }) => void;
 }
 
+const springConfig = {
+  mass: 1,
+  damping: 15,
+  stiffness: 150,
+  overshootClamping: false,
+  restDisplacementThreshold: 0.1,
+  restSpeedThreshold: 0.1,
+};
+
+// Helper function to calculate rotation and notify pointer move
+// Needs to be a worklet function
+const updateRotationAndPointer = (
+  eventX: number,
+  eventY: number,
+  width: number,
+  height: number,
+  maxAngle: number,
+  rotateX: Animated.SharedValue<number>,
+  rotateY: Animated.SharedValue<number>,
+  onPointerMove?: GestureContainerProps['onPointerMove'] // Pass the callback type
+) => {
+  'worklet'; // Indicate this is a worklet
+  const offsetX = eventX - width / 2;
+  const offsetY = eventY - height / 2;
+
+  const targetRotateY = interpolate(
+    offsetX,
+    [-width / 2, width / 2],
+    [maxAngle, -maxAngle],
+    Extrapolate.CLAMP
+  );
+  const targetRotateX = interpolate(
+    offsetY,
+    [-height / 2, height / 2],
+    [-maxAngle, maxAngle], // Flipped sign for more natural tilt
+    Extrapolate.CLAMP
+  );
+
+  // Apply rotation directly (no spring here for immediate response)
+  rotateX.value = targetRotateX;
+  rotateY.value = targetRotateY;
+
+  const relativeX = Math.max(0, Math.min(1, eventX / width));
+  const relativeY = Math.max(0, Math.min(1, eventY / height));
+
+  if (onPointerMove) {
+    // Pass the data object directly to runOnJS
+    runOnJS(onPointerMove)({
+      relativeX,
+      relativeY,
+      rawX: eventX,
+      rawY: eventY,
+    });
+  }
+};
+
+// Helper function to reset rotation and pointer
+const resetRotationAndPointer = (
+  width: number,
+  height: number,
+  rotateX: Animated.SharedValue<number>,
+  rotateY: Animated.SharedValue<number>,
+  onPointerMove?: GestureContainerProps['onPointerMove'],
+  onGestureEnd?: GestureContainerProps['onGestureEnd']
+) => {
+  'worklet';
+  rotateX.value = withSpring(0, springConfig);
+  rotateY.value = withSpring(0, springConfig);
+
+  if (onPointerMove) {
+    runOnJS(onPointerMove)({
+      relativeX: 0.5,
+      relativeY: 0.5,
+      rawX: width / 2,
+      rawY: height / 2,
+    });
+  }
+  if (onGestureEnd) {
+    runOnJS(onGestureEnd)();
+  }
+};
+
 export function GestureContainer({
-  children,
   width,
   height,
-  maxAngle = 10, // Default value of 10
-  onRotationChange,
+  children,
+  maxAngle = 15,
+  onGestureStart,
+  onGestureEnd, // We'll call this from our reset helper
+  onPointerMove,
 }: GestureContainerProps) {
   const rotateX = useSharedValue(0);
   const rotateY = useSharedValue(0);
+  const isPressed = useSharedValue(false); // Track press state
 
-  // Move interpolateRotation inside component to use maxAngle prop
-  const interpolateRotation = React.useCallback(
-    (value: number, size: number, isReverse = false) => {
-      'worklet';
-      return interpolate(
-        value,
-        [0, size],
-        isReverse ? [maxAngle, -maxAngle] : [-maxAngle, maxAngle],
-        Extrapolation.CLAMP
-      );
-    },
-    [maxAngle]
-  );
-
-  useAnimatedReaction(
-    () => ({ x: rotateX.value, y: rotateY.value }),
-    (current, previous) => {
-      if (current !== previous && onRotationChange) {
-        onRotationChange(current.x, current.y);
-      }
-    }
-  );
-
-  const gesture = Gesture.Pan()
+  // --- Pan Gesture (Handles Press Down & Drag) ---
+  const panGesture = Gesture.Pan()
     .onBegin(event => {
-      rotateX.value = withTiming(interpolateRotation(event.y, height, true));
-      rotateY.value = withTiming(interpolateRotation(event.x, width));
+      isPressed.value = true; // Set pressed state
+      if (onGestureStart) {
+        runOnJS(onGestureStart)();
+      }
+      // Apply initial tilt on press down
+      updateRotationAndPointer(
+        event.x,
+        event.y,
+        width,
+        height,
+        maxAngle,
+        rotateX,
+        rotateY,
+        onPointerMove
+      );
     })
     .onUpdate(event => {
-      rotateX.value = interpolateRotation(event.y, height, true);
-      rotateY.value = interpolateRotation(event.x, width);
+      // Update tilt during drag
+      updateRotationAndPointer(
+        event.x,
+        event.y,
+        width,
+        height,
+        maxAngle,
+        rotateX,
+        rotateY,
+        onPointerMove
+      );
+    })
+    .onEnd(() => {
+      // Reset on release only if not hovering (or let hover handle it)
+      // Simpler: always reset, hover will re-apply if needed
+      resetRotationAndPointer(width, height, rotateX, rotateY, onPointerMove, onGestureEnd);
     })
     .onFinalize(() => {
-      rotateX.value = withTiming(0);
-      rotateY.value = withTiming(0);
+      // Ensure reset and pressed state clear happens even if gesture is cancelled
+      isPressed.value = false;
+      // Redundant reset check, but safe
+      if (rotateX.value !== 0 || rotateY.value !== 0) {
+        resetRotationAndPointer(
+          width,
+          height,
+          rotateX,
+          rotateY,
+          onPointerMove,
+          onGestureEnd // Pass onGestureEnd here too if needed on finalize
+        );
+      }
     });
 
-  const rStyle = useAnimatedStyle(
-    () => ({
-      transform: [
-        { perspective: 300 },
-        { rotateX: `${rotateX.value}deg` },
-        { rotateY: `${rotateY.value}deg` },
-      ],
-    }),
-    []
-  );
+  // --- Hover Gesture (Handles Web Hover) ---
+  const hoverGesture = Gesture.Hover()
+    .onUpdate(event => {
+      // Only tilt on hover if NOT currently pressed down
+      if (!isPressed.value) {
+        updateRotationAndPointer(
+          event.x,
+          event.y,
+          width,
+          height,
+          maxAngle,
+          rotateX,
+          rotateY,
+          onPointerMove
+        );
+      }
+    })
+    .onEnd(() => {
+      // Reset tilt when hover ends, only if NOT currently pressed down
+      if (!isPressed.value) {
+        resetRotationAndPointer(
+          width,
+          height,
+          rotateX,
+          rotateY,
+          onPointerMove // Don't call onGestureEnd for hover end
+        );
+      }
+    });
+
+  // Combine gestures: Pan for press/drag, Hover for web hover
+  // Only include hover gesture on web platform
+  const combinedGesture =
+    Platform.OS === 'web' ? Gesture.Simultaneous(panGesture, hoverGesture) : panGesture; // On native, only use pan
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const transform = [
+      { perspective: 1000 },
+      { rotateX: `${rotateX.value}deg` },
+      { rotateY: `${rotateY.value}deg` },
+    ];
+    return {
+      transform,
+    };
+  });
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View
-        style={[
-          {
-            height,
-            width,
-          },
-          rStyle,
-        ]}
-      >
-        {children}
-      </Animated.View>
+    <GestureDetector gesture={combinedGesture}>
+      <Animated.View style={[animatedStyle, { width, height }]}>{children}</Animated.View>
     </GestureDetector>
   );
 }

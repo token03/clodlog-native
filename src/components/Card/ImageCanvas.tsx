@@ -3,38 +3,45 @@ import {
   RadialGradient,
   vec,
   useImage,
-  Image,
+  Image as SkiaImage,
   LinearGradient,
   Group,
   RoundedRect,
+  Color,
 } from '@shopify/react-native-skia';
+import { useMemo } from 'react';
 
 interface ImageCanvasProps {
   width: number;
   height: number;
   gradientCenter: { x: number; y: number };
+  imageUrl: string | null;
+  maskUrl?: string | null;
+  placeholderColor?: Color;
 }
 
-export function ImageCanvas({ width, height, gradientCenter }: ImageCanvasProps) {
-  const wildCharge = useImage(require('../../assets/wild_charge.png'));
-  const maskedWildCharge = useImage(require('../../assets/masked_wild_charge.webp'));
+export function ImageCanvas({
+  width,
+  height,
+  gradientCenter,
+  imageUrl,
+  maskUrl,
+  placeholderColor = 'grey',
+}: ImageCanvasProps) {
+  const cardImage = useImage(imageUrl);
+  const maskImage = useImage(maskUrl);
 
-  if (!wildCharge && !maskedWildCharge) {
-    return null;
-  }
-
-  function glareShinyLayer() {
+  const glareShinyLayer = useMemo(() => {
     return (
       <Group blendMode={'overlay'}>
-        {/* Combined effect using a gradient */}
         <RoundedRect x={0} y={0} r={17} width={width} height={height}>
           <LinearGradient
             start={{ x: 0, y: 0 }}
             end={{ x: width, y: height }}
             colors={[
-              'rgba(255, 255, 255, 0.15)', // Simulates brightness
-              'rgba(0, 0, 0, 0.25)', // Simulates contrast
-              'rgba(128, 128, 128, 0.2)', // Simulates saturation
+              'rgba(255, 255, 255, 0.15)',
+              'rgba(0, 0, 0, 0.25)',
+              'rgba(128, 128, 128, 0.2)',
             ]}
           />
         </RoundedRect>
@@ -42,26 +49,38 @@ export function ImageCanvas({ width, height, gradientCenter }: ImageCanvasProps)
           <RadialGradient
             c={vec(gradientCenter.x, gradientCenter.y)}
             r={Math.max(width, height)}
-            colors={['hsla(0, 0%, 100%, 0.8)', 'hsla(0, 0%, 100%, 0.65)', 'hsla(0, 0%, 0%, 0.5)']}
-            positions={[0.1, 0.2, 0.9]}
+            colors={['hsla(0, 0%, 100%, 0.7)', 'hsla(0, 0%, 100%, 0.5)', 'hsla(0, 0%, 0%, 0.4)']}
+            positions={[0.1, 0.3, 0.9]}
           />
         </RoundedRect>
       </Group>
     );
-  }
+  }, [width, height, gradientCenter]);
 
   return (
     <Canvas style={{ width, height }}>
-      <Image image={wildCharge} height={height} width={width} fit='cover' />
-      <Image
-        image={maskedWildCharge}
-        height={height}
-        width={width}
-        fit='cover'
-        opacity={0.8}
-        blendMode='overlay'
-      />
-      {glareShinyLayer()}
+      {!cardImage && (
+        <RoundedRect x={0} y={0} width={width} height={height} r={17} color={placeholderColor} />
+      )}
+
+      {cardImage && (
+        <SkiaImage image={cardImage} x={0} y={0} height={height} width={width} fit='cover' />
+      )}
+
+      {cardImage && maskImage && (
+        <SkiaImage
+          image={maskImage}
+          x={0}
+          y={0}
+          height={height}
+          width={width}
+          fit='cover'
+          opacity={0.8}
+          blendMode='overlay'
+        />
+      )}
+
+      {cardImage && glareShinyLayer}
     </Canvas>
   );
 }

@@ -1,58 +1,89 @@
 import React from 'react';
-import { useWindowDimensions, View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { runOnJS } from 'react-native-reanimated';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 import { GestureContainer } from './GestureContainer';
 import { ImageCanvas } from './ImageCanvas';
 
-export function PokemonCard() {
-  const { width: SCREEN_WIDTH, height } = useWindowDimensions();
-  const WIDTH = SCREEN_WIDTH * 0.9;
-  const HEIGHT = WIDTH * 1.4;
-  const MAX_ANGLE = 10;
+interface SkiaCardProps {
+  imageUrl: string | null;
+  maskUrl?: string | null;
+  width: number;
+  height: number;
+  handlePress?: () => void;
+  setScrollEnabled?: (enabled: boolean) => void;
+}
 
+const MAX_ANGLE = 10;
+
+export function SkiaCard({
+  imageUrl,
+  maskUrl,
+  width,
+  height,
+  handlePress,
+  setScrollEnabled,
+}: SkiaCardProps) {
   const [gradientCenter, setGradientCenter] = React.useState({
-    x: WIDTH / 2,
-    y: HEIGHT / 2,
+    x: width / 2,
+    y: height / 2,
   });
 
   const handleRotationChange = React.useCallback(
     (rx: number, ry: number) => {
       'worklet';
-      runOnJS(setGradientCenter)({
-        x: WIDTH / 2 + (WIDTH / 2) * (ry / MAX_ANGLE),
-        y: HEIGHT / 2 + (HEIGHT / 2) * (rx / MAX_ANGLE),
-      });
+      const clampedRy = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, ry));
+      const clampedRx = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, rx));
+      const newX = width / 2 + (width / 2) * (clampedRy / MAX_ANGLE);
+      const newY = height / 2 + (height / 2) * (clampedRx / MAX_ANGLE);
+      runOnJS(setGradientCenter)({ x: newX, y: newY });
     },
-    [HEIGHT, WIDTH]
+    [height, width]
   );
+
+  const tapGesture = Gesture.Tap()
+    .maxDuration(250)
+    .onEnd((_event, success) => {
+      if (success && handlePress) {
+        runOnJS(handlePress)();
+      }
+    });
+
+  const onGestureStart = React.useCallback(() => {
+    'worklet';
+    if (setScrollEnabled) {
+      runOnJS(setScrollEnabled)(false);
+    }
+  }, [setScrollEnabled]);
+
+  const onGestureEnd = React.useCallback(() => {
+    'worklet';
+    runOnJS(setGradientCenter)({ x: width / 2, y: height / 2 });
+    if (setScrollEnabled) {
+      setTimeout(() => runOnJS(setScrollEnabled)(true), 100);
+    }
+  }, [setScrollEnabled, width, height]);
 
   return (
-    <View
-      style={[
-        styles.centeredView,
-        {
-          width: SCREEN_WIDTH,
-          height,
-        },
-      ]}
-    >
-      <GestureContainer
-        width={WIDTH}
-        height={HEIGHT}
-        maxAngle={MAX_ANGLE}
-        onRotationChange={handleRotationChange}
-      >
-        <ImageCanvas width={WIDTH} height={HEIGHT} gradientCenter={gradientCenter} />
-      </GestureContainer>
-    </View>
+    <GestureDetector gesture={tapGesture}>
+      <View style={{ width, height }}>
+        <GestureContainer
+          width={width}
+          height={height}
+          maxAngle={MAX_ANGLE}
+          onGestureStart={onGestureStart}
+          onGestureEnd={onGestureEnd}
+        >
+          <ImageCanvas
+            width={width}
+            height={height}
+            gradientCenter={gradientCenter}
+            imageUrl={imageUrl}
+            maskUrl={maskUrl}
+          />
+        </GestureContainer>
+      </View>
+    </GestureDetector>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

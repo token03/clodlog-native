@@ -2,10 +2,10 @@ import { Image } from 'expo-image';
 import { View } from 'tamagui';
 import '@/styles/cards/cards.css';
 import HolographicCard from './HolographicCard';
+import { SkiaCard } from './SkiaCard';
 import { Card } from '@/types/classes/card';
 import { useEffect, useState } from 'react';
 import { HI_RES_CARD_HEIGHT, HI_RES_CARD_WIDTH } from '@/constants/DisplayCards';
-import { Platform } from 'react-native';
 
 type DisplayScreenCardProps = {
   card: Card | null;
@@ -13,6 +13,8 @@ type DisplayScreenCardProps = {
   isHolographic: boolean;
   setScrollEnabled?: (scrollEnabled: boolean) => void;
 };
+
+const PLACEHOLDER_URI = '/assets/images/placeholder.png';
 
 export const DisplayScreenCard = ({
   card,
@@ -25,13 +27,25 @@ export const DisplayScreenCard = ({
 
   const IMAGE_CDN = process.env.EXPO_PUBLIC_IMAGE_CDN;
 
-  // TODO: this entire useEffect should be removed in favour of backend foil/mask url storage.
   useEffect(() => {
+    setMaskUrl('');
+    setFoilUrl('');
     if (!card) return;
 
-    const fetchImage = async (url: string) => {
-      const response = await fetch(url);
-      return response.ok ? url : '';
+    const fetchImage = async (url: string): Promise<string> => {
+      try {
+        // Prefer HEAD to check existence quickly and save bandwidth
+        const headResponse = await fetch(url, { method: 'HEAD' });
+        if (headResponse.ok) {
+          return url;
+        }
+        console.warn(`HEAD request failed or non-OK for ${url}: ${headResponse.status}`);
+        const getResponse = await fetch(url);
+        return getResponse.ok ? url : '';
+      } catch (e) {
+        console.error(`Failed to fetch image URL ${url}:`, e);
+        return '';
+      }
     };
 
     const getImageNumber = () => {
@@ -48,11 +62,11 @@ export const DisplayScreenCard = ({
     Promise.all([
       fetchImage(`${baseUrl}/masks/upscaled/${number}.webp`),
       fetchImage(`${baseUrl}/foils/upscaled/${number}.webp`),
-    ]).then(([maskUrl, foilUrl]) => {
-      setMaskUrl(maskUrl);
-      setFoilUrl(foilUrl);
+    ]).then(([fetchedMaskUrl, fetchedFoilUrl]) => {
+      setMaskUrl(fetchedMaskUrl);
+      setFoilUrl(fetchedFoilUrl);
     });
-  }, [card]);
+  }, [card, IMAGE_CDN]);
 
   const getRarity = (): string => {
     if (!card) return '';
@@ -70,42 +84,43 @@ export const DisplayScreenCard = ({
       'hyper rare': 'rare secret',
       legend: 'rare secret',
       'rare shining': 'rare shiny',
+      'special illustration rare': 'special illustration rare',
     };
 
     const rarity = card.rarity.toLowerCase();
-    const hasMaskAndFoil = maskUrl && foilUrl;
+    const hasEffects = maskUrl || foilUrl;
 
     if (rarity === 'promo') {
       const prioritySubtypes = ['VMAX', 'VSTAR', 'V', 'GX', 'EX', 'ex'];
       const matchedSubtype = card.subtypes.find(subtype =>
         prioritySubtypes.includes(subtype.toUpperCase())
       );
-
       if (matchedSubtype) {
-        return rarityMap[`rare holo ${matchedSubtype.toLowerCase()}`];
+        const holoType = `rare holo ${matchedSubtype.toLowerCase()}`;
+        return rarityMap[holoType] || holoType;
       }
-      return hasMaskAndFoil ? (card.set.id.startsWith('sv') ? 'rare holo v' : 'rare holo') : '';
+      return hasEffects ? (card.set.id.startsWith('sv') ? 'rare holo v' : 'rare holo') : 'promo';
     }
 
-    // TODO: add reverse rare support to backend and image server
-    if (rarity === 'rare' && hasMaskAndFoil && card.set.id.startsWith('sv')) {
-      return 'rare holo v';
+    if (rarity === 'rare' && hasEffects) {
+      return card.set.id.startsWith('sv') ? 'rare holo v' : 'rare holo';
     }
 
     return rarityMap[rarity] || rarity;
   };
 
-  const isTrainerGallery = () => {
+  const isTrainerGallery = (): boolean => {
+    if (!card) return false;
     return (
-      !!card?.number.match(/^[tg]g/i) || card?.rarity.toLowerCase() === 'special illustration rare'
+      !!card.number.match(/^[tg]g/i) || card.rarity.toLowerCase() === 'special illustration rare'
     );
   };
 
   if (!card) return null;
 
   return (
-    <View style={{ flex: 1 }}>
-      {isHolographic && Platform.OS === 'web' ? (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      {isHolographic ? (
         <HolographicCard
           supertype={card.supertype.toLowerCase()}
           rarity={getRarity()}
@@ -115,15 +130,12 @@ export const DisplayScreenCard = ({
           number={card.number}
           isTrainerGallery={isTrainerGallery()}
           setScrollEnabled={setScrollEnabled}
+          style={{ width: HI_RES_CARD_WIDTH / 2.5, height: HI_RES_CARD_HEIGHT / 2.5 }}
         >
           <Image
-            placeholder={{ uri: '/assets/images/placeholder.png' }}
-            source={{
-              uri: card.images.large,
-              width: HI_RES_CARD_WIDTH,
-              height: HI_RES_CARD_HEIGHT,
-            }}
-            style={{ flex: 1 }}
+            placeholder={{ uri: PLACEHOLDER_URI }}
+            source={{ uri: card.images.large }}
+            style={{ flex: 1, width: '100%', height: '100%' }}
             priority='high'
             contentFit='cover'
             placeholderContentFit='cover'
@@ -131,18 +143,13 @@ export const DisplayScreenCard = ({
           />
         </HolographicCard>
       ) : (
-        <Image
-          placeholder={{ uri: '/assets/images/placeholder.png' }}
-          source={{
-            uri: card.images.large,
-            width: HI_RES_CARD_WIDTH,
-            height: HI_RES_CARD_HEIGHT,
-          }}
-          style={{ flex: 1 }}
-          priority='high'
-          contentFit='cover'
-          placeholderContentFit='cover'
-          onTouchEndCapture={handlePress}
+        <SkiaCard
+          imageUrl={card.images.large}
+          maskUrl={maskUrl}
+          width={HI_RES_CARD_WIDTH / 2.5}
+          height={HI_RES_CARD_HEIGHT / 2.5}
+          handlePress={handlePress}
+          setScrollEnabled={setScrollEnabled}
         />
       )}
     </View>

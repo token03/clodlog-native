@@ -28,7 +28,6 @@ export const BlurredGradientCard: React.FC<BlurredGradientCardProps> = ({ img })
             height: '110%',
             marginTop: '-33%',
             marginBottom: '-10%',
-            resizeMode: 'cover',
           }}
           blurRadius={3}
         />
